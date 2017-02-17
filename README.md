@@ -52,3 +52,7 @@ The control byte values are:
     2. The post-att
     3. The pre-att value for the first pulse (optional, currently disabled, defaulting to 0 dB)
     4. Whether each pulse has a different attenuation (on if LSB is 1, off if 0)
+
+# Credits
+The UART code is adapted from https://github.com/cyrozap/iCEstick-UART-Demo/pull/3/files#diff-bca38f311bb7e3ea53c7f1f8993dcf59
+The PLL code is adapted from https://gist.github.com/thoughtpolice/8ec923e1b3fc4bb12c11aa23b4dc53b5#file-ice40-v
