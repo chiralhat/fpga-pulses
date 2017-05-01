@@ -1,5 +1,5 @@
 # fpga-pulses-ice
-Verilog code to turn the [iCEstick FPGA board](http://www.latticesemi.com/icestick) into a custom pulse generator for electron spin resonance (ESR) experiments.
+Verilog code to turn the [iCEstick FPGA board](http://www.latticesemi.com/icestick) or the [iCE40-HX8K Breakout Board](http://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40HX8KBreakoutBoard.aspx) into a custom pulse generator for electron spin resonance (ESR) experiments.
 As currently programmed it runs at a PLL clock of 200 MHz, for a time resolution of 5 ns.
 
 It is currently set up to control the following components of a homemade pulsed ESR spectrometer:
@@ -7,6 +7,7 @@ It is currently set up to control the following components of a homemade pulsed 
 * Two attenuators, one immediately after the switch (pre-att) and one after the signal has interacted with the sample (post-att)
   * The attenuators used are digital step attenuators, such that each bit in a byte toggles a different order of attenuation
 * An oscilloscope for readout (the FPGA produces a SYNC pulse to trigger the scope)
+* A boxcar averager/integrator with optional inhibitor and subtraction.
 
 ## Setup
 In order to compile and program the board, I recommend the use of the open source
@@ -26,7 +27,7 @@ LabView should now be able to see that port and communicate over VISA.
 
 ## Dynamic Control
 This code configures the FPGA to allow programming of:
-* Pulse count (1 or 2)
+* Pulse count (1 or 2, with the ability to alternate between having 1 and 2 every other period)
 * Pulse width
   * Independent control of each pulse
 * Delay between pulses
@@ -46,6 +47,7 @@ The control byte values are:
   (*i.e.* a value of 30 would correspond to a time of 150 ns).
 5. Enable/Disable First Pulse
   * The LSB of the least significant input byte turns the first pulse on (1) or off (0).
+  * The next bit turns the alternation between 1 and 2 pulses on (1) or off (0).
 6. Set Attenuators
   * From least to most significant input bytes, this sets:
     1. The pre-att
