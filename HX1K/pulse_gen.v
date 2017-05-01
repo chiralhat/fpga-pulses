@@ -5,6 +5,7 @@
 		    output RS232_Tx, // Transmit pin for the FTDI chip
 		    output PMOD1, // Output pin for the switch
 		    output PMOD4, // Output pin for the SYNC pulse
+		    output PMOD8, // Output pin for the FM pulse
 		    output J1_3,
 		    output J1_4,
 		    output J1_5,
@@ -20,7 +21,7 @@
 		    output J3_7,
 		    output J3_8,
 		    output J3_9,
-		    output J3_10
+		    output J3_10,
 		    );
 
    wire 			clk_pll;
@@ -37,17 +38,20 @@
 	      );
    
    // Control the pulses
-   reg 			   sync_on = 0;
-   reg 			   pulse_on = 0;
-   reg 			   pp_on = 1;
+   reg 			   sync_on;
+   reg 			   pulse_on;
+   reg 			   pp_on;
+   reg 			   fm_up; 			   
    assign PMOD4 = sync_on;
    assign PMOD1 = pulse_on;
-
+   assign PMOD8 = fm_up;
+   
    // Control the attenuators
-   reg [7:0] 		   Att1 = 8'd255;
-   reg [7:0] 		   Att3 = 8'd255;
-//   reg [7:0] 		   pp_pump = 8'd255;
-   reg [7:0] 		   pp_probe = 8'd255;
+   parameter att_on_val = 8'd255;
+   reg [7:0] 		   Att1 = att_on_val;
+   reg [7:0] 		   Att3 = att_on_val;
+   reg [7:0] 		   pp_pump = 8'd0;
+   reg [7:0] 		   pp_probe = att_on_val;
    
    assign J1_3 = Att1[7];
    assign J1_4 = Att1[6];
@@ -93,12 +97,15 @@
    reg 			   pump = stpump;
    
    reg [31:0] 			counter = 0; // 32-bit for times up to 21 seconds
+   reg [10:0] 			fmcounter = 11'd500; // 11-bit counter for 100 kHz
    
    // The main loops runs on the 200 MHz PLL clock
    always @(posedge clk_pll) begin
       
       counter <= (counter < period) ?
 		 counter + 1 : 0;
+      fmcounter <= (fmcounter < 11'd2000) ?
+		   fmcounter + 1 : 0;
       
       // The beginning of the cycle
       /*
@@ -113,31 +120,48 @@
        */
       
       if (counter < p1width) begin
-	 sync_on <= 1;
-//	 Att1 <= pp_on ? pp_pump : pp_probe;
-	 Att1 <= pp_on ? 8'd0 : pp_probe;
-	 pulse_on <= pump ? 1 : 0;
+	 sync_on = 1;
+	 Att1 = pp_on ? pp_pump : pp_probe;
+//	 Att1 <= pp_on ? 8'd0 : pp_probe;
+//	 Att1 <= pp_on ? pp_probe : att_on_val;
+	 pulse_on = pump ? 1 : 0;
+//	 fm_up = 1;
       end
       else if (counter < p2start) begin
 	 sync_on <= 1;
-	 Att1 <= pp_probe;
-	 pulse_on <= 0;
+	 Att1 = pp_probe;
+//	 Att1 <= att_on_val;
+	 pulse_on = 0;
+//	 fm_up = 0;
       end
       else if (counter < sync_up) begin
 	 sync_on <= 1;
 	 Att1 <= pp_probe;
-	 pulse_on <= 1;
+//	 Att1 <= att_on_val;
+	 pulse_on = 1;
+//	 fm_up <= 0;
       end
       else if (counter < att_down) begin
-	 sync_on <= 0;
+	 sync_on = 0;
 	 Att1 <= pp_probe;
-	 pulse_on <= 0;
+//	 Att1 <= att_on_val;
+	 pulse_on = 0;
+//	 fm_up <= 0;
       end
       else begin
 	 sync_on <= 0;
-//	 Att1 <= pp_on ? pp_pump : pp_probe;
-	 Att1 <= pp_on ? 8'd0 : pp_probe;
+	 Att1 <= pp_on ? pp_pump : pp_probe;
+//	 Att1 <= pp_on ? 8'd0 : pp_probe;
+//	 Att1 <= pp_on ? pp_probe : att_on_val;
 	 pulse_on <= 0;
+//	 fm_up <= 1;
+      end // else: !if(counter < att_down)
+
+      if (fmcounter < 11'd1000) begin
+	 fm_up <= 1;
+      end
+      else begin
+	 fm_up <= 0;
       end
 
    end // always @ (posedge clk_pll)
@@ -267,7 +291,7 @@
 		pp_probe <= vinput[7:0];
 		Att1 <= vinput[7:0];
 		Att3 <= vinput[15:8];
-//		pp_pump <= vinput[23:16];
+		pp_pump <= vinput[23:16];
 		pp_on <= vinput[24];
 		voutput <= vcheck;
 	     end
