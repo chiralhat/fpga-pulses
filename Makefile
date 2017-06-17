@@ -13,16 +13,28 @@ else
 	GEN = icepack
 endif
 
-TARGET = pulse_gen
+TARGET = HX8K/pulse_gen
+SIMTARGET = HX8K/pulse_gen_sim
+SIMOUT = Tests/HX8K/pulse_gen_sim
+PULSEV = HX8K/pulses.v
+CONTROLV = HX8K/pulse_control.v
 
 default: all
 
 clean:
 	rm -f $(TARGET).bin $(TARGET).blif $(TARGET).txt output.log
 
+simclean:
+	rm -f $(SIMOUT)_post $(SIMOUT).vcd
+
 all: clean
-	$(SYN) -p "synth_ice40 -blif $(TARGET).blif" $(TARGET).v icepll.v uart.v
-	$(PNR) -d 1k -p icestickfull.pcf $(TARGET).blif -o $(TARGET).txt
+	$(SYN) -p "synth_ice40 -blif $(TARGET).blif" $(TARGET).v icepll.v uart.v $(PULSEV) $(CONTROLV) > make.log
+	$(PNR) -d 8k -p HX8K/icebox.pcf $(TARGET).blif -o $(TARGET).txt
 	$(GEN) $(TARGET).txt $(TARGET).bin
+
+sim: simclean
+	iverilog -o $(SIMOUT)_post $(SIMTARGET).v $(SIMOUT)_tb.v $(PULSEV)
+	vvp $(SIMOUT)_post
+	gtkwave $(SIMOUT).vcd
 
 .PHONY: all clean

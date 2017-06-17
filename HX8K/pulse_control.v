@@ -1,83 +1,32 @@
 `default_nettype none
-  module pump_probe(
-		    input  clk, // 12 MHz base clock
-		    input  RS232_Rx, // Receive pin for the FTDI chip
-		    output RS232_Tx, // Transmit pin for the FTDI chip
-		    output PMOD1, // Output pin for the switch
-		    output PMOD4, // Output pin for the SYNC pulse
-		    output PMOD8, // Output pin for the FM pulse
-		    output J1_3,
-		    output J1_4,
-		    output J1_5,
-		    output J1_6,
-		    output J1_7,
-		    output J1_8,
-		    output J1_9,
-		    output J1_10,
-		    output J3_3,
-		    output J3_4,
-		    output J3_5,
-		    output J3_6,
-		    output J3_7,
-		    output J3_8,
-		    output J3_9,
-		    output J3_10,
-		    );
+  module pulse_control(
+		       input 	     clk,
+		       input 	     RS232_Rx,
+		       output 	     RS232_Tx,
+		       output [31:0] del,
+		       output [31:0] per,
+		       output [31:0] s_up,
+		       output [31:0] p1wid,
+		       output [31:0] p2st,
+		       output [31:0] p2wid,
+		       output [31:0] att_d,
+		       output [31:0] offr_d,
+		       output [6:0]  pp_pu,
+		       output [6:0]  pp_pr,
+		       output 	     pu,
+		       output 	     doub,
+		       output [6:0]  p_att
+		       );
 
-   wire 			clk_pll;
-   wire 			lock;
-   reg 				resetn = 1;
-   
-   // Setting the PLL to output a 200 MHz clock, based on code from
-   // https://gist.github.com/thoughtpolice/8ec923e1b3fc4bb12c11aa23b4dc53b5#file-ice40-v
-   // Note: These values are slightly different from those outputted by icepll
-   icepll pll(
-	      .clk(clk),
-	      .clkout(clk_pll),
-	      .locked(lock)
-	      );
-   
    // Control the pulses
-   reg 			   sync_on;
-   reg 			   pulse_on;
-   reg 			   pp_on;
-   reg 			   fm_up; 			   
-   assign PMOD4 = sync_on;
-   assign PMOD1 = pulse_on;
-   assign PMOD8 = fm_up;
-   
-   // Control the attenuators
-   parameter att_on_val = 8'd255;
-   reg [7:0] 		   Att1 = att_on_val;
-   reg [7:0] 		   Att3 = att_on_val;
-   reg [7:0] 		   pp_pump = 8'd0;
-   reg [7:0] 		   pp_probe = att_on_val;
-   
-   assign J1_3 = Att1[7];
-   assign J1_4 = Att1[6];
-   assign J1_5 = Att1[5];
-   assign J1_6 = Att1[4];
-   assign J1_7 = Att1[3];
-   assign J1_8 = Att1[2];
-   assign J1_9 = Att1[1];
-   assign J1_10 = Att1[0];
-   assign J3_3 = Att3[0];
-   assign J3_4 = Att3[1];
-   assign J3_5 = Att3[2];
-   assign J3_6 = Att3[3];
-   assign J3_7 = Att3[4];
-   assign J3_8 = Att3[5];
-   assign J3_9 = Att3[6];
-   assign J3_10 = Att3[7];
-   
+
    // Running at a 200-MHz clock, our time step is 5 ns.
    // All the times are thus divided by 5 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-
-   parameter stperiod = 32'd2000000; // 10 ms period
+   parameter stperiod = 32'd200000; // 1 ms period
    parameter stp1width = 32'd30; // 150 ns
    parameter stp2width = 32'd30;
-   parameter stdelay = 32'd2000; // 10 us delay
+   parameter stdelay = 32'd200; // 1 us delay
    parameter stp2start = stp1width + stdelay;
    parameter stsync_up = stp2start + stp2width;
    // The attenuator pulse switches down 10 us after the sync pulse,
@@ -85,91 +34,48 @@
    // moves that noise well after the signal
    parameter att_delay = 32'd20000;
    parameter statt_down = stsync_up + att_delay;
-   parameter stpump = 1'b1; // The pump is on by default, but can be toggled off
+   parameter stpump = 1; // The pump is on by default
    
-   reg [31:0] 		   period = stperiod;
-   reg [31:0] 		   p1width = stp1width;
-   reg [31:0] 		   p2width = stp2width;
-   reg [31:0] 		   delay = stdelay;
-   reg [31:0] 		   p2start = stp2start;
-   reg [31:0] 		   sync_up = stsync_up;
-   reg [31:0] 		   att_down = statt_down;
-   reg 			   pump = stpump;
+   reg [31:0] 		    period = stperiod;
+   reg [31:0] 		    p1width = stp1width;
+   reg [31:0] 		    p2width = stp2width;
+   reg [31:0] 		    delay = stdelay;
+   reg [31:0] 		    p2start = stp2start;
+   reg [31:0] 		    sync_up = stsync_up;
+   reg [31:0] 		    att_down = statt_down;
+   reg 			    pump = stpump;
+   reg 			    double = 0;
    
-   reg [31:0] 			counter = 0; // 32-bit for times up to 21 seconds
-   reg [10:0] 			fmcounter = 11'd500; // 11-bit counter for 100 kHz
+   // Optionally put a pi/2 pulse 5 us before the first pi/2 pulse
+   // to eliminate the echo for background subtraction
+   parameter stoff = 32'd8000;
+   reg [31:0] 		   offres_delay = stperiod - stoff - stp1width;
    
-   // The main loops runs on the 200 MHz PLL clock
-   always @(posedge clk_pll) begin
-      
-      counter <= (counter < period) ?
-		 counter + 1 : 0;
-      fmcounter <= (fmcounter < 11'd2000) ?
-		   fmcounter + 1 : 0;
-      
-      // The beginning of the cycle
-      /*
-       * sync_on <= (counter < sync_up) ?
-		 1 : 0;
-      pulse_on <= (((counter < p1width) && pump) ||
-		    ((counter > p2start) && (counter < sync_up))) ?
-		  1 : 0;
-      Att1 <= (pp_on &&
-	     ((counter > att_down) || (counter < p1width))) ?
-	    8'd0 : pp_val;
-       */
-      
-      if (counter < p1width) begin
-	 sync_on = 1;
-	 Att1 = pp_on ? pp_pump : pp_probe;
-//	 Att1 <= pp_on ? 8'd0 : pp_probe;
-//	 Att1 <= pp_on ? pp_probe : att_on_val;
-	 pulse_on = pump ? 1 : 0;
-//	 fm_up = 1;
-      end
-      else if (counter < p2start) begin
-	 sync_on <= 1;
-	 Att1 = pp_probe;
-//	 Att1 <= att_on_val;
-	 pulse_on = 0;
-//	 fm_up = 0;
-      end
-      else if (counter < sync_up) begin
-	 sync_on <= 1;
-	 Att1 <= pp_probe;
-//	 Att1 <= att_on_val;
-	 pulse_on = 1;
-//	 fm_up <= 0;
-      end
-      else if (counter < att_down) begin
-	 sync_on = 0;
-	 Att1 <= pp_probe;
-//	 Att1 <= att_on_val;
-	 pulse_on = 0;
-//	 fm_up <= 0;
-      end
-      else begin
-	 sync_on <= 0;
-	 Att1 <= pp_on ? pp_pump : pp_probe;
-//	 Att1 <= pp_on ? 8'd0 : pp_probe;
-//	 Att1 <= pp_on ? pp_probe : att_on_val;
-	 pulse_on <= 0;
-//	 fm_up <= 1;
-      end // else: !if(counter < att_down)
+   // Control the attenuators
+   parameter att_on_val = 7'd1;
+   parameter att_off_val = 7'd0;
+   reg [6:0] 		    pp_pump = att_off_val;
+   reg [6:0] 		    pp_probe = att_on_val;
+   reg [6:0] 		    post_att = att_off_val;
 
-      if (fmcounter < 11'd1000) begin
-	 fm_up <= 1;
-      end
-      else begin
-	 fm_up <= 0;
-      end
-
-   end // always @ (posedge clk_pll)
-
-   // Setup necessary for UART
+   assign per = period;
+   assign p1wid = p1width;
+   assign p2wid = p2width;
+   assign del = delay;
+   assign p2st = p2start;
+   assign s_up = sync_up;
+   assign att_d = att_down;
+   assign offr_d = offres_delay;
+   assign pu = pump;
+   assign doub = double;
+   assign pp_pu = pp_pump;
+   assign pp_pr = pp_probe;
+   assign p_att = post_att;
+   
+      // Setup necessary for UART
    wire 		   reset = 0;
    reg 			   transmit;
-   reg [7:0] 		   tx_byte;
+   reg [7:0] 		    tx_byte;
    wire 		   received;
    wire [7:0] 		   rx_byte;
    wire 		   is_receiving;
@@ -284,15 +190,15 @@
 
 	     CONT_TOGGLE_PUMP: begin
 		pump <= vinput[0];
+		double <= vinput[1];
+		offres_delay <= period - vinput[31:16] - p1width;
 		voutput <= vcheck;
 	     end
 
 	     CONT_SET_ATT: begin
 		pp_probe <= vinput[7:0];
-		Att1 <= vinput[7:0];
-		Att3 <= vinput[15:8];
+		post_att <= vinput[15:8];
 		pp_pump <= vinput[23:16];
-		pp_on <= vinput[24];
 		voutput <= vcheck;
 	     end
 
@@ -345,6 +251,6 @@
       p2start <= p1width + delay;
       sync_up <= p2start + p2width;   
       att_down <= sync_up + att_delay;
-   end // always @ (posedge iCE_CLK)
-   
-endmodule // pump_probe
+      
+    end // always @ (posedge iCE_CLK)
+endmodule // pulse_control
