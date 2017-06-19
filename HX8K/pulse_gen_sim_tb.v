@@ -23,7 +23,7 @@
 		      );
 
    initial begin
-      $dumpfile("Tests/HX8K/pulse_gen_sim.vcd");
+      $dumpfile("HX8K/pulse_gen_sim.vcd");
       $dumpvars(0, test);
 
       clk = 1'b0;

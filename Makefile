@@ -15,7 +15,7 @@ endif
 
 TARGET = HX8K/pulse_gen
 SIMTARGET = HX8K/pulse_gen_sim
-SIMOUT = Tests/HX8K/pulse_gen_sim
+SIMOUT = HX8K/pulse_gen_sim
 PULSEV = HX8K/pulses.v
 CONTROLV = HX8K/pulse_control.v
 

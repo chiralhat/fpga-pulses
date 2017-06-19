@@ -13,6 +13,8 @@ module pulses(
 	      input [31:0] delay,
 	      input [31:0] offres_delay,
 	      input 	   double,
+	      input [7:0]  pulse_block,
+	      input 	   block,
 	      input 	   pump_on,
 	      output 	   sync_on,
 	      output 	   pulse_on,
@@ -59,10 +61,11 @@ module pulses(
 //	 A3 <= post_att;
 	 A3 <= ((counter < (sync_up - 32'd30)) || (counter > att_down)) ? post_att : 0;
 	 
-	 // inh <= (counter < (sync_up + delay - 10)) ? 1 : ((counter > (sync_up + delay + 60)) ? 1 : 0);
-	 inh <= 0;
+	 inh <= ((counter < (sync_up + pulse_block)) || (counter > att_down)) ? block : 0;
+//	 inh <= 0;
+	 
 //	 rec <= 0;
-	 rec <= (counter < (sync_up + delay)) ? 0 : ((counter < att_down) ? 1 : 0);
+	 rec <= (counter < (sync_up + delay-32'd50)) ? 0 : ((counter < att_down) ? 1 : 0);
 	 
 //	 if (counter == 0)
 //	   pump_up <= double ? !pump_on : 0;

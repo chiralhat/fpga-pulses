@@ -15,7 +15,9 @@
 		       output [6:0]  pp_pr,
 		       output 	     pu,
 		       output 	     doub,
-		       output [6:0]  p_att
+		       output [6:0]  p_att,
+		       output [7:0]  p_bl,
+		       output 	     bl
 		       );
 
    // Control the pulses
@@ -45,6 +47,8 @@
    reg [31:0] 		    att_down = statt_down;
    reg 			    pump = stpump;
    reg 			    double = 0;
+   reg 			    block = 1;
+   reg [7:0] 		    pulse_block = 8'd50;
    
    // Optionally put a pi/2 pulse 5 us before the first pi/2 pulse
    // to eliminate the echo for background subtraction
@@ -71,6 +75,8 @@
    assign pp_pu = pp_pump;
    assign pp_pr = pp_probe;
    assign p_att = post_att;
+   assign p_bl = pulse_block;
+   assign bl = block;
    
       // Setup necessary for UART
    wire 		   reset = 0;
@@ -191,6 +197,8 @@
 	     CONT_TOGGLE_PUMP: begin
 		pump <= vinput[0];
 		double <= vinput[1];
+		block <= vinput[2];
+		pulse_block <= vinput[15:8];
 		offres_delay <= period - vinput[31:16] - p1width;
 		voutput <= vcheck;
 	     end

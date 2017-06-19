@@ -41,6 +41,8 @@
    reg [31:0] 		    offres_delay;
    reg 			    pump;
    reg 			    double;
+   reg 			    block;
+   reg [7:0] 		    pulse_block;
    
    reg [6:0] 		    pp_pump;
    reg [6:0] 		    pp_probe;
@@ -73,6 +75,8 @@
 		 .delay(delay),
 		 .offres_delay(offres_delay),
 		 .double(double),
+		 .pulse_block(pulse_block),
+		 .block(block),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
 		 .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
@@ -99,7 +103,9 @@
    			 .pp_pr(pp_probe),
    			 .pu(pump),
    			 .doub(double),
-   			 .p_att(post_att)
+   			 .p_att(post_att),
+			 .p_bl(pulse_block),
+			 .bl(block)
    			 );
    
 endmodule // pulse_gen
