@@ -9,6 +9,7 @@
 		       output [31:0] p1wid,
 		       output [31:0] p2st,
 		       output [31:0] p2wid,
+		       output [31:0] pbwid,
 		       output [31:0] att_d,
 		       output [31:0] offr_d,
 		       output [6:0]  pp_pu,
@@ -41,6 +42,7 @@
    reg [31:0] 		    period = stperiod;
    reg [31:0] 		    p1width = stp1width;
    reg [31:0] 		    p2width = stp2width;
+   reg [31:0] 		    pbwidth = stp1width;
    reg [31:0] 		    delay = stdelay;
    reg [31:0] 		    p2start = stp2start;
    reg [31:0] 		    sync_up = stsync_up;
@@ -65,6 +67,7 @@
    assign per = period;
    assign p1wid = p1width;
    assign p2wid = p2width;
+   assign pbwid = pbwidth;
    assign del = delay;
    assign p2st = p2start;
    assign s_up = sync_up;
@@ -132,8 +135,8 @@
    parameter CONT_SET_PUMP = 8'd2;
    parameter CONT_SET_PROBE = 8'd3;
    parameter CONT_TOGGLE_PUMP = 8'd4;
-   parameter CONT_SET_ATT = 8'd5;
-   parameter CONT_READ_TEST = 8'd6;
+   parameter CONT_SET_BACKPULSE = 8'd5;
+   parameter CONT_SET_ATT = 8'd6;
 
    reg [2:0] 		   state = STATE_RECEIVING;
 
@@ -199,7 +202,7 @@
 		double <= vinput[1];
 		block <= vinput[2];
 		pulse_block <= vinput[15:8];
-		offres_delay <= period - vinput[31:16] - p1width;
+		offres_delay <= period - vinput[31:16];
 		voutput <= vcheck;
 	     end
 
@@ -210,7 +213,8 @@
 		voutput <= vcheck;
 	     end
 
-	     CONT_READ_TEST: begin
+	     CONT_SET_BACKPULSE: begin
+		pbwidth <= vinput;
 		voutput <= vcheck;
 	     end
 	     

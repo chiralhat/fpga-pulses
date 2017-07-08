@@ -6,6 +6,7 @@ module pulses(
 	      input [31:0] sync_up,
 	      input [31:0] p1width,
 	      input [31:0] p2start,
+	      input [31:0] pbwidth,
 	      input [31:0] att_down,
 	      input [6:0]  pp_pump,
 	      input [6:0]  pp_probe,
@@ -55,7 +56,7 @@ module pulses(
       		     ((counter < p2start) ? 0 :
       		      ((counter < sync_up) ? 1 :// 0))
 //		       ((counter < (offres_delay)) ? 0 :
-		       ((double & (counter > offres_delay) & (counter < (offres_delay + p1width))) ? !pump_on : 0)));
+		       ((double & (counter > (offres_delay - pbwidth)) & (counter < offres_delay)) ? !pump_on : 0)));
 //			((counter < (offres_delay + p1width)) ? pump_up : 0))));
 	 A1 <= ((counter < (p1width + 1)) || (counter > att_down)) ? pp_pump : pp_probe;
 //	 A3 <= post_att;

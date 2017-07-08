@@ -34,6 +34,7 @@
    reg [31:0] 		    period;
    reg [31:0] 		    p1width;
    reg [31:0] 		    p2width;
+   reg [31:0] 		    pbwidth;
    reg [31:0] 		    delay;
    reg [31:0] 		    p2start;
    reg [31:0] 		    sync_up;
@@ -68,6 +69,7 @@
 		 .sync_up(sync_up),
 		 .p1width(p1width),
 		 .p2start(p2start),
+		 .pbwidth(pbwidth),
 		 .att_down(att_down),
 		 .pp_pump(pp_pump),
 		 .pp_probe(pp_probe),
@@ -97,6 +99,7 @@
    			 .p1wid(p1width),
    			 .p2st(p2start),
    			 .p2wid(p2width),
+			 .pbwid(pbwidth),
    			 .att_d(att_down),
 			 .offr_d(offres_delay),
    			 .pp_pu(pp_pump),
