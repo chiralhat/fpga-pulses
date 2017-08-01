@@ -112,8 +112,8 @@
    reg [7:0] 		   voutput;
    reg [7:0] 		   vcheck; // Checksum byte; the input bytes are summed and sent back as output
 
-   // Change the offset delay from 5 ns to 1 us increments.
-   reg [31:0] 		   off_full_delay = 0;
+   // Change the offset delay from 5 ns to 640 ns increments.
+   // reg [22:0] 		   off_full_delay = 0;
    
    // We need to receive multiple bytes sequentially, so this sets up both
    // reading and writing. Adapted from the uart-adder from
@@ -205,8 +205,9 @@
 		double <= vinput[1];
 		block <= vinput[2];
 		pulse_block <= vinput[15:8];
-		off_full_delay[15:0] <= vinput[31:16];
-		offres_delay <= period - (off_full_delay*8'd200);
+		// off_full_delay[22:7] <= vinput[31:16];
+		// offres_delay <= period - off_full_delay;
+		offres_delay <= period - (vinput[31:16] << 7);
 		voutput <= vcheck;
 	     end
 

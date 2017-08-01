@@ -23,6 +23,8 @@
    reg [31:0] 		    p2start;
    reg [31:0] 		    sync_up;
    reg [31:0] 		    att_down;
+   reg [15:0] 		    offres_input;
+   reg [22:0] 		    offres_test;
    reg [31:0] 		    offres_delay;
    reg 			    pump;
    reg 			    double;
@@ -86,7 +88,9 @@
     	 pp_pump = att_off_val;
     	 pp_probe = att_on_val;
     	 post_att = att_on_val;
-	 offres_delay = stperiod - 32'd8000 + stp1width;
+	 offres_input = 16'd100;
+	 offres_test = offres_input * 200;
+	 offres_delay = stperiod - offres_test;
 	 resetn = 1;
       end // if (reset)
    end // always @ (posedge clk)
