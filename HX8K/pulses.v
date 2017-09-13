@@ -35,7 +35,7 @@ module pulses(
    reg [6:0] 		   A1;
    reg [6:0] 		   A3;
    reg 			   inh;
-   reg 			   rec;
+   reg 			   rec = 0;
 
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
@@ -60,7 +60,7 @@ module pulses(
 	 
 	 inh <= ((counter < (sync_up + pulse_block)) || (counter > att_down)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 	 
-	 rec <= (counter < (sync_up + delay-32'd50)) ? 0 : ((counter < att_down) ? 1 : 0);
+	 // rec <= (counter < (sync_up + delay-32'd50)) ? 0 : ((counter < att_down) ? 1 : 0);
 	 
       end // if (resetn)
       else begin
