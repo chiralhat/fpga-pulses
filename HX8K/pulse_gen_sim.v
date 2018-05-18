@@ -21,6 +21,7 @@
    reg [31:0] 		    p2width;
    reg [31:0] 		    delay;
    reg [31:0] 		    p2start;
+   reg [31:0] 		    pbwidth;
    reg [31:0] 		    sync_up;
    reg [31:0] 		    att_down;
    reg [15:0] 		    offres_input;
@@ -29,11 +30,13 @@
    reg 			    pump;
    reg 			    double;
    reg [7:0] 		    pulse_block;
+   reg 			    block;
+   reg [7:0] 		    cpmg;
    
    reg [6:0] 		    pp_pump;
    reg [6:0] 		    pp_probe;
    reg [6:0] 		    post_att;
-   
+
    // Generating the necessary pulses
    pulses pulses(
 		 .clk_pll(clk_pll),
@@ -43,6 +46,8 @@
 		 .sync_up(sync_up),
 		 .p1width(p1width),
 		 .p2start(p2start),
+		 .p2width(p2width),
+		 .pbwidth(pbwidth),
 		 .att_down(att_down),
 		 .pp_pump(pp_pump),
 		 .pp_probe(pp_probe),
@@ -51,12 +56,14 @@
 		 .delay(delay),
 		 .double(double),
 		 .pulse_block(pulse_block),
+		 .block(block),
+		 .cpmg(cpmg),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
 		 .Att1(Att1),
 		 .Att3(Att3),
 		 .inhib(P2),
-		 .pump_on(P1),
+		 .pump_on(0),
 		 .record_start(P3)
 		 );
    
@@ -64,7 +71,7 @@
    parameter att_off_val = 7'b0000000;
    parameter stperiod = 32'd20000; // 1 ms period
    parameter stp1width = 32'd30; // 150 ns
-   parameter stp2width = 32'd30;
+   parameter stp2width = 32'd60;
    parameter stdelay = 32'd200; // 1 us delay
    parameter stp2start = stp1width + stdelay;
    parameter stsync_up = stp2start + stp2width;
@@ -78,6 +85,7 @@
 	 period = stperiod;
     	 p1width = stp1width;
     	 p2width = stp2width;
+	 pbwidth = stp1width;
     	 delay = stdelay;
     	 p2start = stp2start;
     	 sync_up = stsync_up;
@@ -85,12 +93,13 @@
     	 pump = stpump;
     	 double = 1;
 	 pulse_block = 8'd50;
+	 block = 1;
+	 cpmg = 5;
     	 pp_pump = att_off_val;
     	 pp_probe = att_on_val;
     	 post_att = att_on_val;
-	 offres_input = 16'd100;
-	 offres_test = offres_input * 200;
-	 offres_delay = stperiod - offres_test;
+	 offres_input = 32'd500;
+	 offres_delay = stperiod - offres_input - stp1width;
 	 resetn = 1;
       end // if (reset)
    end // always @ (posedge clk)

@@ -6,6 +6,7 @@ module pulses(
 	      input [31:0] sync_up, // Time from the cycle beginning to the second pulse end, indirectly set by LabView (iLV)
 	      input [31:0] p1width, // Width of the first pulse (LV)
 	      input [31:0] p2start, // Time of the second pulse beginning (iLV)
+	      input [31:0] p2width, // Width of the second pulse (LV)
 	      input [31:0] pbwidth, // Extra pulse width (LV)
 	      input [31:0] att_down, // Wait time before the attenuator switches after the second pulse for pump probe experiments (iLV)
 	      input [6:0]  pp_pump, // Attenuation for pump pulse (LV)
@@ -17,6 +18,7 @@ module pulses(
 	      input [7:0]  pulse_block, // Time after the second pulse to keep the blocking switch closed (LV)
 	      input 	   block, // Blocking on (1) or off (0) (LV)
 	      input 	   pump_on, // Physical input to control the extra pulse being on (0) or off (1)
+	      input [7:0]  cpmg, // Number of extra CPMG pulses to perform (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
 	      output 	   pulse_on, // Wire for switch pulse
 	      output [6:0] Att1, // Wires for main attenuator
@@ -36,7 +38,10 @@ module pulses(
    reg [6:0] 		   A3;
    reg 			   inh;
    reg 			   rec = 0;
-
+   reg [7:0] 		   ccount = 0;
+   reg [31:0] 		   cdelay;
+   reg [31:0] 		   cpulse;
+   
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
    assign Att1 = A1; // The main attenuator control
@@ -49,12 +54,31 @@ module pulses(
       if (resetn) begin
 	 counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 
+	 if (cpmg > 0) begin
+	    case (counter)
+	      0: begin
+		 cdelay = sync_up + delay;
+		 cpulse = cdelay + p2width;
+		 ccount = 0;
+	      end
+
+	      cpulse: begin
+		 if (ccount < cpmg) begin
+		    cdelay = cpulse + delay;
+		    cpulse = cdelay + p2width;
+		    ccount = ccount + 1;
+		 end
+	      end
+	    endcase // case (counter)
+	 end // if (cpmg > 0)
+	 
 	 sync <= (counter < sync_up) ? 1 : 0; // Scope trigger pulse goes up at 0 and down at the end of the pulse
 	 // pulse <= (counter < p1width) ? pump_up : 
 	 pulse <= (counter < p1width) ? pump : // Switch pulse goes up at 0 if the pump is on
       		     ((counter < p2start) ? 0 : // then down after p1width
       		      ((counter < sync_up) ? 1 : // then up at the start of the second pulse
-		       ((double & (counter > (offres_delay - pbwidth)) & (counter < offres_delay)) ? !pump_on : 0))); // then down until offres_delay-pbwidth, when it goes up if 
+		       (((cpmg > 0) & (counter > cdelay) & (counter < cpulse)) ? 1 : // optional CPMG sequence
+			((double & (counter > (offres_delay - pbwidth)) & (counter < offres_delay)) ? !pump_on : 0)))); // then down until offres_delay-pbwidth, when it goes up if 
 	 A1 <= ((counter < (p1width + 1)) || (counter > att_down)) ? pp_pump : pp_probe; // Set the main attenuator to the pump attenuation unless the counter is between p1width+1 and att_down, then set it to the probe att.
 	 A3 <= ((counter < (sync_up - 32'd30)) || (counter > att_down)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 	 
