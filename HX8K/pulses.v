@@ -18,7 +18,7 @@ module pulses(
 	      input [7:0]  pulse_block, // Time after the second pulse to keep the blocking switch closed (LV)
 	      input 	   block, // Blocking on (1) or off (0) (LV)
 	      input 	   pump_on, // Physical input to control the extra pulse being on (0) or off (1)
-	      input [7:0]  cpmg, // Number of extra CPMG pulses to perform (LV)
+//	      input [7:0]  cpmg, // Number of extra CPMG pulses to perform (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
 	      output 	   pulse_on, // Wire for switch pulse
 	      output [6:0] Att1, // Wires for main attenuator
@@ -41,6 +41,9 @@ module pulses(
    reg [7:0] 		   ccount = 0;
    reg [31:0] 		   cdelay;
    reg [31:0] 		   cpulse;
+   
+   reg [7:0] cpmg = 0;
+   
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
@@ -82,7 +85,7 @@ module pulses(
 	 A1 <= ((counter < (p1width + 1)) || (counter > att_down)) ? pp_pump : pp_probe; // Set the main attenuator to the pump attenuation unless the counter is between p1width+1 and att_down, then set it to the probe att.
 	 A3 <= ((counter < (sync_up - 32'd30)) || (counter > att_down)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 	 
-	 inh <= ((counter < (sync_up + pulse_block)) || (counter > att_down)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
+	 inh <= ((counter < (sync_up + pulse_block*10)) || (counter > att_down)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 	 
 	 // rec <= (counter < (sync_up + delay-32'd50)) ? 0 : ((counter < att_down) ? 1 : 0);
 	 

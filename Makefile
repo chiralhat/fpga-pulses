@@ -22,6 +22,7 @@ CONTROLV = HX8K/pulse_control.v
 default: all
 
 clean:
+	cp $(TARGET).bin $(TARGET).bin.bak 2>/dev/null || :
 	rm -f $(TARGET).bin $(TARGET).blif $(TARGET).txt output.log
 
 simclean:

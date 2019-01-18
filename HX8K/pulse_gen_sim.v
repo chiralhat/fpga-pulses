@@ -57,7 +57,7 @@
 		 .double(double),
 		 .pulse_block(pulse_block),
 		 .block(block),
-		 .cpmg(cpmg),
+//		 .cpmg(cpmg),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
 		 .Att1(Att1),
@@ -94,7 +94,7 @@
     	 double = 1;
 	 pulse_block = 8'd50;
 	 block = 1;
-	 cpmg = 5;
+	 cpmg = 0;
     	 pp_pump = att_off_val;
     	 pp_probe = att_on_val;
     	 post_att = att_on_val;
