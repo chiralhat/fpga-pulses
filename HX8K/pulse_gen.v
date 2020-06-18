@@ -31,23 +31,23 @@
    wire 		    clk_pll;
    wire 		    lock;
 
-   reg [31:0] 		    period;
-   reg [31:0] 		    p1width;
-   reg [31:0] 		    p2width;
-   reg [31:0] 		    pbwidth;
-   reg [31:0] 		    delay;
-   reg [31:0] 		    p2start;
-   reg [31:0] 		    sync_up;
-   reg [31:0] 		    att_down;
-   reg [31:0] 		    offres_delay;
-   reg 			    pump;
-   reg 			    double;
-   reg 			    block;
-   reg [7:0] 		    pulse_block;
+   wire [31:0] 		    period;
+   wire [31:0] 		    p1width;
+   wire [31:0] 		    p2width;
+   wire [31:0] 		    pbwidth;
+   wire [31:0] 		    delay;
+   wire [31:0] 		    p2start;
+   wire [31:0] 		    sync_up;
+   wire [31:0] 		    att_down;
+   wire [31:0] 		    offres_delay;
+   wire 			    pump;
+   wire 			    double;
+   wire 			    block;
+   wire [7:0] 		    pulse_block;
    
-   reg [6:0] 		    pp_pump;
-   reg [6:0] 		    pp_probe;
-   reg [6:0] 		    post_att;
+   wire [6:0] 		    pp_pump;
+   wire [6:0] 		    pp_probe;
+   wire [6:0] 		    post_att;
 
    reg 			    resetn = 1;
    
@@ -69,6 +69,7 @@
 		 .sync_up(sync_up),
 		 .p1width(p1width),
 		 .p2start(p2start),
+		 .p2width(p2width),
 		 .pbwidth(pbwidth),
 		 .att_down(att_down),
 		 .pp_pump(pp_pump),

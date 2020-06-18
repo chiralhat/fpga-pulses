@@ -91,7 +91,7 @@ module pulses(
 	 
       end // if (resetn)
       else begin
-	 counter = 0;
+	 counter <= 0;
       end
    end // always @ (posedge clk_pll)
 endmodule // pulses

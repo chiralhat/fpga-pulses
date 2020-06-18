@@ -161,7 +161,7 @@
 		   end
 		   else begin // Read the first bytes into vinput
 		      vinput[readcount +: 8]=rx_byte;
-		      readcount = readcount + 8;
+		      readcount <= readcount + 8;
 		      readstate <= read_wait;
 		   end
 		end
