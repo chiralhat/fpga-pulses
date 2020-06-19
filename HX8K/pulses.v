@@ -1,6 +1,6 @@
 module pulses(
 	      input 	   clk_pll, // The 200 MHz clock
-	      input 	   resetn, // Used only in simulation
+	      input 	   reset, // Used only in simulation
 	      input 	   pump, // First pulse on (1) or off (0), set by LabView (LV)
 	      input [31:0] period, // Duty cycle (LV)
 	      input [31:0] sync_up, // Time from the cycle beginning to the second pulse end, indirectly set by LabView (iLV)
@@ -17,7 +17,7 @@ module pulses(
 	      input 	   double, // Extra pulse on (1) or off (0) (LV)
 	      input [7:0]  pulse_block, // Time after the second pulse to keep the blocking switch closed (LV)
 	      input 	   block, // Blocking on (1) or off (0) (LV)
-	      input 	   pump_on, // Physical input to control the extra pulse being on (0) or off (1)
+//	      input 	   pump_on, // Physical input to control the extra pulse being on (0) or off (1)
 //	      input [7:0]  cpmg, // Number of extra CPMG pulses to perform (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
 	      output 	   pulse_on, // Wire for switch pulse
@@ -28,8 +28,9 @@ module pulses(
 	      output 	   record_start // Wire for boxcar trigger pulse (currently unused)
 	      );
 
-   // reg 			   resetn = 0;
+   // reg 			   reset = 0;
    reg 			   pump_up = 1;
+   reg 				pump_on = 1;
    reg [31:0] 		   counter = 32'd0; // 32-bit for times up to 21 seconds
    // reg [6:0] 	     Att1 = att_on_val;
    reg 			   sync;
@@ -54,7 +55,7 @@ module pulses(
    
    // The main loops runs on the 200 MHz PLL clock
    always @(posedge clk_pll) begin
-      if (resetn) begin
+      if (!reset) begin
 	 counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 
 	 if (cpmg > 0) begin
@@ -89,7 +90,7 @@ module pulses(
 	 
 	 // rec <= (counter < (sync_up + delay-32'd50)) ? 0 : ((counter < att_down) ? 1 : 0);
 	 
-      end // if (resetn)
+      end // if (!reset)
       else begin
 	 counter <= 0;
       end

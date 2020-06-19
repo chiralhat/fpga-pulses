@@ -15,9 +15,13 @@ endif
 
 TARGET = HX8K/pulse_gen
 SIMTARGET = HX8K/pulse_gen_sim
+SIMINIT = HX8K/pulse_gen_sim_init.v
 SIMOUT = HX8K/pulse_gen_sim
 PULSEV = HX8K/pulses.v
 CONTROLV = HX8K/pulse_control.v
+SED_STR1 = '1,/NOSIM_START/!d'
+SED_STR2 = '4iinput clk_pll,'
+SED_STR3 = 's/wire/reg/g'
 
 default: all
 
@@ -26,7 +30,7 @@ clean:
 	rm -f $(TARGET).bin $(TARGET).blif $(TARGET).txt output.log
 
 simclean:
-	rm -f $(SIMOUT)_post $(SIMOUT).vcd
+	rm -f $(SIMOUT)_post $(SIMOUT).vcd $(SIMTARGET).v
 
 all: clean
 	$(SYN) -p "synth_ice40 -blif $(TARGET).blif" $(TARGET).v icepll.v uart.v $(PULSEV) $(CONTROLV) > make.log
@@ -34,6 +38,8 @@ all: clean
 	$(GEN) $(TARGET).txt $(TARGET).bin
 
 sim: simclean
+	sed $(SED_STR1) $(TARGET).v | sed $(SED_STR2) | sed $(SED_STR3) > $(SIMTARGET).v
+	cat $(SIMINIT) >> $(SIMTARGET).v
 	iverilog -o $(SIMOUT)_post $(SIMTARGET).v $(SIMOUT)_tb.v $(PULSEV)
 	vvp $(SIMOUT)_post
 	gtkwave $(SIMOUT).vcd

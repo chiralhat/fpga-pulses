@@ -52,3 +52,6 @@ set_io --warn-no-port J4_6 M1
 set_io --warn-no-port J4_7 L1
 set_io --warn-no-port J4_8 K1
 set_io --warn-no-port J4_9 J1
+
+###Reset
+set_io --warn-no-port resetn C16
