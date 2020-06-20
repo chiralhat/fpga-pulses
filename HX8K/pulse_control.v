@@ -3,82 +3,89 @@
 		       input 	     clk,
 		       input 	     RS232_Rx,
 		       output 	     RS232_Tx,
-		       output [31:0] del,
-		       output [31:0] per,
-		       output [31:0] s_up,
-		       output [31:0] p1wid,
-		       output [31:0] p2st,
-		       output [31:0] p2wid,
-		       output [31:0] pbwid,
-		       output [31:0] att_d,
-		       output [31:0] offr_d,
-		       output [6:0]  pp_pu,
-		       output [6:0]  pp_pr,
 		       output 	     pu,
-		       output 	     doub,
-		       output [6:0]  p_att,
-		       output [7:0]  p_bl,
-		       output 	     bl
+		       output [31:0] per,
+		       output [31:0] p1wid,
+		       output [31:0] del,
+		       output [31:0] p2wid,
+		       output [6:0]  pr_att,
+                 output [6:0]  po_att,
+                 output [7:0]  p_bl,
+                 output [31:0] p_bl_off,
+		       output 	     bl,
+                                  //		       output [31:0] s_up,
+//		       output [31:0] p2st,
+//		       output [31:0] pbwid,
+//		       output [31:0] att_d,
+//		       output [31:0] offr_d,
+//		       output [6:0]  pp_pu,
+//		       output [6:0]  pp_pr,
+//		       output 	     doub,
+
 		       );
 
    // Control the pulses
 
-   // Running at a 200-MHz clock, our time step is 5 ns.
+   // Running at a 201-MHz clock, our time step is ~5 ns.
    // All the times are thus divided by 5 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-   parameter stperiod = 32'd200000; // 1 ms period
+   parameter stperiod = 32'd201000; // 1 ms period
    parameter stp1width = 32'd30; // 150 ns
    parameter stp2width = 32'd30;
    parameter stdelay = 32'd200; // 1 us delay
-   parameter stp2start = stp1width + stdelay;
-   parameter stsync_up = stp2start + stp2width;
+   parameter stblock = 32'd100; // 500 ns block open
+ //  parameter stp2start = stp1width + stdelay;
+//   parameter stsync_up = stp2start + stp2width;
    // The attenuator pulse switches down 10 us after the sync pulse,
    // because when it turns off there is a burst of noise, and this
    // moves that noise well after the signal
-   parameter att_delay = 32'd20000;
-   parameter statt_down = stsync_up + att_delay;
+   //parameter att_delay = 32'd20000;
+   //parameter statt_down = stsync_up + att_delay;
    parameter stpump = 1; // The pump is on by default
    
    reg [31:0] 		    period = stperiod;
    reg [31:0] 		    p1width = stp1width;
    reg [31:0] 		    p2width = stp2width;
-   reg [31:0] 		    pbwidth = stp1width;
+   //reg [31:0] 		    pbwidth = stp1width;
    reg [31:0] 		    delay = stdelay;
-   reg [31:0] 		    p2start = stp2start;
-   reg [31:0] 		    sync_up = stsync_up;
-   reg [31:0] 		    att_down = statt_down;
+   //reg [31:0] 		    p2start = stp2start;
+   //reg [31:0] 		    sync_up = stsync_up;
+   //reg [31:0] 		    att_down = statt_down;
    reg 			    pump = stpump;
-   reg 			    double = 0;
+   //reg 			    double = 0;
    reg 			    block = 1;
    reg [7:0] 		    pulse_block = 8'd50;
+   reg [31:0]            pulse_block_off = stblock;
    
    // Optionally put a pi/2 pulse 5 us before the first pi/2 pulse
    // to eliminate the echo for background subtraction
-   parameter stoff = 32'd8000;
-   reg [31:0] 		   offres_delay = stperiod - stoff - stp1width;
+   //parameter stoff = 32'd8000;
+   //reg [31:0] 		   offres_delay = stperiod - stoff - stp1width;
    
    // Control the attenuators
-   parameter att_on_val = 7'd1;
-   parameter att_off_val = 7'd0;
-   reg [6:0] 		    pp_pump = att_off_val;
-   reg [6:0] 		    pp_probe = att_on_val;
-   reg [6:0] 		    post_att = att_off_val;
+   parameter att_pre_val = 7'd1;
+   parameter att_post_val = 7'd0;
+   //reg [6:0] 		    pp_pump = att_off_val;
+   reg [6:0] 		    pre_att = att_pre_val;
+   reg [6:0] 		    post_att = att_post_val;
 
    assign per = period;
    assign p1wid = p1width;
    assign p2wid = p2width;
-   assign pbwid = pbwidth;
+   //assign pbwid = pbwidth;
    assign del = delay;
-   assign p2st = p2start;
-   assign s_up = sync_up;
-   assign att_d = att_down;
-   assign offr_d = offres_delay;
+//    assign p2st = p2start;
+//    assign s_up = sync_up;
+//    assign att_d = att_down;
+//    assign offr_d = offres_delay;
    assign pu = pump;
-   assign doub = double;
-   assign pp_pu = pp_pump;
-   assign pp_pr = pp_probe;
-   assign p_att = post_att;
+//    assign doub = double;
+//    assign pp_pu = pp_pump;
+//    assign pp_pr = pp_probe;
+   assign pr_att = pre_att;
+   assign pp_att = post_att;
    assign p_bl = pulse_block;
+   assign p_bl_off = pulse_block_off;
    assign bl = block;
    
       // Setup necessary for UART
@@ -174,7 +181,7 @@
 	     end
 	   endcase // case (readstate)
 	end // case: STATE_RECEIVING
-
+// TODO: Fix this given the current setup.
 	// Based on the control byte, assign a new value to the desired pulse parameter
         STATE_CALCULATING: begin
            writestate   <= write_A;

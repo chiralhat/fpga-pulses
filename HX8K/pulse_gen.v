@@ -29,51 +29,24 @@ module pulse_gen(
 		 );
 
    wire [31:0] 		period;
+//   wire [31:0] 		sync_up;
    wire [31:0] 		p1width;
-   wire [31:0] 		p2width;
-   wire [31:0] 		pbwidth;
    wire [31:0] 		delay;
-   wire [31:0] 		p2start;
-   wire [31:0] 		sync_up;
-   wire [31:0] 		att_down;
-   wire [31:0] 		offres_delay;
+   wire [31:0] 		p2width;
+//   wire [31:0] 		pbwidth;
+//   wire [31:0] 		p2start;
+//   wire [31:0] 		att_down;
+//   wire [31:0] 		offres_delay;
    wire 		pump;
-   wire 		double;
+//   wire 		double;
    wire 		block;
    wire [7:0] 		pulse_block;
+   wire [31:0] 		pulse_block_off;
    
-   wire [6:0] 		pp_pump;
-   wire [6:0] 		pp_probe;
+//   wire [6:0] 		pp_pump;
+//   wire [6:0] 		pp_probe;
+   wire [6:0] 		pre_att;
    wire [6:0] 		post_att;
-   
-   // Generating the necessary pulses
-   pulses pulses(
-		 .clk_pll(clk_pll),
-		 .reset(resetn),
-		 .pump(pump),
-		 .period(period),
-		 .sync_up(sync_up),
-		 .p1width(p1width),
-		 .p2start(p2start),
-		 .p2width(p2width),
-		 .pbwidth(pbwidth),
-		 .att_down(att_down),
-		 .pp_pump(pp_pump),
-		 .pp_probe(pp_probe),
-		 .post_att(post_att),
-		 .delay(delay),
-		 .offres_delay(offres_delay),
-		 .double(double),
-		 .pulse_block(pulse_block),
-		 .block(block),
-		 .sync_on(Sync),
-		 .pulse_on(Pulse),
-		 .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
-		 .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
-		 .inhib(P2),
-		 //		 .pump_on(P1),
-		 .record_start(P3)
-		 );
 
 // NOSIM_START
    wire 		clk_pll;
@@ -113,5 +86,36 @@ module pulse_gen(
 			 .bl(block)
    			 );
 // NOSIM_END
+   
+   // Generating the necessary pulses
+   pulses pulses(
+		 .clk_pll(clk_pll),
+		 .reset(resetn),
+		 .pump(pump),
+		 .period(period),
+//		 .sync_up(sync_up),
+		 .p1width(p1width),
+//		 .p2start(p2start),
+		 .delay(delay),
+		 .p2width(p2width),
+//		 .pbwidth(pbwidth),
+//		 .att_down(att_down),
+//		 .pp_pump(pp_pump),
+//		 .pp_probe(pp_probe),
+		 .pre_att(pre_att),
+		 .post_att(post_att),
+//		 .offres_delay(offres_delay),
+//		 .double(double),
+		 .pulse_block(pulse_block),
+		 .pulse_block_off(pulse_block_off),
+		 .block(block),
+		 .sync_on(Sync),
+		 .pulse_on(Pulse),
+		 .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
+		 .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
+		 .inhib(P2),
+		 //		 .pump_on(P1),
+//		 .record_start(P3)
+		 );
    
 endmodule // pulse_gen
