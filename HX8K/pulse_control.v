@@ -13,7 +13,7 @@
                  output [7:0]  p_bl,
                  output [31:0] p_bl_off,
 		       output 	     bl,
-                                  //		       output [31:0] s_up,
+//		       output [31:0] s_up,
 //		       output [31:0] p2st,
 //		       output [31:0] pbwid,
 //		       output [31:0] att_d,
@@ -43,19 +43,19 @@
    //parameter statt_down = stsync_up + att_delay;
    parameter stpump = 1; // The pump is on by default
    
+   reg 			    pump = stpump;
    reg [31:0] 		    period = stperiod;
    reg [31:0] 		    p1width = stp1width;
-   reg [31:0] 		    p2width = stp2width;
-   //reg [31:0] 		    pbwidth = stp1width;
    reg [31:0] 		    delay = stdelay;
+   reg [31:0] 		    p2width = stp2width;
+   reg [7:0] 		    pulse_block = 8'd50;
+   reg [31:0]            pulse_block_off = stblock;
+   reg 			    block = 1;
+   //reg [31:0] 		    pbwidth = stp1width;
    //reg [31:0] 		    p2start = stp2start;
    //reg [31:0] 		    sync_up = stsync_up;
    //reg [31:0] 		    att_down = statt_down;
-   reg 			    pump = stpump;
    //reg 			    double = 0;
-   reg 			    block = 1;
-   reg [7:0] 		    pulse_block = 8'd50;
-   reg [31:0]            pulse_block_off = stblock;
    
    // Optionally put a pi/2 pulse 5 us before the first pi/2 pulse
    // to eliminate the echo for background subtraction
