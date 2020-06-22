@@ -29,26 +29,26 @@ module pulse_gen(
 		 );
 
    wire [31:0] 		period;
-//   wire [31:0] 		sync_up;
+   //   wire [31:0] 		sync_up;
    wire [31:0] 		p1width;
    wire [31:0] 		delay;
    wire [31:0] 		p2width;
-//   wire [31:0] 		pbwidth;
-//   wire [31:0] 		p2start;
-//   wire [31:0] 		att_down;
-//   wire [31:0] 		offres_delay;
+   //   wire [31:0] 		pbwidth;
+   //   wire [31:0] 		p2start;
+   //   wire [31:0] 		att_down;
+   //   wire [31:0] 		offres_delay;
    wire 		pump;
-//   wire 		double;
+   //   wire 		double;
    wire 		block;
    wire [7:0] 		pulse_block;
    wire [15:0] 		pulse_block_off;
    
-//   wire [6:0] 		pp_pump;
-//   wire [6:0] 		pp_probe;
+   //   wire [6:0] 		pp_pump;
+   //   wire [6:0] 		pp_probe;
    wire [6:0] 		pre_att;
    wire [6:0] 		post_att;
 
-// NOSIM_START
+   // NOSIM_START
    wire 		clk_pll;
    wire 		clk_pll_gl;
    wire 		lock;
@@ -78,16 +78,16 @@ module pulse_gen(
 			 .p_bl(pulse_block),
 			 .p_bl_off(pulse_block_off),
 			 .bl(block)
-   			//  .s_up(sync_up),
-   			//  .p2st(p2start),
-			//  .pbwid(pbwidth),
-   			//  .att_d(att_down),
-			//  .offr_d(offres_delay),
-   			//  .pp_pu(pp_pump),
-   			//  .pp_pr(pp_probe),
-   			//  .doub(double),
+   			 //  .s_up(sync_up),
+   			 //  .p2st(p2start),
+			 //  .pbwid(pbwidth),
+   			 //  .att_d(att_down),
+			 //  .offr_d(offres_delay),
+   			 //  .pp_pu(pp_pump),
+   			 //  .pp_pr(pp_probe),
+   			 //  .doub(double),
    			 );
-// NOSIM_END
+   // NOSIM_END
    
    // Generating the necessary pulses
    pulses pulses(
@@ -108,16 +108,16 @@ module pulse_gen(
 		 .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
 		 .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
 		 .inhib(P2)
-//		 .sync_up(sync_up),
-//		 .p2start(p2start),
-//		 .pbwidth(pbwidth),
-//		 .att_down(att_down),
-//		 .pp_pump(pp_pump),
-//		 .pp_probe(pp_probe),
-//		 .offres_delay(offres_delay),
-//		 .double(double),
+		 //		 .sync_up(sync_up),
+		 //		 .p2start(p2start),
+		 //		 .pbwidth(pbwidth),
+		 //		 .att_down(att_down),
+		 //		 .pp_pump(pp_pump),
+		 //		 .pp_probe(pp_probe),
+		 //		 .offres_delay(offres_delay),
+		 //		 .double(double),
 		 //		 .pump_on(P1),
-//		 .record_start(P3)
+		 //		 .record_start(P3)
 		 );
    
 endmodule // pulse_gen

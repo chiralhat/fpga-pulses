@@ -1,28 +1,28 @@
 `default_nettype none
-  module pulse_control(
-		       input 	     clk,
-		       input 	     RS232_Rx,
-		       output 	     RS232_Tx,
-		       output 	     pu,
-		       output [31:0] per,
-		       output [31:0] p1wid,
-		       output [31:0] del,
-		       output [31:0] p2wid,
-		       output [6:0]  pr_att,
-                 output [6:0]  po_att,
-                 output [7:0]  p_bl,
-                 output [15:0] p_bl_off,
-		       output 	     bl
-//		       output [31:0] s_up,
-//		       output [31:0] p2st,
-//		       output [31:0] pbwid,
-//		       output [31:0] att_d,
-//		       output [31:0] offr_d,
-//		       output [6:0]  pp_pu,
-//		       output [6:0]  pp_pr,
-//		       output 	     doub,
+module pulse_control(
+		     input 	   clk,
+		     input 	   RS232_Rx,
+		     output 	   RS232_Tx,
+		     output 	   pu,
+		     output [31:0] per,
+		     output [31:0] p1wid,
+		     output [31:0] del,
+		     output [31:0] p2wid,
+		     output [6:0]  pr_att,
+                     output [6:0]  po_att,
+                     output [7:0]  p_bl,
+                     output [15:0] p_bl_off,
+		     output 	   bl
+		     //		       output [31:0] s_up,
+		     //		       output [31:0] p2st,
+		     //		       output [31:0] pbwid,
+		     //		       output [31:0] att_d,
+		     //		       output [31:0] offr_d,
+		     //		       output [6:0]  pp_pu,
+		     //		       output [6:0]  pp_pr,
+		     //		       output 	     doub,
 
-		       );
+		     );
 
    // Control the pulses
 
@@ -34,8 +34,8 @@
    parameter stp2width = 32'd30;
    parameter stdelay = 32'd200; // 1 us delay
    parameter stblock = 16'd100; // 500 ns block open
- //  parameter stp2start = stp1width + stdelay;
-//   parameter stsync_up = stp2start + stp2width;
+   //  parameter stp2start = stp1width + stdelay;
+   //   parameter stsync_up = stp2start + stp2width;
    // The attenuator pulse switches down 10 us after the sync pulse,
    // because when it turns off there is a burst of noise, and this
    // moves that noise well after the signal
@@ -43,14 +43,14 @@
    //parameter statt_down = stsync_up + att_delay;
    parameter stpump = 1; // The pump is on by default
    
-   reg 			    pump = stpump;
-   reg [31:0] 		    period = stperiod;
-   reg [31:0] 		    p1width = stp1width;
-   reg [31:0] 		    delay = stdelay;
-   reg [31:0] 		    p2width = stp2width;
-   reg [7:0] 		    pulse_block = 8'd50;
-   reg [15:0]            pulse_block_off = stblock;
-   reg 			    block = 1;
+   reg 				   pump = stpump;
+   reg [31:0] 			   period = stperiod;
+   reg [31:0] 			   p1width = stp1width;
+   reg [31:0] 			   delay = stdelay;
+   reg [31:0] 			   p2width = stp2width;
+   reg [7:0] 			   pulse_block = 8'd50;
+   reg [15:0] 			   pulse_block_off = stblock;
+   reg 				   block = 1;
    //reg [31:0] 		    pbwidth = stp1width;
    //reg [31:0] 		    p2start = stp2start;
    //reg [31:0] 		    sync_up = stsync_up;
@@ -66,37 +66,37 @@
    parameter att_pre_val = 7'd1;
    parameter att_post_val = 7'd0;
    //reg [6:0] 		    pp_pump = att_off_val;
-   reg [6:0] 		    pre_att = att_pre_val;
-   reg [6:0] 		    post_att = att_post_val;
+   reg [6:0] 			   pre_att = att_pre_val;
+   reg [6:0] 			   post_att = att_post_val;
 
    assign per = period;
    assign p1wid = p1width;
    assign p2wid = p2width;
    //assign pbwid = pbwidth;
    assign del = delay;
-//    assign p2st = p2start;
-//    assign s_up = sync_up;
-//    assign att_d = att_down;
-//    assign offr_d = offres_delay;
+   //    assign p2st = p2start;
+   //    assign s_up = sync_up;
+   //    assign att_d = att_down;
+   //    assign offr_d = offres_delay;
    assign pu = pump;
-//    assign doub = double;
-//    assign pp_pu = pp_pump;
-//    assign pp_pr = pp_probe;
+   //    assign doub = double;
+   //    assign pp_pu = pp_pump;
+   //    assign pp_pr = pp_probe;
    assign pr_att = pre_att;
    assign po_att = post_att;
    assign p_bl = pulse_block;
    assign p_bl_off = pulse_block_off;
    assign bl = block;
    
-      // Setup necessary for UART
-   wire 		   reset = 0;
-   reg 			   transmit;
-   reg [7:0] 		    tx_byte;
-   wire 		   received;
-   wire [7:0] 		   rx_byte;
-   wire 		   is_receiving;
-   wire 		   is_transmitting;
-   wire 		   recv_error;
+   // Setup necessary for UART
+   wire 			   reset = 0;
+   reg 				   transmit;
+   reg [7:0] 			   tx_byte;
+   wire 			   received;
+   wire [7:0] 			   rx_byte;
+   wire 			   is_receiving;
+   wire 			   is_transmitting;
+   wire 			   recv_error;
 
    // UART module, from https://github.com/cyrozap/osdvu
    uart uart0(
@@ -114,10 +114,10 @@
 	      );
 
    // input and output to be communicated
-   reg [31:0] 		   vinput;  // input and output are reserved keywords
-   reg [7:0] 		   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
-   reg [7:0] 		   voutput;
-   reg [7:0] 		   vcheck; // Checksum byte; the input bytes are summed and sent back as output
+   reg [31:0] 			   vinput;  // input and output are reserved keywords
+   reg [7:0] 			   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
+   reg [7:0] 			   voutput;
+   reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
 
    // Change the offset delay from 5 ns to 640 ns increments.
    // reg [22:0] 		   off_full_delay = 0;
@@ -130,10 +130,10 @@
    parameter write_A                = 1'd0;
    parameter write_done             = 1'd1;
 
-   reg 			   writestate = write_A;
-   reg [5:0] 		   writecount = 0;
-   reg [1:0] 		   readstate = read_A;
-   reg [5:0] 		   readcount = 0;
+   reg 				   writestate = write_A;
+   reg [5:0] 			   writecount = 0;
+   reg [1:0] 			   readstate = read_A;
+   reg [5:0] 			   readcount = 0;
 
    parameter STATE_RECEIVING   = 2'd0;
    parameter STATE_CALCULATING = 2'd1;
@@ -148,9 +148,9 @@
    parameter CONT_SET_BACKPULSE = 8'd5;
    parameter CONT_SET_ATT = 8'd6;
 
-   reg [2:0] 		   state = STATE_RECEIVING;
+   reg [2:0] 			   state = STATE_RECEIVING;
 
-      // The communication runs at the 12 MHz clock rather than the 200 MHz clock.
+   // The communication runs at the 12 MHz clock rather than the 200 MHz clock.
    always @(posedge clk) begin
       
       case (state) 
@@ -181,7 +181,7 @@
 	     end
 	   endcase // case (readstate)
 	end // case: STATE_RECEIVING
-// TODO: Fix this given the current setup.
+	// TODO: Fix this given the current setup.
 	// Based on the control byte, assign a new value to the desired pulse parameter
         STATE_CALCULATING: begin
            writestate   <= write_A;
@@ -212,7 +212,7 @@
 		// double <= vinput[1];
 		block <= vinput[2];
 		pulse_block <= vinput[15:8];
-      pulse_block_off <= vinput[31:16];
+		pulse_block_off <= vinput[31:16];
 		// off_full_delay[22:7] <= vinput[31:16];
 		// offres_delay <= period - off_full_delay;
 		// offres_delay <= period - (vinput[31:16] << 7);
@@ -226,13 +226,13 @@
 		voutput <= vcheck;
 	     end
 
-	   //   CONT_SET_BACKPULSE: begin
-		// pbwidth <= vinput;
-		// voutput <= vcheck;
-	   //   end
+	     //   CONT_SET_BACKPULSE: begin
+	     // pbwidth <= vinput;
+	     // voutput <= vcheck;
+	     //   end
 	     
 	   endcase // case (vcontrol)
-//           state <= STATE_SENDING;
+	   //           state <= STATE_SENDING;
            state <= STATE_RECEIVING;
         end
 
@@ -240,22 +240,22 @@
 	 * STATE_SENDING: begin
 
 
-           case (writestate)
+         case (writestate)
 
-	     write_A: begin
-		if (~ is_transmitting) begin
-                   transmit <= 1;
-		   writestate  <= write_done;
-                   tx_byte <= voutput;
-                   state     <= STATE_SENDING;
+	 write_A: begin
+	 if (~ is_transmitting) begin
+         transmit <= 1;
+	 writestate  <= write_done;
+         tx_byte <= voutput;
+         state     <= STATE_SENDING;
 		end
 	     end
 
-	     write_done: begin
-		if (~ is_transmitting) begin
-                   writestate <= write_A; 
-                   state     <= STATE_RECEIVING;
-                   transmit <= 0;
+	 write_done: begin
+	 if (~ is_transmitting) begin
+         writestate <= write_A; 
+         state     <= STATE_RECEIVING;
+         transmit <= 0;
 		end
 	     end
 
@@ -277,5 +277,5 @@
       // sync_up <= p2start + p2width;   
       // att_down <= sync_up + att_delay;
       
-    end // always @ (posedge iCE_CLK)
+   end // always @ (posedge iCE_CLK)
 endmodule // pulse_control

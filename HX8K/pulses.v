@@ -67,7 +67,7 @@ module pulses(
    assign Att1 = A1; // The main attenuator control
    assign Att3 = A3; // The second attenuator control
    assign inhib = inh; // The blocking switch pulse
-//    assign record_start = rec; // The boxcar trigger pulse (currently unused)
+   //    assign record_start = rec; // The boxcar trigger pulse (currently unused)
 
    /* The main loops runs on the 200 MHz PLL clock.
     This wants to be a case structure, I think, rather than a conditional chain.
