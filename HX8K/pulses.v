@@ -22,7 +22,7 @@ module pulses(
 	      input [6:0]  pre_att, // Attenuation for pump pulse (LV)
 	      input [6:0]  post_att, // Attenuation for second attenuator (LV)
 	      input [7:0]  pulse_block, // Time after the second pulse to keep the block switch closed (LV)
-	      input [31:0] pulse_block_off, // Width of the signal window when we open the block switch (LV)
+	      input [15:0] pulse_block_off, // Width of the signal window when we open the block switch (LV)
 	      input 	   block, // Blocking on (1) or off (0) (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
 	      output 	   pulse_on, // Wire for switch pulse

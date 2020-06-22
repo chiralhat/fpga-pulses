@@ -41,7 +41,7 @@ module pulse_gen(
 //   wire 		double;
    wire 		block;
    wire [7:0] 		pulse_block;
-   wire [31:0] 		pulse_block_off;
+   wire [15:0] 		pulse_block_off;
    
 //   wire [6:0] 		pp_pump;
 //   wire [6:0] 		pp_probe;

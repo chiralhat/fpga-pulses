@@ -11,7 +11,7 @@
 		       output [6:0]  pr_att,
                  output [6:0]  po_att,
                  output [7:0]  p_bl,
-                 output [31:0] p_bl_off,
+                 output [15:0] p_bl_off,
 		       output 	     bl,
 //		       output [31:0] s_up,
 //		       output [31:0] p2st,
@@ -26,14 +26,14 @@
 
    // Control the pulses
 
-   // Running at a 201-MHz clock, our time step is ~5 ns.
-   // All the times are thus divided by 5 ns to get cycles.
+   // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
+   // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
    parameter stperiod = 32'd201000; // 1 ms period
    parameter stp1width = 32'd30; // 150 ns
    parameter stp2width = 32'd30;
    parameter stdelay = 32'd200; // 1 us delay
-   parameter stblock = 32'd100; // 500 ns block open
+   parameter stblock = 16'd100; // 500 ns block open
  //  parameter stp2start = stp1width + stdelay;
 //   parameter stsync_up = stp2start + stp2width;
    // The attenuator pulse switches down 10 us after the sync pulse,
@@ -49,7 +49,7 @@
    reg [31:0] 		    delay = stdelay;
    reg [31:0] 		    p2width = stp2width;
    reg [7:0] 		    pulse_block = 8'd50;
-   reg [31:0]            pulse_block_off = stblock;
+   reg [15:0]            pulse_block_off = stblock;
    reg 			    block = 1;
    //reg [31:0] 		    pbwidth = stp1width;
    //reg [31:0] 		    p2start = stp2start;
@@ -142,9 +142,9 @@
    // These set the behavior based on the control byte
    parameter CONT_SET_DELAY = 8'd0;
    parameter CONT_SET_PERIOD = 8'd1;
-   parameter CONT_SET_PUMP = 8'd2;
-   parameter CONT_SET_PROBE = 8'd3;
-   parameter CONT_TOGGLE_PUMP = 8'd4;
+   parameter CONT_SET_PULSE1 = 8'd2;
+   parameter CONT_SET_PULSE2 = 8'd3;
+   parameter CONT_TOGGLE_PULSE1 = 8'd4;
    parameter CONT_SET_BACKPULSE = 8'd5;
    parameter CONT_SET_ATT = 8'd6;
 
@@ -198,36 +198,37 @@
 		voutput <= vcheck;
 	     end
 
-	     CONT_SET_PUMP: begin
+	     CONT_SET_PULSE1: begin
 		p1width <= vinput;
 	     end
 
-	     CONT_SET_PROBE: begin
+	     CONT_SET_PULSE2: begin
 		p2width <= vinput;
 		voutput <= vcheck;
 	     end
 
-	     CONT_TOGGLE_PUMP: begin
+	     CONT_TOGGLE_PULSE1: begin
 		pump <= vinput[0];
-		double <= vinput[1];
+		// double <= vinput[1];
 		block <= vinput[2];
 		pulse_block <= vinput[15:8];
+      pulse_block_off <= vinput[31:16];
 		// off_full_delay[22:7] <= vinput[31:16];
 		// offres_delay <= period - off_full_delay;
-		offres_delay <= period - (vinput[31:16] << 7);
+		// offres_delay <= period - (vinput[31:16] << 7);
 		voutput <= vcheck;
 	     end
 
 	     CONT_SET_ATT: begin
-		pp_probe <= vinput[7:0];
+		pre_probe <= vinput[7:0];
 		post_att <= vinput[15:8];
-		pp_pump <= vinput[23:16];
+		// pp_pump <= vinput[23:16];
 		voutput <= vcheck;
 	     end
 
-	     CONT_SET_BACKPULSE: begin
-		pbwidth <= vinput;
-		voutput <= vcheck;
+	   //   CONT_SET_BACKPULSE: begin
+		// pbwidth <= vinput;
+		// voutput <= vcheck;
 	     end
 	     
 	   endcase // case (vcontrol)
@@ -272,9 +273,9 @@
       endcase // case (state)
 
       // After each change, update the pulse parameters
-      p2start <= p1width + delay;
-      sync_up <= p2start + p2width;   
-      att_down <= sync_up + att_delay;
+      // p2start <= p1width + delay;
+      // sync_up <= p2start + p2width;   
+      // att_down <= sync_up + att_delay;
       
     end // always @ (posedge iCE_CLK)
 endmodule // pulse_control
