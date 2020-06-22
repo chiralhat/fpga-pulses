@@ -19,7 +19,8 @@ SIMINIT = HX8K/pulse_gen_sim_init.v
 SIMOUT = HX8K/pulse_gen_sim
 PULSEV = HX8K/pulses.v
 CONTROLV = HX8K/pulse_control.v
-SED_STR1 = '1,/NOSIM_START/!d'
+SED_STR1 = '/NOSIM_START/,/NOSIM_END/d; 1,/NOSIM2_START/!d'
+# SED_STR1a = '1,/NOSIM2_START/!d'
 SED_STR2 = '4iinput clk_pll,'
 SED_STR3 = 's/wire/reg/g'
 

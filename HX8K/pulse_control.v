@@ -10,7 +10,7 @@ module pulse_control(
 		     output [31:0] p2wid,
 		     output [6:0]  pr_att,
                      output [6:0]  po_att,
-                     output [7:0] cp,
+                     output [7:0]  cp,
                      output [7:0]  p_bl,
                      output [15:0] p_bl_off,
 		     output 	   bl
@@ -52,7 +52,7 @@ module pulse_control(
    reg [31:0] 			   p2width = stp2width;
    reg [7:0] 			   pulse_block = 8'd50;
    reg [15:0] 			   pulse_block_off = stblock;
-   reg [7:0]   cpmg = stcpmg;
+   reg [7:0] 			   cpmg = stcpmg;
    reg 				   block = 1;
    //reg [31:0] 		    pbwidth = stp1width;
    //reg [31:0] 		    p2start = stp2start;
@@ -230,35 +230,35 @@ module pulse_control(
 		voutput <= vcheck;
 	     end
 
-	       CONT_SET_CPMG: begin
-	     cpmg <= vinput[7:0];
-	     voutput <= vcheck;
-	       end
+	     CONT_SET_CPMG: begin
+		cpmg <= vinput[7:0];
+		voutput <= vcheck;
+	     end
 	     
 	   endcase // case (vcontrol)
-	             state <= STATE_SENDING;
-         //   state <= STATE_RECEIVING;
+	   state <= STATE_SENDING;
+           //   state <= STATE_RECEIVING;
         end
 
-	 STATE_SENDING: begin
+	STATE_SENDING: begin
 
 
-         case (writestate)
+           case (writestate)
 
-	 write_A: begin
-	 if (~ is_transmitting) begin
-         transmit <= 1;
-	 writestate  <= write_done;
-         tx_byte <= voutput;
-         state     <= STATE_SENDING;
+	     write_A: begin
+		if (~ is_transmitting) begin
+		   transmit <= 1;
+		   writestate  <= write_done;
+		   tx_byte <= voutput;
+		   state     <= STATE_SENDING;
 		end
 	     end
 
-	 write_done: begin
-	 if (~ is_transmitting) begin
-         writestate <= write_A; 
-         state     <= STATE_RECEIVING;
-         transmit <= 0;
+	     write_done: begin
+		if (~ is_transmitting) begin
+		   writestate <= write_A; 
+		   state     <= STATE_RECEIVING;
+		   transmit <= 0;
 		end
 	     end
 

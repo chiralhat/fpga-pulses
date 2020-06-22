@@ -42,7 +42,7 @@ module pulse_gen(
    wire 		block;
    wire [7:0] 		pulse_block;
    wire [15:0] 		pulse_block_off;
-   wire [7:0] cpmg;
+   wire [7:0] 		cpmg;
    
    //   wire [6:0] 		pp_pump;
    //   wire [6:0] 		pp_probe;
@@ -122,5 +122,5 @@ module pulse_gen(
 		 //		 .pump_on(P1),
 		 //		 .record_start(P3)
 		 );
-   
+   // NOSIM2_START
 endmodule // pulse_gen
