@@ -28,7 +28,7 @@ module pulses(
 	      output 	   pulse_on, // Wire for switch pulse
 	      output [6:0] Att1, // Wires for main attenuator
 	      output [6:0] Att3, // Wires for second attenuator
-	      output 	   inhib, // Wire for blocking switch pulse
+	      output 	   inhib // Wire for blocking switch pulse
 	      // input [31:0] sync_up, // Time from the cycle beginning to the second pulse end, indirectly set by LabView (iLV)
 	      //	      input [31:0] p2start, // Time of the second pulse beginning (iLV)
 	      //	      input [31:0] pbwidth, // Extra pulse width (LV)
@@ -67,7 +67,7 @@ module pulses(
    assign Att1 = A1; // The main attenuator control
    assign Att3 = A3; // The second attenuator control
    assign inhib = inh; // The blocking switch pulse
-   assign record_start = rec; // The boxcar trigger pulse (currently unused)
+//    assign record_start = rec; // The boxcar trigger pulse (currently unused)
 
    /* The main loops runs on the 200 MHz PLL clock.
     This wants to be a case structure, I think, rather than a conditional chain.

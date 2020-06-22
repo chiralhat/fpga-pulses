@@ -12,7 +12,7 @@
                  output [6:0]  po_att,
                  output [7:0]  p_bl,
                  output [15:0] p_bl_off,
-		       output 	     bl,
+		       output 	     bl
 //		       output [31:0] s_up,
 //		       output [31:0] p2st,
 //		       output [31:0] pbwid,
@@ -83,7 +83,7 @@
 //    assign pp_pu = pp_pump;
 //    assign pp_pr = pp_probe;
    assign pr_att = pre_att;
-   assign pp_att = post_att;
+   assign po_att = post_att;
    assign p_bl = pulse_block;
    assign p_bl_off = pulse_block_off;
    assign bl = block;
@@ -220,7 +220,7 @@
 	     end
 
 	     CONT_SET_ATT: begin
-		pre_probe <= vinput[7:0];
+		pre_att <= vinput[7:0];
 		post_att <= vinput[15:8];
 		// pp_pump <= vinput[23:16];
 		voutput <= vcheck;
@@ -229,7 +229,7 @@
 	   //   CONT_SET_BACKPULSE: begin
 		// pbwidth <= vinput;
 		// voutput <= vcheck;
-	     end
+	   //   end
 	     
 	   endcase // case (vcontrol)
 //           state <= STATE_SENDING;
