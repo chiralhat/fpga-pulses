@@ -10,6 +10,7 @@ module pulse_control(
 		     output [31:0] p2wid,
 		     output [6:0]  pr_att,
                      output [6:0]  po_att,
+                     output [7:0] cp,
                      output [7:0]  p_bl,
                      output [15:0] p_bl_off,
 		     output 	   bl
@@ -42,6 +43,7 @@ module pulse_control(
    //parameter att_delay = 32'd20000;
    //parameter statt_down = stsync_up + att_delay;
    parameter stpump = 1; // The pump is on by default
+   parameter stcpmg = 1; // Do Hahn echo by default
    
    reg 				   pump = stpump;
    reg [31:0] 			   period = stperiod;
@@ -50,6 +52,7 @@ module pulse_control(
    reg [31:0] 			   p2width = stp2width;
    reg [7:0] 			   pulse_block = 8'd50;
    reg [15:0] 			   pulse_block_off = stblock;
+   reg [7:0]   cpmg = stcpmg;
    reg 				   block = 1;
    //reg [31:0] 		    pbwidth = stp1width;
    //reg [31:0] 		    p2start = stp2start;
@@ -84,6 +87,7 @@ module pulse_control(
    //    assign pp_pr = pp_probe;
    assign pr_att = pre_att;
    assign po_att = post_att;
+   assign cp = cpmg;
    assign p_bl = pulse_block;
    assign p_bl_off = pulse_block_off;
    assign bl = block;
@@ -145,7 +149,7 @@ module pulse_control(
    parameter CONT_SET_PULSE1 = 8'd2;
    parameter CONT_SET_PULSE2 = 8'd3;
    parameter CONT_TOGGLE_PULSE1 = 8'd4;
-   parameter CONT_SET_BACKPULSE = 8'd5;
+   parameter CONT_SET_CPMG = 8'd5;
    parameter CONT_SET_ATT = 8'd6;
 
    reg [2:0] 			   state = STATE_RECEIVING;
@@ -226,18 +230,17 @@ module pulse_control(
 		voutput <= vcheck;
 	     end
 
-	     //   CONT_SET_BACKPULSE: begin
-	     // pbwidth <= vinput;
-	     // voutput <= vcheck;
-	     //   end
+	       CONT_SET_CPMG: begin
+	     cpmg <= vinput[7:0];
+	     voutput <= vcheck;
+	       end
 	     
 	   endcase // case (vcontrol)
-	   //           state <= STATE_SENDING;
-           state <= STATE_RECEIVING;
+	             state <= STATE_SENDING;
+         //   state <= STATE_RECEIVING;
         end
 
-        /*
-	 * STATE_SENDING: begin
+	 STATE_SENDING: begin
 
 
          case (writestate)
@@ -262,7 +265,6 @@ module pulse_control(
            endcase
 
         end
-	 */
 
         default: begin
            // should not be reached

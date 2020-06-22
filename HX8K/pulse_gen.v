@@ -42,6 +42,7 @@ module pulse_gen(
    wire 		block;
    wire [7:0] 		pulse_block;
    wire [15:0] 		pulse_block_off;
+   wire [7:0] cpmg;
    
    //   wire [6:0] 		pp_pump;
    //   wire [6:0] 		pp_probe;
@@ -75,6 +76,7 @@ module pulse_gen(
    			 .p2wid(p2width),
    			 .pr_att(pre_att),
    			 .po_att(post_att),
+			 .cp(cpmg),
 			 .p_bl(pulse_block),
 			 .p_bl_off(pulse_block_off),
 			 .bl(block)
@@ -102,6 +104,7 @@ module pulse_gen(
 		 .post_att(post_att),
 		 .pulse_block(pulse_block),
 		 .pulse_block_off(pulse_block_off),
+		 .cpmg(cpmg),
 		 .block(block),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),

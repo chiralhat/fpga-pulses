@@ -21,7 +21,8 @@ module pulses(
 	      input [31:0] p2width, // Width of the second pulse (LV)
 	      input [6:0]  pre_att, // Attenuation for pump pulse (LV)
 	      input [6:0]  post_att, // Attenuation for second attenuator (LV)
-	      input [7:0]  pulse_block, // Time after the second pulse to keep the block switch closed (LV)
+	      input [7:0]  cpmg, // Set mode to CW (0), Hahn echo (1), or CPMG (>1) (LV)
+		  input [7:0]  pulse_block, // Time after the second pulse to keep the block switch closed (LV)
 	      input [15:0] pulse_block_off, // Width of the signal window when we open the block switch (LV)
 	      input 	   block, // Blocking on (1) or off (0) (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
@@ -59,7 +60,7 @@ module pulses(
    reg [31:0] 		   cblock_delay; // When to stop blocking before the next return signal
    reg [31:0] 		   cblock_on; // When to start blocking after the next return signal
    
-   reg [7:0] 		   cpmg = 0;
+//    reg [7:0] 		   cpmg = 1;
    
    
    assign sync_on = sync; // The scope trigger pulse
