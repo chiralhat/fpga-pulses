@@ -14,15 +14,6 @@ module pulse_control(
                      output [7:0]  p_bl,
                      output [15:0] p_bl_off,
 		     output 	   bl
-		     //		       output [31:0] s_up,
-		     //		       output [31:0] p2st,
-		     //		       output [31:0] pbwid,
-		     //		       output [31:0] att_d,
-		     //		       output [31:0] offr_d,
-		     //		       output [6:0]  pp_pu,
-		     //		       output [6:0]  pp_pr,
-		     //		       output 	     doub,
-
 		     );
 
    // Control the pulses
@@ -35,13 +26,6 @@ module pulse_control(
    parameter stp2width = 32'd30;
    parameter stdelay = 32'd200; // 1 us delay
    parameter stblock = 16'd100; // 500 ns block open
-   //  parameter stp2start = stp1width + stdelay;
-   //   parameter stsync_up = stp2start + stp2width;
-   // The attenuator pulse switches down 10 us after the sync pulse,
-   // because when it turns off there is a burst of noise, and this
-   // moves that noise well after the signal
-   //parameter att_delay = 32'd20000;
-   //parameter statt_down = stsync_up + att_delay;
    parameter stpump = 1; // The pump is on by default
    parameter stcpmg = 1; // Do Hahn echo by default
    
@@ -54,37 +38,18 @@ module pulse_control(
    reg [15:0] 			   pulse_block_off = stblock;
    reg [7:0] 			   cpmg = stcpmg;
    reg 				   block = 1;
-   //reg [31:0] 		    pbwidth = stp1width;
-   //reg [31:0] 		    p2start = stp2start;
-   //reg [31:0] 		    sync_up = stsync_up;
-   //reg [31:0] 		    att_down = statt_down;
-   //reg 			    double = 0;
-   
-   // Optionally put a pi/2 pulse 5 us before the first pi/2 pulse
-   // to eliminate the echo for background subtraction
-   //parameter stoff = 32'd8000;
-   //reg [31:0] 		   offres_delay = stperiod - stoff - stp1width;
    
    // Control the attenuators
    parameter att_pre_val = 7'd1;
    parameter att_post_val = 7'd0;
-   //reg [6:0] 		    pp_pump = att_off_val;
    reg [6:0] 			   pre_att = att_pre_val;
    reg [6:0] 			   post_att = att_post_val;
 
    assign per = period;
    assign p1wid = p1width;
    assign p2wid = p2width;
-   //assign pbwid = pbwidth;
    assign del = delay;
-   //    assign p2st = p2start;
-   //    assign s_up = sync_up;
-   //    assign att_d = att_down;
-   //    assign offr_d = offres_delay;
    assign pu = pump;
-   //    assign doub = double;
-   //    assign pp_pu = pp_pump;
-   //    assign pp_pr = pp_probe;
    assign pr_att = pre_att;
    assign po_att = post_att;
    assign cp = cpmg;
@@ -122,9 +87,6 @@ module pulse_control(
    reg [7:0] 			   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
    reg [7:0] 			   voutput;
    reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
-
-   // Change the offset delay from 5 ns to 640 ns increments.
-   // reg [22:0] 		   off_full_delay = 0;
    
    // We need to receive multiple bytes sequentially, so this sets up both
    // reading and writing. Adapted from the uart-adder from
@@ -185,7 +147,6 @@ module pulse_control(
 	     end
 	   endcase // case (readstate)
 	end // case: STATE_RECEIVING
-	// TODO: Fix this given the current setup.
 	// Based on the control byte, assign a new value to the desired pulse parameter
         STATE_CALCULATING: begin
            writestate   <= write_A;
@@ -204,6 +165,7 @@ module pulse_control(
 
 	     CONT_SET_PULSE1: begin
 		p1width <= vinput;
+      voutput <= vcheck;
 	     end
 
 	     CONT_SET_PULSE2: begin
@@ -213,20 +175,9 @@ module pulse_control(
 
 	     CONT_TOGGLE_PULSE1: begin
 		pump <= vinput[0];
-		// double <= vinput[1];
-		block <= vinput[2];
+		block <= vinput[1];
 		pulse_block <= vinput[15:8];
 		pulse_block_off <= vinput[31:16];
-		// off_full_delay[22:7] <= vinput[31:16];
-		// offres_delay <= period - off_full_delay;
-		// offres_delay <= period - (vinput[31:16] << 7);
-		voutput <= vcheck;
-	     end
-
-	     CONT_SET_ATT: begin
-		pre_att <= vinput[7:0];
-		post_att <= vinput[15:8];
-		// pp_pump <= vinput[23:16];
 		voutput <= vcheck;
 	     end
 
@@ -234,10 +185,15 @@ module pulse_control(
 		cpmg <= vinput[7:0];
 		voutput <= vcheck;
 	     end
+
+	     CONT_SET_ATT: begin
+		pre_att <= vinput[7:0];
+		post_att <= vinput[15:8];
+		voutput <= vcheck;
+	     end
 	     
 	   endcase // case (vcontrol)
 	   state <= STATE_SENDING;
-           //   state <= STATE_RECEIVING;
         end
 
 	STATE_SENDING: begin
@@ -273,11 +229,6 @@ module pulse_control(
         end
 
       endcase // case (state)
-
-      // After each change, update the pulse parameters
-      // p2start <= p1width + delay;
-      // sync_up <= p2start + p2width;   
-      // att_down <= sync_up + att_delay;
       
    end // always @ (posedge iCE_CLK)
 endmodule // pulse_control
