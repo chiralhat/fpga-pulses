@@ -150,27 +150,23 @@ module pulse_control(
 	// Based on the control byte, assign a new value to the desired pulse parameter
         STATE_CALCULATING: begin
            writestate   <= write_A;
-	   vcheck = vinput[31:24] + vinput[23:16] + vinput[15:8] + vinput[7:0];
+	   voutput = vinput[31:24] + vinput[23:16] + vinput[15:8] + vinput[7:0];
 	   case (vcontrol)
 
 	     CONT_SET_DELAY: begin
 		delay <= vinput;
-		voutput <= vcheck;
 	     end
 
 	     CONT_SET_PERIOD: begin
 		period <= vinput;
-		voutput <= vcheck;
 	     end
 
 	     CONT_SET_PULSE1: begin
 		p1width <= vinput;
-      voutput <= vcheck;
 	     end
 
 	     CONT_SET_PULSE2: begin
 		p2width <= vinput;
-		voutput <= vcheck;
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
@@ -178,18 +174,15 @@ module pulse_control(
 		block <= vinput[1];
 		pulse_block <= vinput[15:8];
 		pulse_block_off <= vinput[31:16];
-		voutput <= vcheck;
 	     end
 
 	     CONT_SET_CPMG: begin
 		cpmg <= vinput[7:0];
-		voutput <= vcheck;
 	     end
 
 	     CONT_SET_ATT: begin
 		pre_att <= vinput[7:0];
 		post_att <= vinput[15:8];
-		voutput <= vcheck;
 	     end
 	     
 	   endcase // case (vcontrol)

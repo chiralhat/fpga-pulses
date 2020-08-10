@@ -36,7 +36,7 @@ module tb;
 		  );
 
    initial begin
-      $dumpfile("HX8K/pulse_gen_sim.vcd");
+      $dumpfile("pulse_gen_sim_tb.vcd");
       $dumpvars(0, test);
 
       clk = 1'b0;

@@ -13,15 +13,15 @@
 # ##############################################################################
 
 ###IOSet List 9
-set_io --warn-no-port LED3 A2
-set_io --warn-no-port LED7 B3
+# set_io --warn-no-port LED3 A2
+# set_io --warn-no-port LED7 B3
 set_io --warn-no-port clk J3
-set_io --warn-no-port LED2 B4
-set_io --warn-no-port LED4 A1
-set_io --warn-no-port LED6 C4
-set_io --warn-no-port LED8 C3
-set_io --warn-no-port LED1 B5
-set_io --warn-no-port LED5 C5
+# set_io --warn-no-port LED2 B4
+# set_io --warn-no-port LED4 A1
+# set_io --warn-no-port LED6 C4
+# set_io --warn-no-port LED8 C3
+# set_io --warn-no-port LED1 B5
+# set_io --warn-no-port LED5 C5
 
 ###FTDI Communication
 set_io --warn-no-port RS232_Rx B10
@@ -31,7 +31,7 @@ set_io --warn-no-port RS232_Tx B12
 set_io --warn-no-port Sync P16
 set_io --warn-no-port Pulse N16
 set_io --warn-no-port FM M16
-set_io --warn-no-port P1 B16
+# set_io --warn-no-port P1 B16
 set_io --warn-no-port P2 D14
 set_io --warn-no-port P3 D15
 set_io --warn-no-port P4 E14

@@ -39,57 +39,197 @@ module pulses(
    reg [6:0] 		   A3;
    reg 			   inh;
    reg 			   rec = 0;
-   reg [7:0] 		   ccount = 1; // Which pi pulse are we on right now
-   reg [31:0] 		   cdelay = 32'd230; // What is the time of the next pi pulse beginning
-   reg [31:0] 		   cpulse = 32'd260; // What is the time of the next pi pulse ending
-   reg [31:0] 		   cblock_delay = 32'd360; // When to stop blocking before the next return signal
+   reg [7:0] 		   ccount = 8'd0; // Which pi pulse are we on right now
+   reg [31:0] 		   cdelay;// = 32'd230; // What is the time of the next pi pulse beginning
+   reg [31:0] 		   cpulse;// = 32'd260; // What is the time of the next pi pulse ending
+   reg [31:0] 		   cblock_delay;// = 32'd310; // When to stop blocking before the next return signal
    reg [31:0] 		   cblock_on; // When to start blocking after the next return signal
-	reg [31:0]	sync_down;
+	reg [31:0]	sync_down = 32'd50;
+	reg [31:0]  first_cycle = 32'd100;
+	reg [31:0]  pulse_end;
+	reg [3:0]   pulse_state = 0;
+
+	reg  		nutation_pulse = 0;
+	reg [31:0]  nutation_pulse_width = 32'd50;
+	reg [31:0]  nutation_pulse_delay = 32'd300;
+	reg [31:0]  nutation_pulse_start;
+	reg [31:0]  nutation_pulse_stop;
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
    assign Att1 = A1; // The main attenuator control
    assign Att3 = A3; // The second attenuator control
    assign inhib = inh; // The blocking switch pulse
+	// assign inhib = ccount[1];
+
+	parameter FIRST_PULSE_ON = 4'd0;
+	parameter FIRST_DELAY = 4'd1;
+	parameter SECOND_PULSE_ON = 4'd2;
+	parameter POST_PI_PULSE = 4'd3;
+	parameter FIRST_BLOCK_OFF = 4'd4;
+	parameter FIRST_BLOCK_ON = 4'd5;
+	parameter CPMG_PULSE_ON = 4'd6;
+	parameter POST_CPMG_PULSE = 4'd7;
+	parameter CPMG_BLOCK_OFF = 4'd8;
+	parameter CPMG_BLOCK_ON = 4'd9;
+	parameter NUTATION_PULSE_ON = 4'd10;
 
    /* The main loops runs on the 200 MHz PLL clock.
     */
    always @(posedge clk_pll) begin
       if (!reset) begin
-	 
+		  
 	if (cpmg > 0) begin
-		if (counter < p1width) begin
-			cdelay = p1width + delay;
-			cpulse = cdelay + p2width;
-			cblock_delay = cpulse + pulse_block;
-			cblock_on = cblock_delay + pulse_block_off;
-			sync_down = cblock_delay;
-			ccount = 1;
-		end else if (counter > cpulse) begin
-			if (ccount < cpmg) begin
-				cdelay = cpulse + 2*delay;
-				cpulse = cdelay + p2width;
-			end
-		end else if (counter > cblock_on) begin
-			if (ccount < cpmg) begin
-				cblock_delay = cpulse + pulse_block;
-				cblock_on = cblock_delay + pulse_block_off;
-				ccount = ccount + 1;
-			end
+
+		//   pulse_state = (counter < p1width) ? FIRST_PULSE_ON :
+		//   				((counter < (p1width+delay)) ? FIRST_DELAY :
+		// 				  ((counter < sync_down) ? SECOND_PULSE_ON :
+		// 				  ((counter < cblock_delay) ? POST_PI_PULSE :
+		// 				  ((counter < cblock_on) ? BLOCK_OFF :
+		// 				  ((counter < (cblock_on+1)) ? COUNT_INCREMENT :
+		// 				  ((counter < cdelay) ? BLOCK_ON :
+		// 				  (((counter < pulse_end) && (counter < cpulse)) ? CPMG_PULSE_ON :
+						  
+		// 				  BLOCK_ON)))))));
+		
+		if (counter < 2) begin
+			pulse_state = FIRST_PULSE_ON;
 		end
 		
-		sync <= (counter < sync_down) ? 1 : 0; // Scope trigger pulse goes up at 0 and down at the end of the pulse
-		pulse <= (counter < p1width) ? pump : // Switch pulse goes up at 0 if the pump is on
-				((counter < cdelay) ? 0 : // then down after p1width
-				((counter < cpulse) ? 1 : 0));// then up at the start of the second pulse
+		sync_down <= p1width + delay + p2width;
+		first_cycle <= p1width + 3*delay + p2width;
+		pulse_end <= sync_down + (cpmg-1)*(2*delay+p2width);
+		nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
+		nutation_pulse_stop <= period - nutation_pulse_delay;
+		
+		cdelay = sync_down + 2*(ccount)*delay + (ccount-1)*p2width;
+		cpulse = (counter < first_cycle) ? sync_down : cdelay + p2width;
+		cblock_delay = cpulse + delay - pulse_block;
+		cblock_on = cblock_delay + pulse_block_off;
+
+		sync <= (counter < sync_down) ? 1 : 0;
+
+		case (pulse_state)
+
+			FIRST_PULSE_ON: begin
+				// sync <= 1;
+				pulse <= pump;
+				inh <= block;
+				A3 <= post_att;
+
+				ccount <= 0;
+
+				if (counter == p1width) begin
+					pulse_state = FIRST_DELAY;
+				end
+			end
+
+			FIRST_DELAY: begin
+				pulse <= 0;
+				inh <= block;
+				A3 <= post_att;
+
+				if (counter == (p1width+delay)) begin
+					pulse_state = SECOND_PULSE_ON;
+				end
+			end
+
+			SECOND_PULSE_ON: begin
+				pulse <= 1;
+				inh <= block;
+				A3 <= post_att;
+
+				if (counter == sync_down) begin
+					pulse_state = POST_PI_PULSE;
+				end
+			end
+
+			POST_PI_PULSE: begin
+				pulse <= 0;
+				inh <= block;
+				A3 <= post_att;
+
+				if (counter == cblock_delay) begin
+					pulse_state = FIRST_BLOCK_OFF;
+				end
+			end
+
+			FIRST_BLOCK_OFF: begin
+				pulse <= 0;
+				inh <= 0;
+				A3 <= 0;
+
+				if (counter == cblock_on) begin
+					pulse_state = FIRST_BLOCK_ON;
+
+					ccount <= (counter < pulse_end) ? ccount+1 : ccount;
+				end
+			end
+
+			FIRST_BLOCK_ON: begin
+				pulse <= 0;
+				inh <= block;
+				A3 <= post_att;
+
+				if (cpmg > 1) begin
+					if ((counter == cdelay) && (counter < pulse_end)) begin
+						pulse_state = CPMG_PULSE_ON;
+					end
+				end
+				if (nutation_pulse) begin
+					if (counter == nutation_pulse_start) begin
+						pulse_state = NUTATION_PULSE_ON;
+					end
+				end
+			end
+
+			CPMG_PULSE_ON: begin
+				pulse <= 1;
+				inh <= block;
+				A3 <= post_att;
+
+				if (counter == cpulse) begin
+					pulse_state = POST_PI_PULSE;
+				end
+			end
+
+			NUTATION_PULSE_ON: begin
+				pulse <= 1;
+				inh <= block;
+				A3 <= post_att;
+
+				if (counter == nutation_pulse_stop) begin
+					pulse_state = FIRST_BLOCK_ON;
+				end
+			end
+
+		endcase
 		
 		A1 <= pre_att;
 		A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 		
-		inh <= ((counter < cblock_delay) || (counter > cblock_on)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
-		
 		counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 
+
+		// if (counter < (first_cycle-32'd10)) begin
+		// 	sync_down = cpulse;
+
+		// 	ccount = 8'd1;
+		// // end else if (counter > cpulse) begin
+		// // 	if (ccount < cpmg) begin
+		// // 		cdelay = cpulse + 2*delay;
+		// // 		cpulse = cdelay + p2width;
+		// // 	end
+		// end else if (counter < cblock_on) begin
+		// 	change_pulse = 1;
+		// end else if (counter > cblock_on) begin // This doesn't work right
+		// 	if (((ccount) < cpmg) && change_pulse) begin
+		// 		// cblock_delay = cpulse + pulse_block;
+		// 		// cblock_on = cblock_delay + pulse_block_off;
+		// 		ccount = ccount + 8'd1;
+		// 		change_pulse = 0;
+		// 	end
+		// end
 	end else begin
 		pulse <= 1;
 		sync <= (counter < (period - 50)) ? 0 : 1;
@@ -97,6 +237,7 @@ module pulses(
       end // if (!reset)
       else begin
 	 counter <= 0;
+	 pulse_state = 0;
       end
 
    end // always @ (posedge clk_pll)
