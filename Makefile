@@ -9,7 +9,7 @@ ifdef SYSTEMROOT
 	GEN = bin/icepack.exe
 else
 	SYN = yosys
-	PNR = arachne-pnr
+	PNR = nextpnr-ice40
 	GEN = icepack
 endif
 

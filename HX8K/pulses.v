@@ -47,7 +47,7 @@ module pulses(
 	reg [31:0]	sync_down = 32'd50;
 	reg [31:0]  first_cycle = 32'd100;
 	reg [31:0]  pulse_end;
-	reg [3:0]   pulse_state = 0;
+	reg [3:0]   pulse_state = 1;
 
 	reg  		nutation_pulse = 0;
 	reg [31:0]  nutation_pulse_width = 32'd50;
@@ -93,7 +93,7 @@ module pulses(
 		// 				  BLOCK_ON)))))));
 		
 		if (counter < 2) begin
-			pulse_state = FIRST_PULSE_ON;
+			pulse_state <= FIRST_PULSE_ON;
 		end
 		
 		sync_down <= p1width + delay + p2width;
@@ -102,10 +102,10 @@ module pulses(
 		nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
 		nutation_pulse_stop <= period - nutation_pulse_delay;
 		
-		cdelay = sync_down + 2*(ccount)*delay + (ccount-1)*p2width;
-		cpulse = (counter < first_cycle) ? sync_down : cdelay + p2width;
-		cblock_delay = cpulse + delay - pulse_block;
-		cblock_on = cblock_delay + pulse_block_off;
+		cdelay <= sync_down + 2*(ccount)*delay + (ccount-1)*p2width;
+		cpulse <= (counter < first_cycle) ? sync_down : cdelay + p2width;
+		cblock_delay <= cpulse + delay - pulse_block;
+		cblock_on <= cblock_delay + pulse_block_off;
 
 		sync <= (counter < sync_down) ? 1 : 0;
 
@@ -120,7 +120,7 @@ module pulses(
 				ccount <= 0;
 
 				if (counter == p1width) begin
-					pulse_state = FIRST_DELAY;
+					pulse_state <= FIRST_DELAY;
 				end
 			end
 
@@ -130,7 +130,7 @@ module pulses(
 				A3 <= post_att;
 
 				if (counter == (p1width+delay)) begin
-					pulse_state = SECOND_PULSE_ON;
+					pulse_state <= SECOND_PULSE_ON;
 				end
 			end
 
@@ -140,7 +140,7 @@ module pulses(
 				A3 <= post_att;
 
 				if (counter == sync_down) begin
-					pulse_state = POST_PI_PULSE;
+					pulse_state <= POST_PI_PULSE;
 				end
 			end
 
@@ -150,7 +150,7 @@ module pulses(
 				A3 <= post_att;
 
 				if (counter == cblock_delay) begin
-					pulse_state = FIRST_BLOCK_OFF;
+					pulse_state <= FIRST_BLOCK_OFF;
 				end
 			end
 
@@ -160,7 +160,7 @@ module pulses(
 				A3 <= 0;
 
 				if (counter == cblock_on) begin
-					pulse_state = FIRST_BLOCK_ON;
+					pulse_state <= FIRST_BLOCK_ON;
 
 					ccount <= (counter < pulse_end) ? ccount+1 : ccount;
 				end
@@ -173,12 +173,12 @@ module pulses(
 
 				if (cpmg > 1) begin
 					if ((counter == cdelay) && (counter < pulse_end)) begin
-						pulse_state = CPMG_PULSE_ON;
+						pulse_state <= CPMG_PULSE_ON;
 					end
 				end
 				if (nutation_pulse) begin
 					if (counter == nutation_pulse_start) begin
-						pulse_state = NUTATION_PULSE_ON;
+						pulse_state <= NUTATION_PULSE_ON;
 					end
 				end
 			end
@@ -189,7 +189,7 @@ module pulses(
 				A3 <= post_att;
 
 				if (counter == cpulse) begin
-					pulse_state = POST_PI_PULSE;
+					pulse_state <= POST_PI_PULSE;
 				end
 			end
 
@@ -199,7 +199,7 @@ module pulses(
 				A3 <= post_att;
 
 				if (counter == nutation_pulse_stop) begin
-					pulse_state = FIRST_BLOCK_ON;
+					pulse_state <= FIRST_BLOCK_ON;
 				end
 			end
 
@@ -237,7 +237,7 @@ module pulses(
       end // if (!reset)
       else begin
 	 counter <= 0;
-	 pulse_state = 0;
+	 pulse_state <= 0;
       end
 
    end // always @ (posedge clk_pll)
