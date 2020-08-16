@@ -2,15 +2,15 @@
 # Makefile for pulse generation for iCEstick
 #
 # Requires the IceStorm tools from https://github.com/cliffordwolf/icestorm
-LD_LIBRARY_PATH=/home/denji/anaconda3/lib/
 
 SYN = yosys
 PNR = nextpnr-ice40
 GEN = icepack
+LDL = LD_LIBRARY_PATH=/home/denji/anaconda3/lib/
 
 TARGET = pulse_gen
 SIMTARGET = Sim/pulse_gen_sim
-SIMINIT = Sim/pulse_gen_sim_init.v
+SIMINIT = Sim/pulse_gen_sim_init
 SIMOUT = Sim/pulse_gen_sim
 PULSEV = pulses.v
 CONTROLV = pulse_control.v
@@ -23,14 +23,14 @@ default: all
 
 clean:
 	cp hardware.bin $(TARGET).bin.bak 2>/dev/null || :
-	rm -f hardware.bin $(TARGET).blif $(TARGET).txt output.log
+	rm -f hardware.bin $(TARGET).blif $(TARGET).txt make.log pnr.log
 
 simclean:
-	rm -f $(SIMOUT)_post $(SIMOUT).vcd $(SIMTARGET).v
+	rm -f $(SIMOUT)_post $(SIMOUT)_tb.vcd $(SIMTARGET).v
 
 all: clean
 	$(SYN) -p "synth_ice40 -json $(TARGET).json" $(TARGET).v icepll.v uart.v $(PULSEV) $(CONTROLV) > make.log
-	$(PNR) -freq 201 --hx8k --pcf icebox.pcf --json $(TARGET).json --asc $(TARGET).asc
+	$(LDL) $(PNR) --freq 101 --hx8k --pcf icebox.pcf --json $(TARGET).json --asc $(TARGET).asc 2> pnr.log
 	$(GEN) $(TARGET).asc hardware.bin
 
 sim: simclean
@@ -38,6 +38,6 @@ sim: simclean
 	cat $(SIMINIT) >> $(SIMTARGET).v
 	iverilog -o $(SIMOUT)_post $(SIMTARGET).v $(SIMOUT)_tb.v $(PULSEV)
 	vvp $(SIMOUT)_post
-	gtkwave $(SIMOUT).vcd
+	gtkwave $(SIMOUT)_tb.vcd
 
 .PHONY: all clean

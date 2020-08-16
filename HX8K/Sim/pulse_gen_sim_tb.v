@@ -3,7 +3,7 @@
 module tb;
 
    reg clk, clk_pll, resetn = 0;
-   wire Pulse, Sync, FM, P2, P3, P4, RS232_Rx, RS232_Tx;
+   wire Pulse, Sync, P2, RS232_Rx, RS232_Tx;
    wire J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10;
    wire J4_3, J4_4, J4_5, J4_6, J4_7, J4_8, J4_9;
 
@@ -15,10 +15,7 @@ module tb;
 		  .resetn(resetn),
 		  .Pulse(Pulse),
 		  .Sync(Sync),
-		  .FM(FM),
 		  .P2(P2),
-		  .P3(P3),
-		  .P4(P4),
 		  .J1_4(J1_4),
 		  .J1_5(J1_5),
 		  .J1_6(J1_6),
@@ -36,7 +33,7 @@ module tb;
 		  );
 
    initial begin
-      $dumpfile("pulse_gen_sim_tb.vcd");
+      $dumpfile("Sim/pulse_gen_sim_tb.vcd");
       $dumpvars(0, test);
 
       clk = 1'b0;

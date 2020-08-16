@@ -39,10 +39,7 @@ module pulses(
    reg [6:0] 		   A3;
    reg 			   inh;
    reg 			   rec = 0;
-   reg [7:0] 		   ccount = 8'd0; // Which pi pulse are we on right now
-   reg [31:0] 		   cdelay;// = 32'd230; // What is the time of the next pi pulse beginning
-   reg [31:0] 		   cpulse;// = 32'd260; // What is the time of the next pi pulse ending
-   reg [31:0] 		   cblock_delay;// = 32'd310; // When to stop blocking before the next return signal
+   reg [31:0] 		   cblock_delay = 32'd310; // When to stop blocking before the next return signal
    reg [31:0] 		   cblock_on; // When to start blocking after the next return signal
 	reg [31:0]	sync_down = 32'd50;
 	reg [31:0]  first_cycle = 32'd100;
@@ -80,32 +77,16 @@ module pulses(
       if (!reset) begin
 		  
 	if (cpmg > 0) begin
-
-		//   pulse_state = (counter < p1width) ? FIRST_PULSE_ON :
-		//   				((counter < (p1width+delay)) ? FIRST_DELAY :
-		// 				  ((counter < sync_down) ? SECOND_PULSE_ON :
-		// 				  ((counter < cblock_delay) ? POST_PI_PULSE :
-		// 				  ((counter < cblock_on) ? BLOCK_OFF :
-		// 				  ((counter < (cblock_on+1)) ? COUNT_INCREMENT :
-		// 				  ((counter < cdelay) ? BLOCK_ON :
-		// 				  (((counter < pulse_end) && (counter < cpulse)) ? CPMG_PULSE_ON :
-						  
-		// 				  BLOCK_ON)))))));
 		
 		if (counter < 2) begin
 			pulse_state <= FIRST_PULSE_ON;
+			sync_down <= p1width + delay + p2width;
+			nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
+			nutation_pulse_stop <= period - nutation_pulse_delay;
+			
+			cblock_delay <= p1width + delay + p2width + delay - pulse_block;
+			cblock_on <= p1width + delay + p2width + delay - pulse_block + pulse_block_off;
 		end
-		
-		sync_down <= p1width + delay + p2width;
-		first_cycle <= p1width + 3*delay + p2width;
-		pulse_end <= sync_down + (cpmg-1)*(2*delay+p2width);
-		nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
-		nutation_pulse_stop <= period - nutation_pulse_delay;
-		
-		cdelay <= sync_down + 2*(ccount)*delay + (ccount-1)*p2width;
-		cpulse <= (counter < first_cycle) ? sync_down : cdelay + p2width;
-		cblock_delay <= cpulse + delay - pulse_block;
-		cblock_on <= cblock_delay + pulse_block_off;
 
 		sync <= (counter < sync_down) ? 1 : 0;
 
@@ -116,8 +97,6 @@ module pulses(
 				pulse <= pump;
 				inh <= block;
 				A3 <= post_att;
-
-				ccount <= 0;
 
 				if (counter == p1width) begin
 					pulse_state <= FIRST_DELAY;
@@ -161,8 +140,6 @@ module pulses(
 
 				if (counter == cblock_on) begin
 					pulse_state <= FIRST_BLOCK_ON;
-
-					ccount <= (counter < pulse_end) ? ccount+1 : ccount;
 				end
 			end
 
@@ -171,25 +148,10 @@ module pulses(
 				inh <= block;
 				A3 <= post_att;
 
-				if (cpmg > 1) begin
-					if ((counter == cdelay) && (counter < pulse_end)) begin
-						pulse_state <= CPMG_PULSE_ON;
-					end
-				end
 				if (nutation_pulse) begin
 					if (counter == nutation_pulse_start) begin
 						pulse_state <= NUTATION_PULSE_ON;
 					end
-				end
-			end
-
-			CPMG_PULSE_ON: begin
-				pulse <= 1;
-				inh <= block;
-				A3 <= post_att;
-
-				if (counter == cpulse) begin
-					pulse_state <= POST_PI_PULSE;
 				end
 			end
 

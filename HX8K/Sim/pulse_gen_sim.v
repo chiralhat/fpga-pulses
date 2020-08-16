@@ -7,10 +7,10 @@ input clk_pll,
 		 output RS232_Tx, // Transmit pin for the FTDI chip
 		 output Pulse, // Output pin for the switch
 		 output Sync, // Output pin for the SYNC pulse
-		 output FM, // Output pin for the FM pulse
+		//  output FM, // Output pin for the FM pulse
 		 output P2,
-		 output P3,
-		 output P4,
+		//  output P3,
+		//  output P4,
 		 output J1_4,
 		 output J1_5,
 		 output J1_6,
@@ -61,16 +61,17 @@ input clk_pll,
 		 .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
 		 .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
 		 .inhib(P2)
+		//  .test({FM, P3, P4})
 		 );
    // NOSIM2_START
    parameter att_on_val = 7'b1111111;
    parameter att_off_val = 7'b0000000;
    parameter stperiod = 32'd201000; // 1 ms period
    parameter stp1width = 32'd30; // 150 ns
-   parameter stp2width = 32'd60;
+   parameter stp2width = 32'd30;
    parameter stdelay = 32'd200; // 1 us delay
    parameter stpump = 1; // The pump is on by default
-   parameter stcpmg = 5; // Do Hahn echo by default
+   parameter stcpmg = 1; // Do Hahn echo by default
    parameter stblock = 8'd50;
    parameter stblockoff = 16'd100;
 
