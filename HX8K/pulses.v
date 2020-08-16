@@ -78,120 +78,26 @@ module pulses(
 		  
 	if (cpmg > 0) begin
 		
-		if (counter < 2) begin
-			pulse_state <= FIRST_PULSE_ON;
-			sync_down <= p1width + delay + p2width;
-			nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
-			nutation_pulse_stop <= period - nutation_pulse_delay;
+		// if (counter < 2) begin
+		// 	sync_down <= p1width + delay + p2width;
+		// 	nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
+		// 	nutation_pulse_stop <= period - nutation_pulse_delay;
 			
-			// cblock_delay <= p1width + delay + p2width + delay - pulse_block;
-			// cblock_on <= p1width + delay + p2width + delay - pulse_block + pulse_block_off;
-		end
+		// 	// cblock_delay <= p1width + delay + p2width + delay - pulse_block;
+		// 	// cblock_on <= p1width + delay + p2width + delay - pulse_block + pulse_block_off;
+		// end
+		pulse <= (counter < p1width) ? pump : // Switch pulse goes up at 0 if the pump is on
+      		     ((counter < (p1width+delay)) ? 0 : // then down after p1width
+      		      ((counter < (p1width+delay+p2width)) ? 1 : 0));
+		
+		inh <= ((counter < (p1width + delay + p2width + delay - pulse_block)) || (counter > (p1width + delay + p2width + delay - pulse_block + pulse_block_off))) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 
 		sync <= (counter < sync_down) ? 1 : 0;
-
-		case (pulse_state)
-
-			FIRST_PULSE_ON: begin
-				// sync <= 1;
-				pulse <= pump;
-				inh <= block;
-				// A3 <= post_att;
-
-				if (counter == p1width) begin
-					pulse_state <= FIRST_DELAY;
-				end
-			end
-
-			FIRST_DELAY: begin
-				pulse <= 0;
-				inh <= block;
-				// A3 <= post_att;
-
-				if (counter == (p1width+delay)) begin
-					pulse_state <= SECOND_PULSE_ON;
-				end
-			end
-
-			SECOND_PULSE_ON: begin
-				pulse <= 1;
-				inh <= block;
-				// A3 <= post_att;
-
-				if (counter == sync_down) begin
-					pulse_state <= POST_PI_PULSE;
-				end
-			end
-
-			POST_PI_PULSE: begin
-				pulse <= 0;
-				inh <= block;
-				// A3 <= post_att;
-
-				if (counter == (p1width + delay + p2width + delay - pulse_block)) begin
-					pulse_state <= FIRST_BLOCK_OFF;
-				end
-			end
-
-			FIRST_BLOCK_OFF: begin
-				pulse <= 0;
-				inh <= 0;
-				// A3 <= 0;
-
-				if (counter == (p1width + delay + p2width + delay - pulse_block + pulse_block_off)) begin
-					pulse_state <= FIRST_BLOCK_ON;
-				end
-			end
-
-			FIRST_BLOCK_ON: begin
-				pulse <= 0;
-				inh <= block;
-				// A3 <= post_att;
-
-				if (nutation_pulse) begin
-					if (counter == nutation_pulse_start) begin
-						pulse_state <= NUTATION_PULSE_ON;
-					end
-				end
-			end
-
-			NUTATION_PULSE_ON: begin
-				pulse <= 1;
-				inh <= block;
-				// A3 <= post_att;
-
-				if (counter == nutation_pulse_stop) begin
-					pulse_state <= FIRST_BLOCK_ON;
-				end
-			end
-
-		endcase
 		
 		// A1 <= pre_att;
 		// A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 		
 		counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
-
-
-		// if (counter < (first_cycle-32'd10)) begin
-		// 	sync_down = cpulse;
-
-		// 	ccount = 8'd1;
-		// // end else if (counter > cpulse) begin
-		// // 	if (ccount < cpmg) begin
-		// // 		cdelay = cpulse + 2*delay;
-		// // 		cpulse = cdelay + p2width;
-		// // 	end
-		// end else if (counter < cblock_on) begin
-		// 	change_pulse = 1;
-		// end else if (counter > cblock_on) begin // This doesn't work right
-		// 	if (((ccount) < cpmg) && change_pulse) begin
-		// 		// cblock_delay = cpulse + pulse_block;
-		// 		// cblock_on = cblock_delay + pulse_block_off;
-		// 		ccount = ccount + 8'd1;
-		// 		change_pulse = 0;
-		// 	end
-		// end
 	end else begin
 		pulse <= 1;
 		sync <= (counter < (period - 50)) ? 0 : 1;

@@ -57,7 +57,7 @@ module pulse_gen(
 
    // Setting up communications with LabView over USB
    pulse_control control(
-   			 .clk(clk),
+   			 .clk(clk_pll),
    			 .RS232_Rx(RS232_Rx),
    			 .RS232_Tx(RS232_Tx),
    			 .pu(pump),
