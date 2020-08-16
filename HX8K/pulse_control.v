@@ -10,7 +10,7 @@ module pulse_control(
 		     output [31:0] p2wid,
 		     // output [6:0]  pr_att,
                //       output [6:0]  po_att,
-                     output [7:0]  cp,
+                     output         cp,
                      output [7:0]  p_bl,
                      output [15:0] p_bl_off,
 		     output 	   bl

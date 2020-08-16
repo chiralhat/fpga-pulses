@@ -14,17 +14,27 @@ module pulses(
 	       */
 	      input 	   clk_pll, // The 200 MHz clock
 	    //   input 	   reset, // Used only in simulation
-	      input 	   pump, // First pulse on (1) or off (0), set by LabView (LV)
-	      input [31:0] period, // Duty cycle (LV)
-	      input [31:0] p1width, // Width of the first pulse (LV)
-	      input [31:0] delay, // Delay between main pulses (LV)
-	      input [31:0] p2width, // Width of the second pulse (LV)
-	    //   input [6:0]  pre_att, // Attenuation for pump pulse (LV)
-	    //   input [6:0]  post_att, // Attenuation for second attenuator (LV)
-	      input [7:0]  cpmg, // Set mode to CW (0), Hahn echo (1), or CPMG (>1) (LV)
-	      input [7:0]  pulse_block, // Time after the second pulse to keep the block switch closed (LV)
-	      input [15:0] pulse_block_off, // Width of the signal window when we open the block switch (LV)
-	      input 	   block, // Blocking on (1) or off (0) (LV)
+	      input 	   pu, // First pulse on (1) or off (0), set by LabView (LV)
+	      input [31:0] per,
+		     input [31:0] p1wid,
+		     input [31:0] del,
+		     input [31:0] p2wid,
+		     // input [6:0]  pr_att,
+               //       input [6:0]  po_att,
+                     input         cp,
+                     input [7:0]  p_bl,
+                     input [15:0] p_bl_off,
+		     input 	   bl,
+		// 	 input [31:0] period, // Duty cycle (LV)
+	    //   input [31:0] p1width, // Width of the first pulse (LV)
+	    //   input [31:0] delay, // Delay between main pulses (LV)
+	    //   input [31:0] p2width, // Width of the second pulse (LV)
+	    // //   input [6:0]  pre_att, // Attenuation for pump pulse (LV)
+	    // //   input [6:0]  post_att, // Attenuation for second attenuator (LV)
+	    //   input 	  cpmg, // Set mode to CW (0), Hahn echo (1) (LV)
+	    //   input [7:0]  pulse_block, // Time after the second pulse to keep the block switch closed (LV)
+	    //   input [15:0] pulse_block_off, // Width of the signal window when we open the block switch (LV)
+	    //   input 	   block, // Blocking on (1) or off (0) (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
 	      output 	   pulse_on, // Wire for switch pulse
 	    //   output [6:0] Att1, // Wires for main attenuator
@@ -51,6 +61,13 @@ module pulses(
 	reg [31:0]  nutation_pulse_delay = 32'd300;
 	reg [31:0]  nutation_pulse_start;
 	reg [31:0]  nutation_pulse_stop;
+
+	reg [1:0] xfer_period;
+	reg [1:0] xfer_p1width;
+	reg [1:0] xfer_p2width;
+	reg [1:0] xfer_delay;
+	reg [1:0] xfer_pulse_block;
+	reg [1:0] xfer_pulse_block_off;
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
@@ -77,6 +94,12 @@ module pulses(
     //   if (!reset) begin
 		  
 	if (cpmg > 0) begin
+		{ period, xfer_period } <= { xfer_period, per };
+		{ p1width, xfer_p1width } <= { xfer_p1width, p1wid };
+		{ p2width, xfer_p2width } <= { xfer_p2width, p2wid };
+		{ delay, xfer_delay } <= { xfer_delay, del };
+		{ pulse_block, xfer_pulse_block } <= { xfer_pulse_block, p_bl };
+		{ pulse_block_off, xfer_pulse_block_off } <= { xfer_pulse_block_off, p_bl_off };
 		
 		// if (counter < 2) begin
 		// 	sync_down <= p1width + delay + p2width;
