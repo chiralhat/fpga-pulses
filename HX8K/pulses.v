@@ -14,17 +14,18 @@ module pulses(
 	       */
 	      input 	   clk_pll, // The 200 MHz clock
 	      input 	   reset, // Used only in simulation
-	      input 	   pump, // First pulse on (1) or off (0), set by LabView (LV)
+	      input 	   pu, // First pulse on (1) or off (0), set by LabView (LV)
 	      input [31:0] per,
 		     input [31:0] p1wid,
 		     input [31:0] del,
 		     input [31:0] p2wid,
 		     // input [6:0]  pr_att,
                //       input [6:0]  po_att,
-                     input         cpmg,
+                     input         cp,
                      input [7:0]  p_bl,
                      input [15:0] p_bl_off,
 		     input 	   block,
+			 input		rxd,
 		// 	 input [31:0] period, // Duty cycle (LV)
 	    //   input [31:0] p1width, // Width of the first pulse (LV)
 	    //   input [31:0] delay, // Delay between main pulses (LV)
@@ -64,11 +65,9 @@ module pulses(
    reg [31:0] 			   p2width = stp2width;
    reg [7:0] 			   pulse_block = 8'd50;
    reg [15:0] 			   pulse_block_off = stblock;
-
-	reg [31:0]	sync_down = 32'd50;
-	reg [31:0]  first_cycle = 32'd100;
-	reg [31:0]  pulse_end;
-	reg [3:0]   pulse_state = 1;
+   reg 						rx_done = 0;
+   reg cpmg = 1;
+   reg pump = 1;
 
 	reg  		nutation_pulse = 0;
 	reg [31:0]  nutation_pulse_width = 32'd50;
@@ -76,12 +75,7 @@ module pulses(
 	reg [31:0]  nutation_pulse_start;
 	reg [31:0]  nutation_pulse_stop;
 
-	reg [31:0] xfer_period = stperiod;
-	reg [31:0] xfer_p1width = stp1width;
-	reg [31:0] xfer_p2width = stp2width;
-	reg [31:0] xfer_delay = stdelay;
-	reg [7:0] xfer_pulse_block = 8'd50;
-	reg [15:0] xfer_pulse_block_off = stblock;
+	reg [1:0] xfer_bits = 0;
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
@@ -106,14 +100,20 @@ module pulses(
     */
    always @(posedge clk_pll) begin
       if (!reset) begin
+		  { rx_done, xfer_bits } <= { xfer_bits, rxd };
+
+		if (rx_done) begin
+			pump = pu;
+			period  <= per;
+			p1width <= p1wid;
+			p2width <= p2wid;
+			delay <= del;
+			pulse_block <= p_bl;
+			pulse_block_off <= p_bl_off;
+			cpmg = cp;
+		end
 		  
 	if (cpmg > 0) begin
-		{ period, xfer_period } <= { xfer_period, per };
-		{ p1width, xfer_p1width } <= { xfer_p1width, p1wid };
-		{ p2width, xfer_p2width } <= { xfer_p2width, p2wid };
-		{ delay, xfer_delay } <= { xfer_delay, del };
-		{ pulse_block, xfer_pulse_block } <= { xfer_pulse_block, p_bl };
-		{ pulse_block_off, xfer_pulse_block_off } <= { xfer_pulse_block_off, p_bl_off };
 		
 		// if (counter < 2) begin
 		// 	sync_down <= p1width + delay + p2width;
@@ -129,7 +129,7 @@ module pulses(
 		
 		inh <= ((counter < (p1width + delay + p2width + delay - pulse_block)) || (counter > (p1width + delay + p2width + delay - pulse_block + pulse_block_off))) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 
-		sync <= (counter < sync_down) ? 1 : 0;
+		sync <= (counter < (p1width + delay + p2width)) ? 1 : 0;
 		
 		// A1 <= pre_att;
 		// A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
@@ -142,7 +142,6 @@ module pulses(
       end // if (!reset)
       else begin
 	 counter <= 0;
-	 pulse_state <= 0;
       end
 
    end // always @ (posedge clk_pll)

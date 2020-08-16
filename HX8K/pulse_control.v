@@ -13,7 +13,8 @@ module pulse_control(
                      output         cp,
                      output [7:0]  p_bl,
                      output [15:0] p_bl_off,
-		     output 	   bl
+		     output 	   bl,
+			 output			rxd
 		     );
 
    // Control the pulses
@@ -38,6 +39,7 @@ module pulse_control(
    reg [15:0] 			   pulse_block_off = stblock;
    reg     			   cpmg = stcpmg;
    reg 				   block = 1;
+   reg 					rx_done = 0;
    
    // Control the attenuators
 //    parameter att_pre_val = 7'd1;
@@ -56,6 +58,7 @@ module pulse_control(
    assign p_bl = pulse_block;
    assign p_bl_off = pulse_block_off;
    assign bl = block;
+   assign rxd = rx_done;
    
    // Setup necessary for UART
    wire 			   reset = 0;
@@ -195,6 +198,7 @@ module pulse_control(
            case (writestate)
 
 	     write_A: begin
+			 rx_done = 1;
 		if (~ is_transmitting) begin
 		   transmit <= 1;
 		   writestate  <= write_done;
@@ -204,6 +208,7 @@ module pulse_control(
 	     end
 
 	     write_done: begin
+			 rx_done = 0;
 		if (~ is_transmitting) begin
 		   writestate <= write_A; 
 		   state     <= STATE_RECEIVING;
