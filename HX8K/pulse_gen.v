@@ -34,7 +34,7 @@ module pulse_gen(
    wire 		block;
    wire [7:0] 		pulse_block;
    wire [15:0] 		pulse_block_off;
-   wire [7:0] 		cpmg;
+   wire 	 		cpmg;
    
 //    wire [6:0] 		pre_att;
 //    wire [6:0] 		post_att;
@@ -77,18 +77,18 @@ module pulse_gen(
    // Generating the necessary pulses
    pulses pulses(
 		 .clk_pll(clk_pll),
-		//  .reset(resetn),
-		 .pu(pump),
+		 .reset(resetn),
+		 .pump(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
 		.p2wid(p2width),
 	//  .pr_att(pre_att),
 	//  .po_att(post_att),
-		.cp(cpmg),
+		.cpmg(cpmg),
 		.p_bl(pulse_block),
 		.p_bl_off(pulse_block_off),
-		.bl(block),
+		.block(block),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
 		//  .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),

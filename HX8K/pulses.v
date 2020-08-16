@@ -13,18 +13,18 @@ module pulses(
 	       Inputs are 'pum
 	       */
 	      input 	   clk_pll, // The 200 MHz clock
-	    //   input 	   reset, // Used only in simulation
-	      input 	   pu, // First pulse on (1) or off (0), set by LabView (LV)
+	      input 	   reset, // Used only in simulation
+	      input 	   pump, // First pulse on (1) or off (0), set by LabView (LV)
 	      input [31:0] per,
 		     input [31:0] p1wid,
 		     input [31:0] del,
 		     input [31:0] p2wid,
 		     // input [6:0]  pr_att,
                //       input [6:0]  po_att,
-                     input         cp,
+                     input         cpmg,
                      input [7:0]  p_bl,
                      input [15:0] p_bl_off,
-		     input 	   bl,
+		     input 	   block,
 		// 	 input [31:0] period, // Duty cycle (LV)
 	    //   input [31:0] p1width, // Width of the first pulse (LV)
 	    //   input [31:0] delay, // Delay between main pulses (LV)
@@ -49,8 +49,13 @@ module pulses(
 //    reg [6:0] 		   A3;
    reg 			   inh;
    reg 			   rec = 0;
-   reg [31:0] 		   cblock_delay = 32'd310; // When to stop blocking before the next return signal
-   reg [31:0] 		   cblock_on; // When to start blocking after the next return signal
+   reg [31:0] 			   period;
+   reg [31:0] 			   p1width;
+   reg [31:0] 			   delay;
+   reg [31:0] 			   p2width;
+   reg [7:0] 			   pulse_block;
+   reg [15:0] 			   pulse_block_off;
+
 	reg [31:0]	sync_down = 32'd50;
 	reg [31:0]  first_cycle = 32'd100;
 	reg [31:0]  pulse_end;
@@ -91,7 +96,7 @@ module pulses(
    /* The main loops runs on the 200 MHz PLL clock.
     */
    always @(posedge clk_pll) begin
-    //   if (!reset) begin
+      if (!reset) begin
 		  
 	if (cpmg > 0) begin
 		{ period, xfer_period } <= { xfer_period, per };
@@ -125,11 +130,11 @@ module pulses(
 		pulse <= 1;
 		sync <= (counter < (period - 50)) ? 0 : 1;
 	end
-    //   end // if (!reset)
-    //   else begin
-	//  counter <= 0;
-	//  pulse_state <= 0;
-    //   end
+      end // if (!reset)
+      else begin
+	 counter <= 0;
+	 pulse_state <= 0;
+      end
 
    end // always @ (posedge clk_pll)
 endmodule // pulses

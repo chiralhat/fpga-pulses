@@ -36,7 +36,7 @@ module pulse_control(
    reg [31:0] 			   p2width = stp2width;
    reg [7:0] 			   pulse_block = 8'd50;
    reg [15:0] 			   pulse_block_off = stblock;
-   reg [7:0] 			   cpmg = stcpmg;
+   reg     			   cpmg = stcpmg;
    reg 				   block = 1;
    
    // Control the attenuators
@@ -177,7 +177,7 @@ module pulse_control(
 	     end
 
 	     CONT_SET_CPMG: begin
-		cpmg <= vinput[7:0];
+		cpmg <= vinput[0];
 	     end
 
 	     // CONT_SET_ATT: begin
