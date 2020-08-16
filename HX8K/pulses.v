@@ -49,12 +49,21 @@ module pulses(
 //    reg [6:0] 		   A3;
    reg 			   inh;
    reg 			   rec = 0;
-   reg [31:0] 			   period;
-   reg [31:0] 			   p1width;
-   reg [31:0] 			   delay;
-   reg [31:0] 			   p2width;
-   reg [7:0] 			   pulse_block;
-   reg [15:0] 			   pulse_block_off;
+   // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
+   // All the times are thus divided by 4.975 ns to get cycles.
+   // 32-bit allows times up to 21 seconds
+   parameter stperiod = 32'd201000; // 1 ms period
+   parameter stp1width = 32'd30; // 150 ns
+   parameter stp2width = 32'd30;
+   parameter stdelay = 32'd200; // 1 us delay
+   parameter stblock = 16'd100; // 500 ns block open
+
+   reg [31:0] 			   period = stperiod;
+   reg [31:0] 			   p1width = stp1width;
+   reg [31:0] 			   delay = stdelay;
+   reg [31:0] 			   p2width = stp2width;
+   reg [7:0] 			   pulse_block = 8'd50;
+   reg [15:0] 			   pulse_block_off = stblock;
 
 	reg [31:0]	sync_down = 32'd50;
 	reg [31:0]  first_cycle = 32'd100;
@@ -67,12 +76,12 @@ module pulses(
 	reg [31:0]  nutation_pulse_start;
 	reg [31:0]  nutation_pulse_stop;
 
-	reg [1:0] xfer_period;
-	reg [1:0] xfer_p1width;
-	reg [1:0] xfer_p2width;
-	reg [1:0] xfer_delay;
-	reg [1:0] xfer_pulse_block;
-	reg [1:0] xfer_pulse_block_off;
+	reg [31:0] xfer_period = stperiod;
+	reg [31:0] xfer_p1width = stp1width;
+	reg [31:0] xfer_p2width = stp2width;
+	reg [31:0] xfer_delay = stdelay;
+	reg [7:0] xfer_pulse_block = 8'd50;
+	reg [15:0] xfer_pulse_block_off = stblock;
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
