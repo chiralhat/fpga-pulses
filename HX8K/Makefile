@@ -30,7 +30,7 @@ simclean:
 
 all: clean
 	$(SYN) -p "synth_ice40 -json $(TARGET).json" $(TARGET).v icepll.v uart.v $(PULSEV) $(CONTROLV) > make.log
-	$(LDL) $(PNR) --freq 101 --hx8k --pcf icebox.pcf --json $(TARGET).json --asc $(TARGET).asc 2> pnr.log
+	$(LDL) $(PNR) --pre-pack clk_constraint.py --hx8k --pcf icebox.pcf --json $(TARGET).json --asc $(TARGET).asc 2> pnr.log
 	$(GEN) $(TARGET).asc hardware.bin
 
 sim: simclean

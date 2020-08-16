@@ -8,8 +8,8 @@ module pulse_control(
 		     output [31:0] p1wid,
 		     output [31:0] del,
 		     output [31:0] p2wid,
-		     output [6:0]  pr_att,
-                     output [6:0]  po_att,
+		     // output [6:0]  pr_att,
+               //       output [6:0]  po_att,
                      output [7:0]  cp,
                      output [7:0]  p_bl,
                      output [15:0] p_bl_off,
@@ -40,18 +40,18 @@ module pulse_control(
    reg 				   block = 1;
    
    // Control the attenuators
-   parameter att_pre_val = 7'd1;
-   parameter att_post_val = 7'd0;
-   reg [6:0] 			   pre_att = att_pre_val;
-   reg [6:0] 			   post_att = att_post_val;
+//    parameter att_pre_val = 7'd1;
+//    parameter att_post_val = 7'd0;
+//    reg [6:0] 			   pre_att = att_pre_val;
+//    reg [6:0] 			   post_att = att_post_val;
 
    assign per = period;
    assign p1wid = p1width;
    assign p2wid = p2width;
    assign del = delay;
    assign pu = pump;
-   assign pr_att = pre_att;
-   assign po_att = post_att;
+//    assign pr_att = pre_att;
+//    assign po_att = post_att;
    assign cp = cpmg;
    assign p_bl = pulse_block;
    assign p_bl_off = pulse_block_off;
@@ -180,10 +180,10 @@ module pulse_control(
 		cpmg <= vinput[7:0];
 	     end
 
-	     CONT_SET_ATT: begin
-		pre_att <= vinput[7:0];
-		post_att <= vinput[15:8];
-	     end
+	     // CONT_SET_ATT: begin
+		// pre_att <= vinput[7:0];
+		// post_att <= vinput[15:8];
+	     // end
 	     
 	   endcase // case (vcontrol)
 	   state <= STATE_SENDING;

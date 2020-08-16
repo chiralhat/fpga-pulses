@@ -23,7 +23,7 @@ SB_PLL40_CORE icepll_inst(.REFERENCECLK(REFERENCECLK),
                           .SDO(),
                           .SCLK());
 
-//\\ Fin=12, Fout=201;
+//\\ Fin=12, Fout=201; Fout=Fref*(divf+1)/(2^divq*(divr+1))
 defparam icepll_inst.DIVR = 4'b0000;
 defparam icepll_inst.DIVF = 7'b1000010;
 defparam icepll_inst.DIVQ = 3'b010;

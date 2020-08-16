@@ -7,23 +7,23 @@ module pulse_gen(
 		 output Pulse, // Output pin for the switch
 		 output Sync, // Output pin for the SYNC pulse
 		//  output FM, // Output pin for the FM pulse
-		 output P2,
+		 output P2
 		//  output P3,
 		//  output P4,
-		 output J1_4,
-		 output J1_5,
-		 output J1_6,
-		 output J1_7,
-		 output J1_8,
-		 output J1_9,
-		 output J1_10,
-		 output J4_3,
-		 output J4_4,
-		 output J4_5,
-		 output J4_6,
-		 output J4_7,
-		 output J4_8,
-		 output J4_9
+		//  output J1_4,
+		//  output J1_5,
+		//  output J1_6,
+		//  output J1_7,
+		//  output J1_8,
+		//  output J1_9,
+		//  output J1_10,
+		//  output J4_3,
+		//  output J4_4,
+		//  output J4_5,
+		//  output J4_6,
+		//  output J4_7,
+		//  output J4_8,
+		//  output J4_9
 		 );
 
    wire [31:0] 		period;
@@ -36,8 +36,8 @@ module pulse_gen(
    wire [15:0] 		pulse_block_off;
    wire [7:0] 		cpmg;
    
-   wire [6:0] 		pre_att;
-   wire [6:0] 		post_att;
+//    wire [6:0] 		pre_att;
+//    wire [6:0] 		post_att;
 
    // NOSIM_START
    wire 		clk_pll;
@@ -65,8 +65,8 @@ module pulse_gen(
    			 .p1wid(p1width),
    			 .del(delay),
    			 .p2wid(p2width),
-   			 .pr_att(pre_att),
-   			 .po_att(post_att),
+   			//  .pr_att(pre_att),
+   			//  .po_att(post_att),
 			 .cp(cpmg),
 			 .p_bl(pulse_block),
 			 .p_bl_off(pulse_block_off),
@@ -77,22 +77,22 @@ module pulse_gen(
    // Generating the necessary pulses
    pulses pulses(
 		 .clk_pll(clk_pll),
-		 .reset(resetn),
+		//  .reset(resetn),
 		 .pump(pump),
 		 .period(period),
 		 .p1width(p1width),
 		 .delay(delay),
 		 .p2width(p2width),
-		 .pre_att(pre_att),
-		 .post_att(post_att),
+		//  .pre_att(pre_att),
+		//  .post_att(post_att),
 		 .pulse_block(pulse_block),
 		 .pulse_block_off(pulse_block_off),
 		 .cpmg(cpmg),
 		 .block(block),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
-		 .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
-		 .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
+		//  .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
+		//  .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
 		 .inhib(P2)
 		//  .test({FM, P3, P4})
 		 );
