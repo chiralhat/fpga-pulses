@@ -6,7 +6,6 @@
 SYN = yosys
 PNR = nextpnr-ice40
 GEN = icepack
-LDL = LD_LIBRARY_PATH=/home/denji/anaconda3/lib/
 
 TARGET = pulse_gen
 SIMTARGET = Sim/pulse_gen_sim
@@ -30,7 +29,7 @@ simclean:
 
 all: clean
 	$(SYN) -p "synth_ice40 -json $(TARGET).json" $(TARGET).v icepll.v uart.v $(PULSEV) $(CONTROLV) > make.log
-	$(LDL) $(PNR) --pre-pack clk_constraint.py --hx8k --pcf icebox.pcf --json $(TARGET).json --asc $(TARGET).asc 2> pnr.log
+	$(PNR) --pre-pack clk_constraint.py --hx8k --pcf icebox.pcf --json $(TARGET).json --asc $(TARGET).asc 2> pnr.log
 	$(GEN) $(TARGET).asc hardware.bin
 
 sim: simclean

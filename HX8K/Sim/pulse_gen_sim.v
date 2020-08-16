@@ -27,15 +27,16 @@ input clk_pll,
 		//  output J4_9
 		 );
 
-   reg [31:0] 		period;
-   reg [31:0] 		p1width;
-   reg [31:0] 		delay;
-   reg [31:0] 		p2width;
-   reg 		pump;
+   reg [7:0] 		period;
+   reg [15:0] 		p1width;
+   reg [15:0] 		delay;
+   reg [15:0] 		p2width;
+//    reg 		pump;
    reg 		block;
    reg [7:0] 		pulse_block;
-   reg [15:0] 		pulse_block_off;
+//    reg [15:0] 		pulse_block_off;
    reg 	 		cpmg;
+   reg				rx_done;
    
 //    reg [6:0] 		pre_att;
 //    reg [6:0] 		post_att;
@@ -45,17 +46,18 @@ input clk_pll,
    pulses pulses(
 		 .clk_pll(clk_pll),
 		 .reset(resetn),
-		 .pump(pump),
+		//  .pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
 		.p2wid(p2width),
 	//  .pr_att(pre_att),
 	//  .po_att(post_att),
-		.cpmg(cpmg),
+		.cp(cpmg),
 		.p_bl(pulse_block),
-		.p_bl_off(pulse_block_off),
-		.block(block),
+		// .p_bl_off(pulse_block_off),
+		.bl(block),
+		 .rxd(rx_done),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
 		//  .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
@@ -66,25 +68,25 @@ input clk_pll,
    // NOSIM2_START
    parameter att_on_val = 7'b1111111;
    parameter att_off_val = 7'b0000000;
-   parameter stperiod = 32'd201000; // 1 ms period
-   parameter stp1width = 32'd30; // 150 ns
-   parameter stp2width = 32'd30;
-   parameter stdelay = 32'd200; // 1 us delay
+   parameter stperiod = 1; // 1 ms period
+   parameter stp1width = 30; // 150 ns
+   parameter stp2width = 30;
+   parameter stdelay = 200; // 1 us delay
    parameter stpump = 1; // The pump is on by default
    parameter stcpmg = 1; // Do Hahn echo by default
-   parameter stblock = 8'd50;
-   parameter stblockoff = 16'd100;
+   parameter stblock = 50;
+   parameter stblockoff = 100;
 
    // Initialize pulse values
    always @(posedge clk) begin
       if (resetn) begin
-    	 pump = stpump;
+    	 // pump = stpump;
 	 period = stperiod;
     	 p1width = stp1width;
     	 delay = stdelay;
     	 p2width = stp2width;
 	 pulse_block = stblock;
-	 pulse_block_off = stblockoff;
+	 // pulse_block_off = stblockoff;
 	 block = 1;
 	 cpmg = stcpmg;
       end // if (reset)

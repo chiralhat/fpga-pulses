@@ -12,7 +12,7 @@ module pulse_control(
                //       output [6:0]  po_att,
                      output         cp,
                      output [7:0]  p_bl,
-                     output [15:0] p_bl_off,
+                    //  output [15:0] p_bl_off,
 		     output 	   bl,
 			 output			rxd
 		     );
@@ -22,21 +22,21 @@ module pulse_control(
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-   parameter stperiod = 32'd201000; // 1 ms period
-   parameter stp1width = 32'd30; // 150 ns
-   parameter stp2width = 32'd30;
-   parameter stdelay = 32'd200; // 1 us delay
-   parameter stblock = 16'd100; // 500 ns block open
+   parameter stperiod = 1; // 1 ms period
+   parameter stp1width = 30; // 150 ns
+   parameter stp2width = 30;
+   parameter stdelay = 200; // 1 us delay
+//    parameter stblock = 100; // 500 ns block open
    parameter stpump = 1; // The pump is on by default
    parameter stcpmg = 1; // Do Hahn echo by default
    
    reg 				   pump = stpump;
-   reg [31:0] 			   period = stperiod;
-   reg [31:0] 			   p1width = stp1width;
-   reg [31:0] 			   delay = stdelay;
-   reg [31:0] 			   p2width = stp2width;
+   reg [7:0] 			   period = stperiod;
+   reg [15:0] 			   p1width = stp1width;
+   reg [15:0] 			   delay = stdelay;
+   reg [15:0] 			   p2width = stp2width;
    reg [7:0] 			   pulse_block = 8'd50;
-   reg [15:0] 			   pulse_block_off = stblock;
+//    reg [15:0] 			   pulse_block_off = stblock;
    reg     			   cpmg = stcpmg;
    reg 				   block = 1;
    reg 					rx_done = 0;
@@ -56,7 +56,7 @@ module pulse_control(
 //    assign po_att = post_att;
    assign cp = cpmg;
    assign p_bl = pulse_block;
-   assign p_bl_off = pulse_block_off;
+//    assign p_bl_off = pulse_block_off;
    assign bl = block;
    assign rxd = rx_done;
    
@@ -157,26 +157,26 @@ module pulse_control(
 	   case (vcontrol)
 
 	     CONT_SET_DELAY: begin
-		delay <= vinput;
+		delay <= vinput[15:0];
 	     end
 
 	     CONT_SET_PERIOD: begin
-		period <= vinput;
+		period <= vinput[7:0];
 	     end
 
 	     CONT_SET_PULSE1: begin
-		p1width <= vinput;
+		p1width <= vinput[15:0];
 	     end
 
 	     CONT_SET_PULSE2: begin
-		p2width <= vinput;
+		p2width <= vinput[15:0];
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
 		pump <= vinput[0];
 		block <= vinput[1];
 		pulse_block <= vinput[15:8];
-		pulse_block_off <= vinput[31:16];
+		// pulse_block_off <= vinput[31:16];
 	     end
 
 	     CONT_SET_CPMG: begin

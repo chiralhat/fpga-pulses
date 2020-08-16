@@ -26,14 +26,14 @@ module pulse_gen(
 		//  output J4_9
 		 );
 
-   wire [31:0] 		period;
-   wire [31:0] 		p1width;
-   wire [31:0] 		delay;
-   wire [31:0] 		p2width;
+   wire [7:0] 		period;
+   wire [15:0] 		p1width;
+   wire [15:0] 		delay;
+   wire [15:0] 		p2width;
    wire 		pump;
    wire 		block;
    wire [7:0] 		pulse_block;
-   wire [15:0] 		pulse_block_off;
+//    wire [15:0] 		pulse_block_off;
    wire 	 		cpmg;
    wire				rx_done;
    
@@ -48,12 +48,17 @@ module pulse_gen(
    // Setting the PLL to output a 201 MHz clock, based on code from
    // https://gist.github.com/thoughtpolice/8ec923e1b3fc4bb12c11aa23b4dc53b5#file-ice40-v
    // Note: These values are slightly different from those outputted by icepll
-   icepll pll(
-	      .REFERENCECLK(clk),
-              .PLLOUTCORE(clk_pll),
-              .PLLOUTGLOBAL(clk_pll_gl),
-              .RESET(!resetn),
-	      .LOCK(lock)
+//    icepll pll(
+// 	      .REFERENCECLK(clk),
+//               .PLLOUTCORE(clk_pll),
+//               .PLLOUTGLOBAL(clk_pll_gl),
+//               .RESET(!resetn),
+// 	      .LOCK(lock)
+// 	      );
+	pll icepll(
+	      .clock_in(clk),
+              .clock_out(clk_pll),
+	      .locked(lock)
 	      );
 
    // Setting up communications with LabView over USB
@@ -70,7 +75,7 @@ module pulse_gen(
    			//  .po_att(post_att),
 			 .cp(cpmg),
 			 .p_bl(pulse_block),
-			 .p_bl_off(pulse_block_off),
+			//  .p_bl_off(pulse_block_off),
 			 .bl(block),
 			 .rxd(rx_done)
    			 );
@@ -89,8 +94,8 @@ module pulse_gen(
 	//  .po_att(post_att),
 		.cp(cpmg),
 		.p_bl(pulse_block),
-		.p_bl_off(pulse_block_off),
-		.block(block),
+		// .p_bl_off(pulse_block_off),
+		.bl(block),
 		 .rxd(rx_done),
 		 .sync_on(Sync),
 		 .pulse_on(Pulse),
