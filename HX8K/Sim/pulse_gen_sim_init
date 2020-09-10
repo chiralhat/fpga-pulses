@@ -1,0 +1,27 @@
+   parameter att_on_val = 7'b1111111;
+   parameter att_off_val = 7'b0000000;
+   parameter stperiod = 1; // 1 ms period
+   parameter stp1width = 30; // 150 ns
+   parameter stp2width = 30;
+   parameter stdelay = 200; // 1 us delay
+   parameter stpump = 1; // The pump is on by default
+   parameter stcpmg = 1; // Do Hahn echo by default
+   parameter stblock = 50;
+   parameter stblockoff = 100;
+
+   // Initialize pulse values
+   always @(posedge clk) begin
+      if (resetn) begin
+    	 pump = stpump;
+	 period = stperiod;
+    	 p1width = stp1width;
+    	 delay = stdelay;
+    	 p2width = stp2width;
+	 pulse_block = stblock;
+	 // pulse_block_off = stblockoff;
+	 block = 1;
+	 cpmg = stcpmg;
+      end // if (reset)
+   end // always @ (posedge clk)
+
+endmodule // pulse_gen_sim
