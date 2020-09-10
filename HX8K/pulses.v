@@ -54,7 +54,7 @@ module pulses(
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-   parameter stperiod = 1; // 1 ms period
+   parameter stperiod = 15; // 1 ms period
    parameter stp1width = 30; // 150 ns
    parameter stp2width = 30;
    parameter stdelay = 200; // 1 us delay
