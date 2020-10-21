@@ -1,123 +1,127 @@
 `default_nettype none
 module pulse_control(
-		     input 	   clk,
-		     input 	   RS232_Rx,
-		     output 	   RS232_Tx,
-		     output 	   pu,
-		     output [31:0] per,
-		     output [31:0] p1wid,
-		     output [31:0] del,
-		     output [31:0] p2wid,
-		     // output [6:0]  pr_att,
-               //       output [6:0]  po_att,
-                     output         cp,
-                     output [7:0]  p_bl,
-                    //  output [15:0] p_bl_off,
-		     output 	   bl,
-			 output			rxd
-		     );
+	input 	   clk,
+	input 	   RS232_Rx,
+	output 	   RS232_Tx,
+	output 	   pu,
+	output [31:0] per,
+	output [31:0] p1wid,
+	output [31:0] del,
+	output [31:0] p2wid,
+	output [31:0] nut_w,
+	output [31:0] nut_d,
+	// output [6:0]  pr_att,
+	//       output [6:0]  po_att,
+		 output         cp,
+		 output [7:0]  p_bl,
+		output [15:0] p_bl_off,
+	output 	   bl,
+	output			rxd
+	);
 
    // Control the pulses
 
-   // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
-   // All the times are thus divided by 4.975 ns to get cycles.
-   // 32-bit allows times up to 21 seconds
-   parameter stperiod = 15; // 1 ms period
-   parameter stp1width = 30; // 150 ns
-   parameter stp2width = 30;
-   parameter stdelay = 200; // 1 us delay
-//    parameter stblock = 100; // 500 ns block open
-   parameter stpump = 1; // The pump is on by default
-   parameter stcpmg = 1; // Do Hahn echo by default
-   
-   reg 				   pump = stpump;
-   reg [7:0] 			   period = stperiod;
-   reg [15:0] 			   p1width = stp1width;
-   reg [15:0] 			   delay = stdelay;
-   reg [15:0] 			   p2width = stp2width;
-   reg [7:0] 			   pulse_block = 8'd50;
-//    reg [15:0] 			   pulse_block_off = stblock;
-   reg     			   cpmg = stcpmg;
-   reg 				   block = 1;
-   reg 					rx_done = 0;
-   
-   // Control the attenuators
-//    parameter att_pre_val = 7'd1;
-//    parameter att_post_val = 7'd0;
-//    reg [6:0] 			   pre_att = att_pre_val;
-//    reg [6:0] 			   post_att = att_post_val;
+	// Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
+	// All the times are thus divided by 4.975 ns to get cycles.
+	// 32-bit allows times up to 21 seconds
+	parameter stperiod = 15; // 1 ms period
+	parameter stp1width = 30; // 150 ns
+	parameter stp2width = 30;
+	parameter stdelay = 200; // 1 us delay
+	parameter stblock = 100; // 500 ns block open
+	parameter stpump = 1; // The pump is on by default
+	parameter stcpmg = 3; // Do Hahn echo by default
 
-   assign per = period;
-   assign p1wid = p1width;
-   assign p2wid = p2width;
-   assign del = delay;
-   assign pu = pump;
-//    assign pr_att = pre_att;
-//    assign po_att = post_att;
-   assign cp = cpmg;
-   assign p_bl = pulse_block;
-//    assign p_bl_off = pulse_block_off;
-   assign bl = block;
-   assign rxd = rx_done;
-   
-   // Setup necessary for UART
-   wire 			   reset = 0;
-   reg 				   transmit;
-   reg [7:0] 			   tx_byte;
-   wire 			   received;
-   wire [7:0] 			   rx_byte;
-   wire 			   is_receiving;
-   wire 			   is_transmitting;
-   wire 			   recv_error;
+	reg 				   pump = stpump;
+	reg [7:0] 			   period = stperiod;
+	reg [15:0] 			   p1width = stp1width;
+	reg [15:0] 			   delay = stdelay;
+	reg [15:0] 			   p2width = stp2width;
+	reg [7:0] 			   pulse_block = 8'd50;
+	reg [15:0] 			   pulse_block_off = stblock;
+	reg [7:0]  			   cpmg = stcpmg;
+	reg 				   block = 1;
+	reg 					rx_done = 0;
 
-   // UART module, from https://github.com/cyrozap/osdvu
-   uart uart0(
-	      .clk(clk),                    // The master clock for this module
-	      .rst(reset),                      // Synchronous reset
-	      .rx(RS232_Rx),                // Incoming serial line
-	      .tx(RS232_Tx),                // Outgoing serial line
-	      .transmit(transmit),              // Signal to transmit
-	      .tx_byte(tx_byte),                // Byte to transmit
-	      .received(received),              // Indicated that a byte has been received
-	      .rx_byte(rx_byte),                // Byte received
-	      .is_receiving(is_receiving),      // Low when receive line is idle
-	      .is_transmitting(is_transmitting),// Low when transmit line is idle
-	      .recv_error(recv_error)           // Indicates error in receiving packet.
-	      );
+	// Control the attenuators
+	//    parameter att_pre_val = 7'd1;
+	//    parameter att_post_val = 7'd0;
+	//    reg [6:0] 			   pre_att = att_pre_val;
+	//    reg [6:0] 			   post_att = att_post_val;
 
-   // input and output to be communicated
-   reg [31:0] 			   vinput;  // input and output are reserved keywords
-   reg [7:0] 			   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
-   reg [7:0] 			   voutput;
-   reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
-   
-   // We need to receive multiple bytes sequentially, so this sets up both
-   // reading and writing. Adapted from the uart-adder from
-   // https://github.com/cyrozap/iCEstick-UART-Demo/pull/3/files
-   parameter read_A                 = 1'd0;
-   parameter read_wait              = 1'd1;
-   parameter write_A                = 1'd0;
-   parameter write_done             = 1'd1;
+	assign per = period;
+	assign p1wid = p1width;
+	assign p2wid = p2width;
+	assign del = delay;
+	assign pu = pump;
+	//    assign pr_att = pre_att;
+	//    assign po_att = post_att;
+	assign cp = cpmg;
+	assign p_bl = pulse_block;
+	assign p_bl_off = pulse_block_off;
+	assign bl = block;
+	assign rxd = rx_done;
 
-   reg 				   writestate = write_A;
-   reg [5:0] 			   writecount = 0;
-   reg [1:0] 			   readstate = read_A;
-   reg [5:0] 			   readcount = 0;
+	// Setup necessary for UART
+	wire 			   reset = 0;
+	reg 				   transmit;
+	reg [7:0] 			   tx_byte;
+	wire 			   received;
+	wire [7:0] 			   rx_byte;
+	wire 			   is_receiving;
+	wire 			   is_transmitting;
+	wire 			   recv_error;
 
-   parameter STATE_RECEIVING   = 2'd0;
-   parameter STATE_CALCULATING = 2'd1;
-   parameter STATE_SENDING     = 2'd2;
+	// UART module, from https://github.com/cyrozap/osdvu
+	uart uart0(
+		.clk(clk),                    // The master clock for this module
+		.rst(reset),                      // Synchronous reset
+		.rx(RS232_Rx),                // Incoming serial line
+		.tx(RS232_Tx),                // Outgoing serial line
+		.transmit(transmit),              // Signal to transmit
+		.tx_byte(tx_byte),                // Byte to transmit
+		.received(received),              // Indicated that a byte has been received
+		.rx_byte(rx_byte),                // Byte received
+		.is_receiving(is_receiving),      // Low when receive line is idle
+		.is_transmitting(is_transmitting),// Low when transmit line is idle
+		.recv_error(recv_error)           // Indicates error in receiving packet.
+		);
 
-   // These set the behavior based on the control byte
-   parameter CONT_SET_DELAY = 8'd0;
-   parameter CONT_SET_PERIOD = 8'd1;
-   parameter CONT_SET_PULSE1 = 8'd2;
-   parameter CONT_SET_PULSE2 = 8'd3;
-   parameter CONT_TOGGLE_PULSE1 = 8'd4;
-   parameter CONT_SET_CPMG = 8'd5;
-   parameter CONT_SET_ATT = 8'd6;
+	// input and output to be communicated
+	reg [31:0] 			   vinput;  // input and output are reserved keywords
+	reg [7:0] 			   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
+	reg [7:0] 			   voutput;
+	reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
 
-   reg [2:0] 			   state = STATE_RECEIVING;
+	// We need to receive multiple bytes sequentially, so this sets up both
+	// reading and writing. Adapted from the uart-adder from
+	// https://github.com/cyrozap/iCEstick-UART-Demo/pull/3/files
+	parameter read_A                 = 1'd0;
+	parameter read_wait              = 1'd1;
+	parameter write_A                = 1'd0;
+	parameter write_done             = 1'd1;
+
+	reg 				   writestate = write_A;
+	reg [5:0] 			   writecount = 0;
+	reg [1:0] 			   readstate = read_A;
+	reg [5:0] 			   readcount = 0;
+
+	parameter STATE_RECEIVING   = 2'd0;
+	parameter STATE_CALCULATING = 2'd1;
+	parameter STATE_SENDING     = 2'd2;
+
+	// These set the behavior based on the control byte
+	parameter CONT_SET_DELAY = 16'd0;
+	parameter CONT_SET_PERIOD = 16'd1;
+	parameter CONT_SET_PULSE1 = 16'd2;
+	parameter CONT_SET_PULSE2 = 16'd3;
+	parameter CONT_TOGGLE_PULSE1 = 16'd4;
+	parameter CONT_SET_CPMG = 16'd5;
+	parameter CONT_SET_ATT = 16'd6;
+	parameter CONT_SET_NUTW = 16'd7;
+	parameter CONT_SET_NUTD = 16'd8;
+
+	reg [2:0] 			   state = STATE_RECEIVING;
 
    // The communication runs at the 12 MHz clock rather than the 200 MHz clock.
    always @(posedge clk) begin
@@ -180,8 +184,16 @@ module pulse_control(
 	     end
 
 	     CONT_SET_CPMG: begin
-		cpmg <= vinput[0];
+		 cpmg <= vinput[7:0];
 	     end
+		 
+		 CONT_SET_NUTD: begin
+		 nut_d <= vinput[31:0];
+		 end
+		 
+		 CONT_SET_NUTW: begin
+		 nut_w <= vinput[31:0];
+		 end
 
 	     // CONT_SET_ATT: begin
 		// pre_att <= vinput[7:0];
