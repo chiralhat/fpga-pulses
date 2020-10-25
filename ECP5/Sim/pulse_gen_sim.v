@@ -27,22 +27,42 @@ input clk_pll,
 	//  output J4_9
 	);
 
-	reg [7:0] 		period;
-	reg [15:0] 	p1width;
-	reg [15:0] 	delay;
-	reg [15:0] 	p2width;
-	reg [31:0]		nut_del;
-	reg [31:0]		nut_wid;
-	reg 			pump;
-	reg 			block;
-	reg [7:0] 		pulse_block;
-	reg [15:0] 		pulse_block_off;
-	reg [7:0]	 	cpmg;
-	reg			rx_done;
+	wire [7:0] 		period;
+	wire [15:0] 	p1width;
+	wire [15:0] 	delay;
+	wire [15:0] 	p2width;
+	wire [31:0]		nut_del;
+	wire [31:0]		nut_wid;
+	wire 			pump;
+	wire 			block;
+	wire [7:0] 		pulse_block;
+	wire [15:0] 		pulse_block_off;
+	wire [7:0]	 	cpmg;
+	wire			rx_done;
 
-	//    reg [6:0] 		pre_att;
-	//    reg [6:0] 		post_att;
+	//    wire [6:0] 		pre_att;
+	//    wire [6:0] 		post_att;
 
+	// Setting up communications with LabView over USB
+	pulse_control control(
+		.clk(clk),
+		.RS232_Rx(RS232_Rx),
+		.RS232_Tx(RS232_Tx),
+		.pu(pump),
+		.per(period),
+		.p1wid(p1width),
+		.del(delay),
+		.p2wid(p2width),
+		.nut_d(nut_del),
+		.nut_w(nut_wid),
+		//  .pr_att(pre_att),
+		//  .po_att(post_att),
+		.cp(cpmg),
+		.p_bl(pulse_block),
+		.p_bl_off(pulse_block_off),
+		.bl(block),
+		.rxd(rx_done)
+		);
    
    // Generating the necessary pulses
 	pulses pulses(
@@ -70,34 +90,4 @@ input clk_pll,
 		//  .test({FM, P3, P4})
 		);
 	// NOSIM2_START
-   parameter att_on_val = 7'b1111111;
-   parameter att_off_val = 7'b0000000;
-   parameter stperiod = 1; // 1 ms period
-   parameter stp1width = 30; // 150 ns
-   parameter stp2width = 60;
-   parameter stdelay = 200; // 1 us delay
-   parameter stpump = 1; // The pump is on by default
-   parameter stcpmg = 4; // Do Hahn echo by default
-   parameter stblock = 50;
-   parameter stblockoff = 100;
-   parameter stnutwid = 300;
-   parameter stnutdel = 300;
-
-   // Initialize pulse values
-   always @(posedge clk) begin
-		if (resetn) begin
-			pump = stpump;
-			period = stperiod;
-			p1width = stp1width;
-			delay = stdelay;
-			p2width = stp2width;
-			pulse_block = stblock;
-			pulse_block_off = stblockoff;
-			block = 1;
-			cpmg = stcpmg;
-			nut_wid = stnutwid;
-			nut_del = stnutdel;
-		end // if (reset)
-	end // always @ (posedge clk)
-
-endmodule // pulse_gen_sim
+endmodule // pulse_gen

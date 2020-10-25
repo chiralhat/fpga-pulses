@@ -4,15 +4,15 @@ module pulse_control(
 	input 	   RS232_Rx,
 	output 	   RS232_Tx,
 	output 	   pu,
-	output [31:0] per,
-	output [31:0] p1wid,
-	output [31:0] del,
-	output [31:0] p2wid,
+	output [7:0] per,
+	output [15:0] p1wid,
+	output [15:0] del,
+	output [15:0] p2wid,
 	output [31:0] nut_w,
 	output [31:0] nut_d,
 	// output [6:0]  pr_att,
 	//       output [6:0]  po_att,
-		 output         cp,
+		 output [7:0]    cp,
 		 output [7:0]  p_bl,
 		output [15:0] p_bl_off,
 	output 	   bl,
@@ -31,6 +31,8 @@ module pulse_control(
 	parameter stblock = 100; // 500 ns block open
 	parameter stpump = 1; // The pump is on by default
 	parameter stcpmg = 3; // Do Hahn echo by default
+	parameter stnutdel = 300;
+	parameter stnutwid = 300;
 
 	reg 				   pump = stpump;
 	reg [7:0] 			   period = stperiod;
@@ -41,7 +43,9 @@ module pulse_control(
 	reg [15:0] 			   pulse_block_off = stblock;
 	reg [7:0]  			   cpmg = stcpmg;
 	reg 				   block = 1;
-	reg 					rx_done = 0;
+	reg 				   rx_done = 0;
+	reg [31:0]			   nut_del = stnutdel;
+	reg [31:0]			   nut_wid = stnutdel;
 
 	// Control the attenuators
 	//    parameter att_pre_val = 7'd1;
@@ -61,6 +65,8 @@ module pulse_control(
 	assign p_bl_off = pulse_block_off;
 	assign bl = block;
 	assign rxd = rx_done;
+	assign nut_d = nut_del;
+	assign nut_w = nut_wid;
 
 	// Setup necessary for UART
 	wire 			   reset = 0;
@@ -111,15 +117,15 @@ module pulse_control(
 	parameter STATE_SENDING     = 2'd2;
 
 	// These set the behavior based on the control byte
-	parameter CONT_SET_DELAY = 16'd0;
-	parameter CONT_SET_PERIOD = 16'd1;
-	parameter CONT_SET_PULSE1 = 16'd2;
-	parameter CONT_SET_PULSE2 = 16'd3;
-	parameter CONT_TOGGLE_PULSE1 = 16'd4;
-	parameter CONT_SET_CPMG = 16'd5;
-	parameter CONT_SET_ATT = 16'd6;
-	parameter CONT_SET_NUTW = 16'd7;
-	parameter CONT_SET_NUTD = 16'd8;
+	parameter CONT_SET_DELAY = 8'd0;
+	parameter CONT_SET_PERIOD = 8'd1;
+	parameter CONT_SET_PULSE1 = 8'd2;
+	parameter CONT_SET_PULSE2 = 8'd3;
+	parameter CONT_TOGGLE_PULSE1 = 8'd4;
+	parameter CONT_SET_CPMG = 8'd5;
+	parameter CONT_SET_ATT = 8'd6;
+	parameter CONT_SET_NUTW = 8'd7;
+	parameter CONT_SET_NUTD = 8'd8;
 
 	reg [2:0] 			   state = STATE_RECEIVING;
 
@@ -188,11 +194,11 @@ module pulse_control(
 	     end
 		 
 		 CONT_SET_NUTD: begin
-		 nut_d <= vinput[31:0];
+		 nut_del <= vinput[7:0] << 24;
 		 end
 		 
 		 CONT_SET_NUTW: begin
-		 nut_w <= vinput[31:0];
+		 nut_wid <= vinput[7:0] << 24;
 		 end
 
 	     // CONT_SET_ATT: begin

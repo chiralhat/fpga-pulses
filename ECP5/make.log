@@ -1,4 +1,4 @@
-yosys -p "synth_ecp5 -json pulse_gen.json -top pulse_gen" pulse_gen.v ecppll.v pulse_control.v pulses.v uart.v
+yosys -p "synth_ecp5 -json pulse_gen.json -top pulse_gen" pulse_gen.v ecppll.v pulse_control.v pulses.v uart.v 
 
  /----------------------------------------------------------------------------\
  |                                                                            |
@@ -2147,7 +2147,7 @@ ABC: Participating nodes from the first network   =     344. (  53.50 % of nodes
 ABC: Participating nodes from the second network  =     395. (  61.43 % of nodes)
 ABC: Node pairs (any polarity)                    =     344. (  53.50 % of names can be moved)
 ABC: Node pairs (same polarity)                   =     311. (  48.37 % of names can be moved)
-ABC: Total runtime =     0.09 sec
+ABC: Total runtime =     0.08 sec
 ABC: + write_blif <abc-temp-dir>/output.blif 
 
 6.44.1.2. Re-integrating ABC results.
@@ -2600,9 +2600,9 @@ found and reported 0 problems.
 6.51. Executing JSON backend.
 
 Warnings: 7 unique messages, 7 total
-End of script. Logfile hash: 818dbfc617, CPU: user 4.75s system 0.22s, MEM: 252.84 MB peak
+End of script. Logfile hash: 04b009c71a, CPU: user 7.06s system 1.07s, MEM: 252.79 MB peak
 Yosys 0.9+3578 (git sha1 ed579038, clang 6.0.0-1ubuntu2 -fPIC -Os)
-Time spent: 14% 1x abc (0 sec), 14% 18x read_verilog (0 sec), ...
+Time spent: 19% 18x read_verilog (1 sec), 16% 1x abc (1 sec), ...
 nextpnr-ecp5 --pre-pack clk_constraint.py --json pulse_gen.json --textcfg pulse_gen_out.config --um5g-85k --package CABGA381 --lpf ecp5.lpf
 Info: constraining clock net 'clk' to 50.00 MHz
 Info: constraining clock net 'clk_pll' to 200.00 MHz
@@ -2677,29 +2677,29 @@ Info:     at initial placer iter 2, wirelen = 1408
 Info:     at initial placer iter 3, wirelen = 1426
 Info: Running main analytical placer.
 Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 1407, spread = 12856, legal = 13520; time = 0.04s
-Info:     at iteration #2, type TRELLIS_SLICE: wirelen solved = 1801, spread = 9250, legal = 10349; time = 0.05s
-Info:     at iteration #3, type TRELLIS_SLICE: wirelen solved = 2110, spread = 8652, legal = 9393; time = 0.09s
+Info:     at iteration #2, type TRELLIS_SLICE: wirelen solved = 1801, spread = 9250, legal = 10349; time = 0.11s
+Info:     at iteration #3, type TRELLIS_SLICE: wirelen solved = 2110, spread = 8652, legal = 9393; time = 0.06s
 Info:     at iteration #4, type TRELLIS_SLICE: wirelen solved = 2440, spread = 8699, legal = 9596; time = 0.05s
-Info:     at iteration #5, type TRELLIS_SLICE: wirelen solved = 2813, spread = 8773, legal = 9675; time = 0.05s
-Info:     at iteration #6, type TRELLIS_SLICE: wirelen solved = 2975, spread = 9000, legal = 9641; time = 0.03s
-Info:     at iteration #7, type TRELLIS_SLICE: wirelen solved = 3293, spread = 8606, legal = 9339; time = 0.06s
+Info:     at iteration #5, type TRELLIS_SLICE: wirelen solved = 2813, spread = 8773, legal = 9675; time = 0.06s
+Info:     at iteration #6, type TRELLIS_SLICE: wirelen solved = 2975, spread = 9000, legal = 9641; time = 0.05s
+Info:     at iteration #7, type TRELLIS_SLICE: wirelen solved = 3293, spread = 8606, legal = 9339; time = 0.05s
 Info:     at iteration #8, type TRELLIS_SLICE: wirelen solved = 3334, spread = 8601, legal = 9645; time = 0.04s
-Info:     at iteration #9, type TRELLIS_SLICE: wirelen solved = 3625, spread = 8361, legal = 9216; time = 0.05s
-Info:     at iteration #10, type TRELLIS_SLICE: wirelen solved = 3904, spread = 8133, legal = 9144; time = 0.03s
-Info:     at iteration #11, type TRELLIS_SLICE: wirelen solved = 3987, spread = 8224, legal = 9046; time = 0.07s
-Info:     at iteration #12, type TRELLIS_SLICE: wirelen solved = 4153, spread = 7744, legal = 8692; time = 0.05s
-Info:     at iteration #13, type TRELLIS_SLICE: wirelen solved = 4281, spread = 7794, legal = 8678; time = 0.07s
-Info:     at iteration #14, type TRELLIS_SLICE: wirelen solved = 4434, spread = 7802, legal = 8818; time = 0.05s
+Info:     at iteration #9, type TRELLIS_SLICE: wirelen solved = 3625, spread = 8361, legal = 9216; time = 0.04s
+Info:     at iteration #10, type TRELLIS_SLICE: wirelen solved = 3904, spread = 8133, legal = 9144; time = 0.04s
+Info:     at iteration #11, type TRELLIS_SLICE: wirelen solved = 3987, spread = 8224, legal = 9046; time = 0.04s
+Info:     at iteration #12, type TRELLIS_SLICE: wirelen solved = 4153, spread = 7744, legal = 8692; time = 0.06s
+Info:     at iteration #13, type TRELLIS_SLICE: wirelen solved = 4281, spread = 7794, legal = 8678; time = 0.04s
+Info:     at iteration #14, type TRELLIS_SLICE: wirelen solved = 4434, spread = 7802, legal = 8818; time = 0.04s
 Info:     at iteration #15, type TRELLIS_SLICE: wirelen solved = 4589, spread = 7683, legal = 8415; time = 0.04s
 Info:     at iteration #16, type TRELLIS_SLICE: wirelen solved = 4580, spread = 8014, legal = 8847; time = 0.04s
-Info:     at iteration #17, type TRELLIS_SLICE: wirelen solved = 4927, spread = 8450, legal = 8942; time = 0.04s
-Info:     at iteration #18, type TRELLIS_SLICE: wirelen solved = 4912, spread = 8058, legal = 8690; time = 0.05s
-Info:     at iteration #19, type TRELLIS_SLICE: wirelen solved = 5089, spread = 8356, legal = 8955; time = 0.03s
-Info:     at iteration #20, type TRELLIS_SLICE: wirelen solved = 5197, spread = 8554, legal = 9257; time = 0.09s
-Info: HeAP Placer Time: 1.91s
-Info:   of which solving equations: 0.85s
-Info:   of which spreading cells: 0.13s
-Info:   of which strict legalisation: 0.08s
+Info:     at iteration #17, type TRELLIS_SLICE: wirelen solved = 4927, spread = 8450, legal = 8942; time = 0.12s
+Info:     at iteration #18, type TRELLIS_SLICE: wirelen solved = 4912, spread = 8058, legal = 8690; time = 0.04s
+Info:     at iteration #19, type TRELLIS_SLICE: wirelen solved = 5089, spread = 8356, legal = 8955; time = 0.05s
+Info:     at iteration #20, type TRELLIS_SLICE: wirelen solved = 5197, spread = 8554, legal = 9257; time = 0.05s
+Info: HeAP Placer Time: 1.99s
+Info:   of which solving equations: 0.87s
+Info:   of which spreading cells: 0.14s
+Info:   of which strict legalisation: 0.09s
 
 Info: Running simulated annealing placer for refinement.
 Info:   at iteration #1: temp = 0.000000, timing cost = 466, wirelen = 8415
@@ -2707,7 +2707,7 @@ Info:   at iteration #5: temp = 0.000000, timing cost = 423, wirelen = 7553
 Info:   at iteration #10: temp = 0.000000, timing cost = 393, wirelen = 7279
 Info:   at iteration #15: temp = 0.000000, timing cost = 394, wirelen = 7086
 Info:   at iteration #17: temp = 0.000000, timing cost = 392, wirelen = 7050 
-Info: SA placement time 1.69s
+Info: SA placement time 2.54s
 
 Info: Max frequency for clock           '$glbnet$clk_pll': 136.35 MHz (FAIL at 200.00 MHz)
 Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 185.56 MHz (PASS at 50.00 MHz)
@@ -2750,14 +2750,14 @@ Info: Setting up routing queue.
 Info: Routing 5418 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:       1000 |        3        996 |    3   996 |      4422|       0.82       0.82|
-Info:       2000 |        8       1991 |    5   995 |      3427|       0.51       1.33|
-Info:       3000 |       32       2967 |   24   976 |      2461|       0.67       2.00|
-Info:       4000 |       62       3937 |   30   970 |      1497|       1.01       3.01|
-Info:       5000 |       64       4935 |    2   998 |       500|       0.38       3.39|
-Info:       5513 |       75       5438 |   11   503 |         0|       0.90       4.29|
+Info:       1000 |        3        996 |    3   996 |      4422|       1.52       1.52|
+Info:       2000 |        8       1991 |    5   995 |      3427|       1.07       2.59|
+Info:       3000 |       32       2967 |   24   976 |      2461|       1.00       3.59|
+Info:       4000 |       62       3937 |   30   970 |      1497|       1.77       5.36|
+Info:       5000 |       64       4935 |    2   998 |       500|       0.68       6.04|
+Info:       5513 |       75       5438 |   11   503 |         0|       1.10       7.14|
 Info: Routing complete.
-Info: Router1 time 4.29s
+Info: Router1 time 7.14s
 Info: Checksum: 0x1c44b1c9
 
 Info: Critical path report for clock '$glbnet$clk_pll' (posedge -> posedge):

@@ -56,6 +56,7 @@ module pulse_gen(
               .clock_out(clk_pll),
 	      .locked(lock)
 	      );
+	// NOSIM_END
 	// Setting up communications with LabView over USB
 	pulse_control control(
 		.clk(clk),
@@ -76,7 +77,6 @@ module pulse_gen(
 		.bl(block),
 		.rxd(rx_done)
 		);
-	// NOSIM_END
    
    // Generating the necessary pulses
 	pulses pulses(
