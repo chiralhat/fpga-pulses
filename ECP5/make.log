@@ -1,0 +1,3047 @@
+yosys -p "synth_ecp5 -json pulse_gen.json -top pulse_gen" pulse_gen.v ecppll.v pulse_control.v pulses.v uart.v
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Wolf <claire@symbioticeda.com>          |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.9+3578 (git sha1 ed579038, clang 6.0.0-1ubuntu2 -fPIC -Os)
+
+
+-- Parsing `pulse_gen.v' using frontend `verilog' --
+
+1. Executing Verilog-2005 frontend: pulse_gen.v
+Parsing Verilog input from `pulse_gen.v' to AST representation.
+Generating RTLIL representation for module `\pulse_gen'.
+Successfully finished Verilog frontend.
+
+-- Parsing `ecppll.v' using frontend `verilog' --
+
+2. Executing Verilog-2005 frontend: ecppll.v
+Parsing Verilog input from `ecppll.v' to AST representation.
+Generating RTLIL representation for module `\pll'.
+Successfully finished Verilog frontend.
+
+-- Parsing `pulse_control.v' using frontend `verilog' --
+
+3. Executing Verilog-2005 frontend: pulse_control.v
+Parsing Verilog input from `pulse_control.v' to AST representation.
+Generating RTLIL representation for module `\pulse_control'.
+Warning: wire '\nut_d' is assigned in a block at pulse_control.v:191.4-191.25.
+Warning: wire '\nut_w' is assigned in a block at pulse_control.v:195.4-195.25.
+Successfully finished Verilog frontend.
+
+-- Parsing `pulses.v' using frontend `verilog' --
+
+4. Executing Verilog-2005 frontend: pulses.v
+Parsing Verilog input from `pulses.v' to AST representation.
+Generating RTLIL representation for module `\pulses'.
+Successfully finished Verilog frontend.
+
+-- Parsing `uart.v' using frontend `verilog' --
+
+5. Executing Verilog-2005 frontend: uart.v
+Parsing Verilog input from `uart.v' to AST representation.
+Generating RTLIL representation for module `\uart'.
+Successfully finished Verilog frontend.
+
+-- Running command `synth_ecp5 -json pulse_gen.json -top pulse_gen' --
+
+6. Executing SYNTH_ECP5 pass.
+
+6.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/cells_sim.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/cells_sim.v' to AST representation.
+Generating RTLIL representation for module `\LUT4'.
+Generating RTLIL representation for module `\$__ABC9_LUT5'.
+Generating RTLIL representation for module `\$__ABC9_LUT6'.
+Generating RTLIL representation for module `\$__ABC9_LUT7'.
+Generating RTLIL representation for module `\L6MUX21'.
+Generating RTLIL representation for module `\CCU2C'.
+Generating RTLIL representation for module `\TRELLIS_RAM16X2'.
+Generating RTLIL representation for module `\PFUMX'.
+Generating RTLIL representation for module `\TRELLIS_DPR16X4'.
+Generating RTLIL representation for module `\DPR16X4C'.
+Generating RTLIL representation for module `\LUT2'.
+Generating RTLIL representation for module `\TRELLIS_FF'.
+Generating RTLIL representation for module `\TRELLIS_IO'.
+Generating RTLIL representation for module `\INV'.
+Generating RTLIL representation for module `\TRELLIS_SLICE'.
+Generating RTLIL representation for module `\DP16KD'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Successfully finished Verilog frontend.
+
+6.2. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/cells_bb.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/cells_bb.v' to AST representation.
+Generating RTLIL representation for module `\MULT18X18D'.
+Generating RTLIL representation for module `\ALU54B'.
+Generating RTLIL representation for module `\EHXPLLL'.
+Generating RTLIL representation for module `\DTR'.
+Generating RTLIL representation for module `\OSCG'.
+Generating RTLIL representation for module `\USRMCLK'.
+Generating RTLIL representation for module `\JTAGG'.
+Generating RTLIL representation for module `\DELAYF'.
+Generating RTLIL representation for module `\DELAYG'.
+Generating RTLIL representation for module `\IDDRX1F'.
+Generating RTLIL representation for module `\IDDRX2F'.
+Generating RTLIL representation for module `\IDDR71B'.
+Generating RTLIL representation for module `\IDDRX2DQA'.
+Generating RTLIL representation for module `\ODDRX1F'.
+Generating RTLIL representation for module `\ODDRX2F'.
+Generating RTLIL representation for module `\ODDR71B'.
+Generating RTLIL representation for module `\OSHX2A'.
+Generating RTLIL representation for module `\ODDRX2DQA'.
+Generating RTLIL representation for module `\ODDRX2DQSB'.
+Generating RTLIL representation for module `\TSHX2DQA'.
+Generating RTLIL representation for module `\TSHX2DQSA'.
+Generating RTLIL representation for module `\DQSBUFM'.
+Generating RTLIL representation for module `\DDRDLLA'.
+Generating RTLIL representation for module `\CLKDIVF'.
+Generating RTLIL representation for module `\ECLKSYNCB'.
+Generating RTLIL representation for module `\ECLKBRIDGECS'.
+Generating RTLIL representation for module `\DCCA'.
+Generating RTLIL representation for module `\DCUA'.
+Generating RTLIL representation for module `\EXTREFB'.
+Generating RTLIL representation for module `\PCSCLKDIV'.
+Generating RTLIL representation for module `\PUR'.
+Generating RTLIL representation for module `\GSR'.
+Generating RTLIL representation for module `\SGSR'.
+Generating RTLIL representation for module `\PDPW16KD'.
+Successfully finished Verilog frontend.
+
+6.3. Executing HIERARCHY pass (managing design hierarchy).
+
+6.3.1. Analyzing design hierarchy..
+Top module:  \pulse_gen
+Used module:     \pulses
+Used module:     \pulse_control
+Used module:         \uart
+Used module:     \pll
+
+6.3.2. Analyzing design hierarchy..
+Top module:  \pulse_gen
+Used module:     \pulses
+Used module:     \pulse_control
+Used module:         \uart
+Used module:     \pll
+Removed 0 unused modules.
+Warning: Resizing cell port pulse_gen.control.cp from 8 bits to 1 bits.
+Warning: Resizing cell port pulse_gen.control.p2wid from 16 bits to 32 bits.
+Warning: Resizing cell port pulse_gen.control.del from 16 bits to 32 bits.
+Warning: Resizing cell port pulse_gen.control.p1wid from 16 bits to 32 bits.
+Warning: Resizing cell port pulse_gen.control.per from 8 bits to 32 bits.
+
+6.4. Executing PROC pass (convert processes to netlists).
+
+6.4.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$290'.
+Cleaned up 1 empty switch.
+
+6.4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:350$370 in module TRELLIS_FF.
+Removed 2 dead cases from process $proc$uart.v:135$115 in module uart.
+Marked 17 switch rules as full_case in process $proc$uart.v:135$115 in module uart.
+Marked 8 switch rules as full_case in process $proc$pulses.v:121$45 in module pulses.
+Removed 1 dead cases from process $proc$pulse_control.v:127$3 in module pulse_control.
+Marked 5 switch rules as full_case in process $proc$pulse_control.v:127$3 in module pulse_control.
+Removed a total of 3 dead cases.
+
+6.4.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 67 assignments to connections.
+
+6.4.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$374'.
+  Set init value: \Q = 1'0
+Found init rule in `\uart.$proc$uart.v:106$144'.
+  Set init value: \tx_state = 2'00
+Found init rule in `\uart.$proc$uart.v:105$143'.
+  Set init value: \tx_out = 1'1
+Found init rule in `\uart.$proc$uart.v:101$142'.
+  Set init value: \recv_state = 3'000
+Found init rule in `\pulses.$proc$pulses.v:98$108'.
+  Set init value: \xfer_bits = 2'01
+Found init rule in `\pulses.$proc$pulses.v:92$107'.
+  Set init value: \ccount = 8'00000000
+Found init rule in `\pulses.$proc$pulses.v:87$106'.
+  Set init value: \nutation_pulse_delay = 300
+Found init rule in `\pulses.$proc$pulses.v:86$105'.
+  Set init value: \nutation_pulse_width = 50
+Found init rule in `\pulses.$proc$pulses.v:82$103'.
+  Set init value: \block_off = 16'0000000110011010
+Found init rule in `\pulses.$proc$pulses.v:81$102'.
+  Set init value: \sync_down = 16'0000000100000100
+Found init rule in `\pulses.$proc$pulses.v:80$101'.
+  Set init value: \p2start = 16'0000000011100110
+Found init rule in `\pulses.$proc$pulses.v:78$100'.
+  Set init value: \rx_done = 1'0
+Found init rule in `\pulses.$proc$pulses.v:77$99'.
+  Set init value: \block = 1'1
+Found init rule in `\pulses.$proc$pulses.v:76$98'.
+  Set init value: \cpmg = 8'00000011
+Found init rule in `\pulses.$proc$pulses.v:75$97'.
+  Set init value: \pulse_block_off = 16'0000000001100100
+Found init rule in `\pulses.$proc$pulses.v:74$96'.
+  Set init value: \pulse_block = 8'00110010
+Found init rule in `\pulses.$proc$pulses.v:73$95'.
+  Set init value: \p2width = 16'0000000000011110
+Found init rule in `\pulses.$proc$pulses.v:72$94'.
+  Set init value: \delay = 16'0000000011001000
+Found init rule in `\pulses.$proc$pulses.v:71$93'.
+  Set init value: \p1width = 16'0000000000011110
+Found init rule in `\pulses.$proc$pulses.v:70$92'.
+  Set init value: \period = 8'00000001
+Found init rule in `\pulses.$proc$pulses.v:69$91'.
+  Set init value: \pump = 1'1
+Found init rule in `\pulses.$proc$pulses.v:48$89'.
+  Set init value: \counter = 0
+Found init rule in `\pulse_control.$proc$pulse_control.v:124$44'.
+  Set init value: \state = 3'000
+Found init rule in `\pulse_control.$proc$pulse_control.v:107$43'.
+  Set init value: \readcount = 6'000000
+Found init rule in `\pulse_control.$proc$pulse_control.v:106$42'.
+  Set init value: \readstate = 2'00
+Found init rule in `\pulse_control.$proc$pulse_control.v:104$40'.
+  Set init value: \writestate = 1'0
+Found init rule in `\pulse_control.$proc$pulse_control.v:44$39'.
+  Set init value: \rx_done = 1'0
+Found init rule in `\pulse_control.$proc$pulse_control.v:43$38'.
+  Set init value: \block = 1'1
+Found init rule in `\pulse_control.$proc$pulse_control.v:42$37'.
+  Set init value: \cpmg = 8'00000011
+Found init rule in `\pulse_control.$proc$pulse_control.v:40$35'.
+  Set init value: \pulse_block = 8'00110010
+Found init rule in `\pulse_control.$proc$pulse_control.v:39$34'.
+  Set init value: \p2width = 16'0000000000011110
+Found init rule in `\pulse_control.$proc$pulse_control.v:38$33'.
+  Set init value: \delay = 16'0000000011001000
+Found init rule in `\pulse_control.$proc$pulse_control.v:37$32'.
+  Set init value: \p1width = 16'0000000000011110
+Found init rule in `\pulse_control.$proc$pulse_control.v:36$31'.
+  Set init value: \period = 8'00001111
+Found init rule in `\pulse_control.$proc$pulse_control.v:35$30'.
+  Set init value: \pump = 1'1
+
+6.4.5. Executing PROC_ARST pass (detect async resets in processes).
+
+6.4.6. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$374'.
+Creating decoders for process `\TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:350$370'.
+     1/1: $0\Q[0:0]
+Creating decoders for process `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$367'.
+Creating decoders for process `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:285$346'.
+     1/3: $0$memwr$\ram$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:287$345_EN[3:0]$349
+     2/3: $0$memwr$\ram$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:287$345_DATA[3:0]$348
+     3/3: $0$memwr$\ram$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:287$345_ADDR[3:0]$347
+Creating decoders for process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$313'.
+Creating decoders for process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$291'.
+     1/3: $0$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$289_EN[3:0]$294
+     2/3: $0$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$289_DATA[3:0]$293
+     3/3: $0$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$289_ADDR[3:0]$292
+Creating decoders for process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$290'.
+Creating decoders for process `\uart.$proc$uart.v:106$144'.
+Creating decoders for process `\uart.$proc$uart.v:105$143'.
+Creating decoders for process `\uart.$proc$uart.v:101$142'.
+Creating decoders for process `\uart.$proc$uart.v:135$115'.
+     1/57: $5\tx_state[1:0]
+     2/57: $5\tx_clk[10:0]
+     3/57: $4\tx_data[7:0]
+     4/57: $4\tx_out[0:0]
+     5/57: $4\tx_bits_remaining[3:0]
+     6/57: $3\tx_data[7:0]
+     7/57: $3\tx_bits_remaining[3:0]
+     8/57: $4\tx_state[1:0]
+     9/57: $3\tx_out[0:0]
+    10/57: $4\tx_clk[10:0]
+    11/57: $3\tx_state[1:0]
+    12/57: $2\tx_bits_remaining[3:0]
+    13/57: $2\tx_out[0:0]
+    14/57: $3\tx_clk[10:0]
+    15/57: $2\tx_data[7:0]
+    16/57: $1\tx_data[7:0]
+    17/57: $1\tx_bits_remaining[3:0]
+    18/57: $2\tx_state[1:0]
+    19/57: $1\tx_out[0:0]
+    20/57: $2\tx_clk[10:0]
+    21/57: $9\recv_state[2:0]
+    22/57: $8\recv_state[2:0]
+    23/57: $8\rx_clk[14:0]
+    24/57: $3\rx_data[7:0]
+    25/57: $7\recv_state[2:0]
+    26/57: $7\rx_clk[14:0]
+    27/57: $4\rx_bits_remaining[3:0]
+    28/57: $5\rx_sample_countdown[3:0]
+    29/57: $6\rx_samples[3:0]
+    30/57: $2\rx_data[7:0]
+    31/57: $5\rx_samples[3:0]
+    32/57: $6\recv_state[2:0]
+    33/57: $4\rx_sample_countdown[3:0]
+    34/57: $6\rx_clk[14:0]
+    35/57: $4\rx_samples[3:0]
+    36/57: $3\rx_sample_countdown[3:0]
+    37/57: $3\rx_samples[3:0]
+    38/57: $5\recv_state[2:0]
+    39/57: $3\rx_bits_remaining[3:0]
+    40/57: $5\rx_clk[14:0]
+    41/57: $2\rx_bits_remaining[3:0]
+    42/57: $4\recv_state[2:0]
+    43/57: $4\rx_clk[14:0]
+    44/57: $2\rx_sample_countdown[3:0]
+    45/57: $2\rx_samples[3:0]
+    46/57: $3\recv_state[2:0]
+    47/57: $3\rx_clk[14:0]
+    48/57: $2\recv_state[2:0]
+    49/57: $2\rx_clk[14:0]
+    50/57: $1\rx_data[7:0]
+    51/57: $1\rx_bits_remaining[3:0]
+    52/57: $1\rx_sample_countdown[3:0]
+    53/57: $1\rx_samples[3:0]
+    54/57: $1\tx_clk[10:0]
+    55/57: $1\rx_clk[14:0]
+    56/57: $1\tx_state[1:0]
+    57/57: $1\recv_state[2:0]
+Creating decoders for process `\pulses.$proc$pulses.v:98$108'.
+Creating decoders for process `\pulses.$proc$pulses.v:92$107'.
+Creating decoders for process `\pulses.$proc$pulses.v:87$106'.
+Creating decoders for process `\pulses.$proc$pulses.v:86$105'.
+Creating decoders for process `\pulses.$proc$pulses.v:85$104'.
+Creating decoders for process `\pulses.$proc$pulses.v:82$103'.
+Creating decoders for process `\pulses.$proc$pulses.v:81$102'.
+Creating decoders for process `\pulses.$proc$pulses.v:80$101'.
+Creating decoders for process `\pulses.$proc$pulses.v:78$100'.
+Creating decoders for process `\pulses.$proc$pulses.v:77$99'.
+Creating decoders for process `\pulses.$proc$pulses.v:76$98'.
+Creating decoders for process `\pulses.$proc$pulses.v:75$97'.
+Creating decoders for process `\pulses.$proc$pulses.v:74$96'.
+Creating decoders for process `\pulses.$proc$pulses.v:73$95'.
+Creating decoders for process `\pulses.$proc$pulses.v:72$94'.
+Creating decoders for process `\pulses.$proc$pulses.v:71$93'.
+Creating decoders for process `\pulses.$proc$pulses.v:70$92'.
+Creating decoders for process `\pulses.$proc$pulses.v:69$91'.
+Creating decoders for process `\pulses.$proc$pulses.v:56$90'.
+Creating decoders for process `\pulses.$proc$pulses.v:48$89'.
+Creating decoders for process `\pulses.$proc$pulses.v:121$45'.
+     1/56: $4\ccount[7:0]
+     2/56: $4\cblock_on[31:0]
+     3/56: $4\cblock_delay[31:0]
+     4/56: $5\inh[0:0]
+     5/56: $4\inh[0:0]
+     6/56: $4\sync[0:0]
+     7/56: $4\cpulse[31:0]
+     8/56: $4\cdelay[31:0]
+     9/56: $5\pulse[0:0]
+    10/56: $4\pulse[0:0]
+    11/56: $3\ccount[7:0]
+    12/56: $3\cblock_on[31:0]
+    13/56: $3\cblock_delay[31:0]
+    14/56: $3\cpulse[31:0]
+    15/56: $3\cdelay[31:0]
+    16/56: $3\inh[0:0]
+    17/56: $3\pulse[0:0]
+    18/56: $3\sync[0:0]
+    19/56: $2\pulse[0:0]
+    20/56: $2\cblock_on[31:0]
+    21/56: $2\cblock_delay[31:0]
+    22/56: $2\cpulse[31:0]
+    23/56: $2\cdelay[31:0]
+    24/56: $2\ccount[7:0]
+    25/56: $2\inh[0:0]
+    26/56: $2\sync[0:0]
+    27/56: $0\counter[31:0]
+    28/56: $1\cblock_on[31:0]
+    29/56: $1\cblock_delay[31:0]
+    30/56: $1\cpulse[31:0]
+    31/56: $1\cdelay[31:0]
+    32/56: $1\ccount[7:0]
+    33/56: $1\inh[0:0]
+    34/56: $1\pulse[0:0]
+    35/56: $1\sync[0:0]
+    36/56: $0\rx_done[0:0]
+    37/56: $0\per_shift[31:0]
+    38/56: $0\nutation_pulse_stop[31:0]
+    39/56: $0\nutation_pulse_start[31:0]
+    40/56: $0\nutation_pulse_delay[31:0]
+    41/56: $0\nutation_pulse_width[31:0]
+    42/56: $0\block_off[15:0]
+    43/56: $0\sync_down[15:0]
+    44/56: $0\p2start[15:0]
+    45/56: $0\nut_pulse[0:0]
+    46/56: $0\pulses[0:0]
+    47/56: $0\xfer_bits[1:0]
+    48/56: $0\cpmg[7:0]
+    49/56: $0\pulse_block_off[15:0]
+    50/56: $0\pulse_block[7:0]
+    51/56: $0\block[0:0]
+    52/56: $0\pump[0:0]
+    53/56: $0\p2width[15:0]
+    54/56: $0\delay[15:0]
+    55/56: $0\p1width[15:0]
+    56/56: $0\period[7:0]
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:124$44'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:107$43'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:106$42'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:105$41'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:104$40'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:44$39'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:43$38'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:42$37'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:41$36'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:40$35'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:39$34'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:38$33'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:37$32'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:36$31'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:35$30'.
+Creating decoders for process `\pulse_control.$proc$pulse_control.v:127$3'.
+     1/32: $2\rx_done[0:0]
+     2/32: $4$bitselwrite$data$pulse_control.v:143$2[31:0]$14
+     3/32: $4$bitselwrite$mask$pulse_control.v:143$1[31:0]$13
+     4/32: $4\vinput[31:0]
+     5/32: $3$bitselwrite$data$pulse_control.v:143$2[31:0]$11
+     6/32: $3$bitselwrite$mask$pulse_control.v:143$1[31:0]$10
+     7/32: $3\vinput[31:0]
+     8/32: $2$bitselwrite$data$pulse_control.v:143$2[31:0]$9
+     9/32: $2$bitselwrite$mask$pulse_control.v:143$1[31:0]$8
+    10/32: $2\vinput[31:0]
+    11/32: $1$bitselwrite$data$pulse_control.v:143$2[31:0]$7
+    12/32: $1$bitselwrite$mask$pulse_control.v:143$1[31:0]$6
+    13/32: $1\vinput[31:0]
+    14/32: $1\voutput[7:0]
+    15/32: $1\rx_done[0:0]
+    16/32: $0\state[2:0]
+    17/32: $0\readcount[5:0]
+    18/32: $0\readstate[1:0]
+    19/32: $0\writestate[0:0]
+    20/32: $0\vcontrol[7:0]
+    21/32: $0\tx_byte[7:0]
+    22/32: $0\transmit[0:0]
+    23/32: $0\nut_w[31:0]
+    24/32: $0\nut_d[31:0]
+    25/32: $0\cpmg[7:0]
+    26/32: $0\pulse_block[7:0]
+    27/32: $0\block[0:0]
+    28/32: $0\pump[0:0]
+    29/32: $0\p2width[15:0]
+    30/32: $0\delay[15:0]
+    31/32: $0\p1width[15:0]
+    32/32: $0\period[7:0]
+
+6.4.7. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\pulses.\nutation_pulse' from process `\pulses.$proc$pulses.v:85$104'.
+No latch inferred for signal `\pulses.\rec' from process `\pulses.$proc$pulses.v:56$90'.
+No latch inferred for signal `\pulse_control.\writecount' from process `\pulse_control.$proc$pulse_control.v:105$41'.
+No latch inferred for signal `\pulse_control.\pulse_block_off' from process `\pulse_control.$proc$pulse_control.v:41$36'.
+
+6.4.8. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\TRELLIS_FF.\Q' using process `\TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:350$370'.
+  created $dff cell `$procdff$1805' with positive edge clock.
+Creating register for signal `\DPR16X4C.\i' using process `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$367'.
+  created direct connection (no actual register cell created).
+Creating register for signal `\DPR16X4C.$memwr$\ram$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:287$345_ADDR' using process `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:285$346'.
+  created $dff cell `$procdff$1806' with positive edge clock.
+Creating register for signal `\DPR16X4C.$memwr$\ram$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:287$345_DATA' using process `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:285$346'.
+  created $dff cell `$procdff$1807' with positive edge clock.
+Creating register for signal `\DPR16X4C.$memwr$\ram$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:287$345_EN' using process `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:285$346'.
+  created $dff cell `$procdff$1808' with positive edge clock.
+Creating register for signal `\TRELLIS_DPR16X4.\i' using process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$313'.
+  created direct connection (no actual register cell created).
+Creating register for signal `\TRELLIS_DPR16X4.$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$289_ADDR' using process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$291'.
+  created $dff cell `$procdff$1809' with positive edge clock.
+Creating register for signal `\TRELLIS_DPR16X4.$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$289_DATA' using process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$291'.
+  created $dff cell `$procdff$1810' with positive edge clock.
+Creating register for signal `\TRELLIS_DPR16X4.$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$289_EN' using process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$291'.
+  created $dff cell `$procdff$1811' with positive edge clock.
+Creating register for signal `\TRELLIS_DPR16X4.\muxwre' using process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$290'.
+  created direct connection (no actual register cell created).
+Creating register for signal `\uart.\rx_samples' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1812' with positive edge clock.
+Creating register for signal `\uart.\rx_sample_countdown' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1813' with positive edge clock.
+Creating register for signal `\uart.\rx_clk' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1814' with positive edge clock.
+Creating register for signal `\uart.\tx_clk' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1815' with positive edge clock.
+Creating register for signal `\uart.\recv_state' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1816' with positive edge clock.
+Creating register for signal `\uart.\rx_bits_remaining' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1817' with positive edge clock.
+Creating register for signal `\uart.\rx_data' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1818' with positive edge clock.
+Creating register for signal `\uart.\tx_out' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1819' with positive edge clock.
+Creating register for signal `\uart.\tx_state' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1820' with positive edge clock.
+Creating register for signal `\uart.\tx_bits_remaining' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1821' with positive edge clock.
+Creating register for signal `\uart.\tx_data' using process `\uart.$proc$uart.v:135$115'.
+  created $dff cell `$procdff$1822' with positive edge clock.
+Creating register for signal `\pulses.\period' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1823' with positive edge clock.
+Creating register for signal `\pulses.\p1width' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1824' with positive edge clock.
+Creating register for signal `\pulses.\delay' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1825' with positive edge clock.
+Creating register for signal `\pulses.\p2width' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1826' with positive edge clock.
+Creating register for signal `\pulses.\pump' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1827' with positive edge clock.
+Creating register for signal `\pulses.\block' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1828' with positive edge clock.
+Creating register for signal `\pulses.\pulse_block' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1829' with positive edge clock.
+Creating register for signal `\pulses.\pulse_block_off' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1830' with positive edge clock.
+Creating register for signal `\pulses.\cpmg' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1831' with positive edge clock.
+Creating register for signal `\pulses.\rx_done' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1832' with positive edge clock.
+Creating register for signal `\pulses.\pulses' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1833' with positive edge clock.
+Creating register for signal `\pulses.\counter' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1834' with positive edge clock.
+Creating register for signal `\pulses.\sync' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1835' with positive edge clock.
+Creating register for signal `\pulses.\pulse' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1836' with positive edge clock.
+Creating register for signal `\pulses.\nut_pulse' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1837' with positive edge clock.
+Creating register for signal `\pulses.\inh' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1838' with positive edge clock.
+Creating register for signal `\pulses.\p2start' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1839' with positive edge clock.
+Creating register for signal `\pulses.\sync_down' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1840' with positive edge clock.
+Creating register for signal `\pulses.\block_off' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1841' with positive edge clock.
+Creating register for signal `\pulses.\nutation_pulse_width' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1842' with positive edge clock.
+Creating register for signal `\pulses.\nutation_pulse_delay' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1843' with positive edge clock.
+Creating register for signal `\pulses.\nutation_pulse_start' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1844' with positive edge clock.
+Creating register for signal `\pulses.\nutation_pulse_stop' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1845' with positive edge clock.
+Creating register for signal `\pulses.\per_shift' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1846' with positive edge clock.
+Creating register for signal `\pulses.\ccount' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1847' with positive edge clock.
+Creating register for signal `\pulses.\cdelay' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1848' with positive edge clock.
+Creating register for signal `\pulses.\cpulse' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1849' with positive edge clock.
+Creating register for signal `\pulses.\cblock_delay' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1850' with positive edge clock.
+Creating register for signal `\pulses.\cblock_on' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1851' with positive edge clock.
+Creating register for signal `\pulses.\xfer_bits' using process `\pulses.$proc$pulses.v:121$45'.
+  created $dff cell `$procdff$1852' with positive edge clock.
+Creating register for signal `\pulse_control.\period' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1853' with positive edge clock.
+Creating register for signal `\pulse_control.\p1width' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1854' with positive edge clock.
+Creating register for signal `\pulse_control.\delay' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1855' with positive edge clock.
+Creating register for signal `\pulse_control.\p2width' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1856' with positive edge clock.
+Creating register for signal `\pulse_control.\pump' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1857' with positive edge clock.
+Creating register for signal `\pulse_control.\block' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1858' with positive edge clock.
+Creating register for signal `\pulse_control.\pulse_block' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1859' with positive edge clock.
+Creating register for signal `\pulse_control.\cpmg' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1860' with positive edge clock.
+Creating register for signal `\pulse_control.\rx_done' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1861' with positive edge clock.
+Creating register for signal `\pulse_control.\nut_d' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1862' with positive edge clock.
+Creating register for signal `\pulse_control.\nut_w' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1863' with positive edge clock.
+Creating register for signal `\pulse_control.\transmit' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1864' with positive edge clock.
+Creating register for signal `\pulse_control.\tx_byte' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1865' with positive edge clock.
+Creating register for signal `\pulse_control.\vinput' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1866' with positive edge clock.
+Creating register for signal `\pulse_control.\vcontrol' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1867' with positive edge clock.
+Creating register for signal `\pulse_control.\voutput' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1868' with positive edge clock.
+Creating register for signal `\pulse_control.\writestate' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1869' with positive edge clock.
+Creating register for signal `\pulse_control.\readstate' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1870' with positive edge clock.
+Creating register for signal `\pulse_control.\readcount' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1871' with positive edge clock.
+Creating register for signal `\pulse_control.\state' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1872' with positive edge clock.
+Creating register for signal `\pulse_control.$bitselwrite$mask$pulse_control.v:143$1' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1873' with positive edge clock.
+Creating register for signal `\pulse_control.$bitselwrite$data$pulse_control.v:143$2' using process `\pulse_control.$proc$pulse_control.v:127$3'.
+  created $dff cell `$procdff$1874' with positive edge clock.
+
+6.4.9. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$374'.
+Found and cleaned up 2 empty switches in `\TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:350$370'.
+Removing empty process `TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:350$370'.
+Removing empty process `DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$367'.
+Found and cleaned up 1 empty switch in `\DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:285$346'.
+Removing empty process `DPR16X4C.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:285$346'.
+Removing empty process `TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$313'.
+Found and cleaned up 1 empty switch in `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$291'.
+Removing empty process `TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$291'.
+Removing empty process `TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$290'.
+Removing empty process `uart.$proc$uart.v:106$144'.
+Removing empty process `uart.$proc$uart.v:105$143'.
+Removing empty process `uart.$proc$uart.v:101$142'.
+Found and cleaned up 17 empty switches in `\uart.$proc$uart.v:135$115'.
+Removing empty process `uart.$proc$uart.v:135$115'.
+Removing empty process `pulses.$proc$pulses.v:98$108'.
+Removing empty process `pulses.$proc$pulses.v:92$107'.
+Removing empty process `pulses.$proc$pulses.v:87$106'.
+Removing empty process `pulses.$proc$pulses.v:86$105'.
+Removing empty process `pulses.$proc$pulses.v:85$104'.
+Removing empty process `pulses.$proc$pulses.v:82$103'.
+Removing empty process `pulses.$proc$pulses.v:81$102'.
+Removing empty process `pulses.$proc$pulses.v:80$101'.
+Removing empty process `pulses.$proc$pulses.v:78$100'.
+Removing empty process `pulses.$proc$pulses.v:77$99'.
+Removing empty process `pulses.$proc$pulses.v:76$98'.
+Removing empty process `pulses.$proc$pulses.v:75$97'.
+Removing empty process `pulses.$proc$pulses.v:74$96'.
+Removing empty process `pulses.$proc$pulses.v:73$95'.
+Removing empty process `pulses.$proc$pulses.v:72$94'.
+Removing empty process `pulses.$proc$pulses.v:71$93'.
+Removing empty process `pulses.$proc$pulses.v:70$92'.
+Removing empty process `pulses.$proc$pulses.v:69$91'.
+Removing empty process `pulses.$proc$pulses.v:56$90'.
+Removing empty process `pulses.$proc$pulses.v:48$89'.
+Found and cleaned up 9 empty switches in `\pulses.$proc$pulses.v:121$45'.
+Removing empty process `pulses.$proc$pulses.v:121$45'.
+Removing empty process `pulse_control.$proc$pulse_control.v:124$44'.
+Removing empty process `pulse_control.$proc$pulse_control.v:107$43'.
+Removing empty process `pulse_control.$proc$pulse_control.v:106$42'.
+Removing empty process `pulse_control.$proc$pulse_control.v:105$41'.
+Removing empty process `pulse_control.$proc$pulse_control.v:104$40'.
+Removing empty process `pulse_control.$proc$pulse_control.v:44$39'.
+Removing empty process `pulse_control.$proc$pulse_control.v:43$38'.
+Removing empty process `pulse_control.$proc$pulse_control.v:42$37'.
+Removing empty process `pulse_control.$proc$pulse_control.v:41$36'.
+Removing empty process `pulse_control.$proc$pulse_control.v:40$35'.
+Removing empty process `pulse_control.$proc$pulse_control.v:39$34'.
+Removing empty process `pulse_control.$proc$pulse_control.v:38$33'.
+Removing empty process `pulse_control.$proc$pulse_control.v:37$32'.
+Removing empty process `pulse_control.$proc$pulse_control.v:36$31'.
+Removing empty process `pulse_control.$proc$pulse_control.v:35$30'.
+Found and cleaned up 9 empty switches in `\pulse_control.$proc$pulse_control.v:127$3'.
+Removing empty process `pulse_control.$proc$pulse_control.v:127$3'.
+Cleaned up 39 empty switches.
+
+6.5. Executing FLATTEN pass (flatten design).
+Deleting now unused module uart.
+Deleting now unused module pulses.
+Deleting now unused module pulse_control.
+Deleting now unused module pll.
+<suppressed ~4 debug messages>
+
+6.6. Executing TRIBUF pass.
+
+6.7. Executing DEMINOUT pass (demote inout ports to input or output).
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~178 debug messages>
+
+6.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 45 unused cells and 437 unused wires.
+<suppressed ~56 debug messages>
+
+6.10. Executing CHECK pass (checking for obvious problems).
+checking module pulse_gen..
+found and reported 0 problems.
+
+6.11. Executing OPT pass (performing simple optimizations).
+
+6.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~861 debug messages>
+Removed a total of 287 cells.
+
+6.11.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $flatten\control.$procmux$1669: \control.writestate -> 1'0
+      Replacing known input bits on port B of cell $flatten\control.$procmux$1667: \control.writestate -> 1'1
+      Replacing known input bits on port B of cell $flatten\control.$procmux$1671: \control.writestate -> 1'0
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$685.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$695.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$707.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$709.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$721.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$723.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$735.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$737.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$749.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$751.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$763.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$765.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$776.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$787.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$798.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$809.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$820.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$832.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$844.
+    dead port 2/2 on $mux $flatten\control.$procmux$1480.
+    dead port 2/2 on $mux $flatten\control.$procmux$1521.
+    dead port 2/2 on $mux $flatten\control.$procmux$1523.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1002.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$1010.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1012.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1014.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1016.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1018.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1021.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1021.
+    dead port 2/2 on $mux $flatten\control.$procmux$1525.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1024.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$1032.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1034.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1036.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1038.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1040.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1043.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1043.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1046.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$1055.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1057.
+    dead port 2/2 on $mux $flatten\control.$procmux$1559.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1059.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1061.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1064.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1064.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1067.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$1076.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1078.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1080.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1082.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1085.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1085.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1088.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$1097.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1099.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1101.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1103.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1106.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1106.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$402.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$404.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1109.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$1119.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1121.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1123.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$412.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1126.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1126.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$414.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1129.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$422.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$424.
+    dead port 2/2 on $mux $flatten\control.$procmux$1561.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1146.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1146.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$432.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$434.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1149.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$442.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$444.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1166.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1166.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$451.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1169.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$458.
+    dead port 2/2 on $mux $flatten\control.$procmux$1588.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$465.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1186.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1186.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$472.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1189.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$479.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1204.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1204.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$487.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1207.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$495.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1222.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1222.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$503.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1225.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$511.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$519.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1242.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1242.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1245.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1260.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1260.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1263.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$1279.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$1279.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1282.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1289.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1296.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1303.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1310.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1317.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1324.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$552.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1331.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$562.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$1338.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$564.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$574.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$576.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$586.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$917.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$588.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$919.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$921.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$923.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$597.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$925.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$927.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$930.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$930.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$606.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$933.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$940.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$942.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$615.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$944.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$946.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$948.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$624.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$950.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$953.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$953.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$633.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$956.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$963.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$965.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$967.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$642.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$969.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$971.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$973.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$653.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$976.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$976.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$655.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$979.
+    dead port 2/2 on $mux $flatten\pulses.$procmux$986.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$988.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$665.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$990.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$992.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$994.
+    dead port 2/2 on $mux $flatten\control.\uart0.$procmux$675.
+    dead port 1/2 on $mux $flatten\pulses.$procmux$996.
+    dead port 1/3 on $pmux $flatten\pulses.$procmux$999.
+    dead port 2/3 on $pmux $flatten\pulses.$procmux$999.
+Removed 174 multiplexer ports.
+<suppressed ~63 debug messages>
+
+6.11.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$855: { $flatten\control.\uart0.$procmux$833_CMP $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$656_CMP $flatten\control.\uart0.$procmux$565_CMP $flatten\control.\uart0.$procmux$849_CMP $auto$opt_reduce.cc:134:opt_mux$1876 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$864: { $flatten\control.\uart0.$procmux$565_CMP $auto$opt_reduce.cc:134:opt_mux$1878 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$873: { $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$565_CMP $auto$opt_reduce.cc:134:opt_mux$1880 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$882: { $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$656_CMP $flatten\control.\uart0.$procmux$565_CMP $auto$opt_reduce.cc:134:opt_mux$1882 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$891: { $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$656_CMP $flatten\control.\uart0.$procmux$565_CMP $auto$opt_reduce.cc:134:opt_mux$1884 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$521: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP $auto$opt_reduce.cc:134:opt_mux$1886 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$526: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP $auto$opt_reduce.cc:134:opt_mux$1888 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$536: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP $auto$opt_reduce.cc:134:opt_mux$1890 }
+    New ctrl vector for $pmux cell $flatten\pulses.$procmux$1293: $auto$opt_reduce.cc:134:opt_mux$1892
+    New ctrl vector for $pmux cell $flatten\pulses.$procmux$1300: $auto$opt_reduce.cc:134:opt_mux$1894
+    New ctrl vector for $pmux cell $flatten\control.$procmux$1635: { $flatten\control.$procmux$1526_CMP $auto$opt_reduce.cc:134:opt_mux$1896 }
+    New ctrl vector for $pmux cell $flatten\pulses.$procmux$1307: $auto$opt_reduce.cc:134:opt_mux$1898
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$541: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP $auto$opt_reduce.cc:134:opt_mux$1900 }
+    New ctrl vector for $pmux cell $flatten\pulses.$procmux$1314: $auto$opt_reduce.cc:134:opt_mux$1902
+    New ctrl vector for $pmux cell $flatten\pulses.$procmux$1321: $auto$opt_reduce.cc:134:opt_mux$1904
+  Optimizing cells in module \pulse_gen.
+Performed a total of 15 changes.
+
+6.11.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~27 debug messages>
+Removed a total of 9 cells.
+
+6.11.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.11.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 0 unused cells and 452 unused wires.
+<suppressed ~1 debug messages>
+
+6.11.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.11.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.11.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~64 debug messages>
+
+6.11.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.11.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.11.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.11.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.11.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.11.16. Finished OPT passes. (There is nothing left to do.)
+
+6.12. Executing FSM pass (extract and optimize FSM).
+
+6.12.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking pulse_gen.control.readstate as FSM state register:
+    Register has an initialization value.
+Not marking pulse_gen.control.state as FSM state register:
+    Register has an initialization value.
+    Circuit seems to be self-resetting.
+Not marking pulse_gen.control.uart0.recv_state as FSM state register:
+    Register has an initialization value.
+    Circuit seems to be self-resetting.
+Not marking pulse_gen.control.uart0.tx_state as FSM state register:
+    Users of register don't seem to benefit from recoding.
+    Register has an initialization value.
+    Circuit seems to be self-resetting.
+Not marking pulse_gen.pulses.pulse_block_off as FSM state register:
+    Users of register don't seem to benefit from recoding.
+    Register has an initialization value.
+
+6.12.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+6.12.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+6.12.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.12.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+6.12.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+6.12.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+6.12.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+6.13. Executing OPT pass (performing simple optimizations).
+
+6.13.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.13.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.13.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~64 debug messages>
+
+6.13.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.13.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.13.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $flatten\pulses.$procdff$1852 ($dff) from module pulse_gen (D = { \pulses.xfer_bits [0] \control.rx_done }, Q = \pulses.xfer_bits).
+Adding EN signal on $flatten\pulses.$procdff$1851 ($dff) from module pulse_gen (D = $flatten\pulses.$3\cblock_on[31:0], Q = \pulses.cblock_on).
+Adding EN signal on $flatten\pulses.$procdff$1850 ($dff) from module pulse_gen (D = $flatten\pulses.$3\cblock_delay[31:0], Q = \pulses.cblock_delay).
+Adding EN signal on $flatten\pulses.$procdff$1849 ($dff) from module pulse_gen (D = $flatten\pulses.$3\cpulse[31:0], Q = \pulses.cpulse).
+Adding EN signal on $flatten\pulses.$procdff$1848 ($dff) from module pulse_gen (D = $flatten\pulses.$3\cdelay[31:0], Q = \pulses.cdelay).
+Adding EN signal on $flatten\pulses.$procdff$1847 ($dff) from module pulse_gen (D = $flatten\pulses.$3\ccount[7:0], Q = \pulses.ccount).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1992 ($dffe) from module pulse_gen (D = $flatten\pulses.$procmux$1141_Y, Q = \pulses.ccount, rval = 8'00000000).
+Adding EN signal on $flatten\pulses.$procdff$1846 ($dff) from module pulse_gen (D = { 8'00000000 \pulses.period 16'0000000000000000 }, Q = \pulses.per_shift).
+Setting constant 0-bit at position 0 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 1 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 2 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 3 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 4 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 5 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 6 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 7 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 8 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 9 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 10 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 11 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 12 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 13 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 14 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 15 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 24 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 25 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 26 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 27 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 28 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 29 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 30 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 31 on $auto$opt_dff.cc:764:run$1998 ($dffe) from module pulse_gen.
+Adding EN signal on $flatten\pulses.$procdff$1845 ($dff) from module pulse_gen (D = $flatten\pulses.$sub$pulses.v:154$52_Y, Q = \pulses.nutation_pulse_stop).
+Adding EN signal on $flatten\pulses.$procdff$1844 ($dff) from module pulse_gen (D = $flatten\pulses.$sub$pulses.v:154$53_Y, Q = \pulses.nutation_pulse_start).
+Adding EN signal on $flatten\pulses.$procdff$1843 ($dff) from module pulse_gen (D = \control.nut_d, Q = \pulses.nutation_pulse_delay).
+Adding EN signal on $flatten\pulses.$procdff$1842 ($dff) from module pulse_gen (D = \control.nut_w, Q = \pulses.nutation_pulse_width).
+Adding EN signal on $flatten\pulses.$procdff$1841 ($dff) from module pulse_gen (D = $flatten\pulses.$sub$pulses.v:147$50_Y, Q = \pulses.block_off).
+Adding EN signal on $flatten\pulses.$procdff$1840 ($dff) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:146$48_Y, Q = \pulses.sync_down).
+Adding EN signal on $flatten\pulses.$procdff$1839 ($dff) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:145$47_Y, Q = \pulses.p2start).
+Adding EN signal on $flatten\pulses.$procdff$1838 ($dff) from module pulse_gen (D = $flatten\pulses.$2\inh[0:0], Q = \pulses.inh).
+Adding EN signal on $flatten\pulses.$procdff$1837 ($dff) from module pulse_gen (D = $flatten\pulses.$ternary$pulses.v:186$65_Y [0], Q = \pulses.nut_pulse).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2057 ($dffe) from module pulse_gen (D = $flatten\pulses.$ternary$pulses.v:187$64_Y [0], Q = \pulses.nut_pulse, rval = 1'0).
+Adding EN signal on $flatten\pulses.$procdff$1836 ($dff) from module pulse_gen (D = $flatten\pulses.$2\pulse[0:0], Q = \pulses.pulse).
+Adding EN signal on $flatten\pulses.$procdff$1835 ($dff) from module pulse_gen (D = $flatten\pulses.$2\sync[0:0], Q = \pulses.sync).
+Adding SRST signal on $flatten\pulses.$procdff$1834 ($dff) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:263$87_Y, Q = \pulses.counter, rval = 0).
+Adding EN signal on $flatten\pulses.$procdff$1833 ($dff) from module pulse_gen (D = $flatten\pulses.$ternary$pulses.v:183$61_Y [0], Q = \pulses.pulses).
+Adding EN signal on $flatten\pulses.$procdff$1832 ($dff) from module pulse_gen (D = \pulses.xfer_bits [1], Q = \pulses.rx_done).
+Adding EN signal on $flatten\pulses.$procdff$1831 ($dff) from module pulse_gen (D = { 7'0000000 \control.cpmg [0] }, Q = \pulses.cpmg).
+Setting constant 0-bit at position 2 on $auto$opt_dff.cc:764:run$2102 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 3 on $auto$opt_dff.cc:764:run$2102 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 4 on $auto$opt_dff.cc:764:run$2102 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 5 on $auto$opt_dff.cc:764:run$2102 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 6 on $auto$opt_dff.cc:764:run$2102 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 7 on $auto$opt_dff.cc:764:run$2102 ($dffe) from module pulse_gen.
+Adding EN signal on $flatten\pulses.$procdff$1830 ($dff) from module pulse_gen (D = 16'0000000001100100, Q = \pulses.pulse_block_off).
+Setting constant 0-bit at position 0 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 1 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 1-bit at position 2 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 3 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 4 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 1-bit at position 5 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 1-bit at position 6 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 7 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 8 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 9 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 10 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 11 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 12 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 13 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 14 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 15 on $auto$opt_dff.cc:764:run$2107 ($dffe) from module pulse_gen.
+Adding EN signal on $flatten\pulses.$procdff$1829 ($dff) from module pulse_gen (D = \control.pulse_block, Q = \pulses.pulse_block).
+Adding EN signal on $flatten\pulses.$procdff$1828 ($dff) from module pulse_gen (D = \control.block, Q = \pulses.block).
+Adding EN signal on $flatten\pulses.$procdff$1827 ($dff) from module pulse_gen (D = \control.pump, Q = \pulses.pump).
+Adding EN signal on $flatten\pulses.$procdff$1826 ($dff) from module pulse_gen (D = \control.p2width, Q = \pulses.p2width).
+Adding EN signal on $flatten\pulses.$procdff$1825 ($dff) from module pulse_gen (D = \control.delay, Q = \pulses.delay).
+Adding EN signal on $flatten\pulses.$procdff$1824 ($dff) from module pulse_gen (D = \control.p1width, Q = \pulses.p1width).
+Adding EN signal on $flatten\pulses.$procdff$1823 ($dff) from module pulse_gen (D = \control.period, Q = \pulses.period).
+Adding EN signal on $flatten\control.\uart0.$procdff$1822 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\tx_data[7:0], Q = \control.uart0.tx_data).
+Adding EN signal on $flatten\control.\uart0.$procdff$1821 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\tx_bits_remaining[3:0], Q = \control.uart0.tx_bits_remaining).
+Adding EN signal on $flatten\control.\uart0.$procdff$1820 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\tx_state[1:0], Q = \control.uart0.tx_state).
+Adding EN signal on $flatten\control.\uart0.$procdff$1819 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\tx_out[0:0], Q = \control.uart0.tx_out).
+Adding EN signal on $flatten\control.\uart0.$procdff$1818 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\rx_data[7:0], Q = \control.uart0.rx_data).
+Adding EN signal on $flatten\control.\uart0.$procdff$1817 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\rx_bits_remaining[3:0], Q = \control.uart0.rx_bits_remaining).
+Adding EN signal on $flatten\control.\uart0.$procdff$1816 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\recv_state[2:0], Q = \control.uart0.recv_state).
+Adding EN signal on $flatten\control.\uart0.$procdff$1813 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\rx_sample_countdown[3:0], Q = \control.uart0.rx_sample_countdown).
+Adding EN signal on $flatten\control.\uart0.$procdff$1812 ($dff) from module pulse_gen (D = $flatten\control.\uart0.$0\rx_samples[3:0], Q = \control.uart0.rx_samples).
+Adding EN signal on $flatten\control.$procdff$1872 ($dff) from module pulse_gen (D = $flatten\control.$0\state[2:0], Q = \control.state).
+Adding EN signal on $flatten\control.$procdff$1871 ($dff) from module pulse_gen (D = $flatten\control.$0\readcount[5:0], Q = \control.readcount).
+Adding EN signal on $flatten\control.$procdff$1870 ($dff) from module pulse_gen (D = $flatten\control.$procmux$1655_Y, Q = \control.readstate).
+Adding EN signal on $flatten\control.$procdff$1869 ($dff) from module pulse_gen (D = $flatten\control.$0\writestate[0:0], Q = \control.writestate).
+Adding EN signal on $flatten\control.$procdff$1868 ($dff) from module pulse_gen (D = $flatten\control.$add$pulse_control.v:160$27_Y, Q = \control.voutput).
+Adding EN signal on $flatten\control.$procdff$1867 ($dff) from module pulse_gen (D = \control.uart0.rx_data, Q = \control.vcontrol).
+Adding EN signal on $flatten\control.$procdff$1866 ($dff) from module pulse_gen (D = $flatten\control.$or$pulse_control.v:0$22_Y, Q = \control.vinput).
+Adding EN signal on $flatten\control.$procdff$1865 ($dff) from module pulse_gen (D = \control.voutput, Q = \control.tx_byte).
+Adding EN signal on $flatten\control.$procdff$1864 ($dff) from module pulse_gen (D = $flatten\control.$0\transmit[0:0], Q = \control.transmit).
+Adding EN signal on $flatten\control.$procdff$1863 ($dff) from module pulse_gen (D = \control.vinput, Q = \control.nut_w).
+Adding EN signal on $flatten\control.$procdff$1862 ($dff) from module pulse_gen (D = \control.vinput, Q = \control.nut_d).
+Adding EN signal on $flatten\control.$procdff$1861 ($dff) from module pulse_gen (D = $flatten\control.$2\rx_done[0:0], Q = \control.rx_done).
+Adding EN signal on $flatten\control.$procdff$1860 ($dff) from module pulse_gen (D = \control.vinput [7:0], Q = \control.cpmg).
+Adding EN signal on $flatten\control.$procdff$1859 ($dff) from module pulse_gen (D = \control.vinput [15:8], Q = \control.pulse_block).
+Adding EN signal on $flatten\control.$procdff$1858 ($dff) from module pulse_gen (D = \control.vinput [1], Q = \control.block).
+Adding EN signal on $flatten\control.$procdff$1857 ($dff) from module pulse_gen (D = \control.vinput [0], Q = \control.pump).
+Adding EN signal on $flatten\control.$procdff$1856 ($dff) from module pulse_gen (D = \control.vinput [15:0], Q = \control.p2width).
+Adding EN signal on $flatten\control.$procdff$1855 ($dff) from module pulse_gen (D = \control.vinput [15:0], Q = \control.delay).
+Adding EN signal on $flatten\control.$procdff$1854 ($dff) from module pulse_gen (D = \control.vinput [15:0], Q = \control.p1width).
+Adding EN signal on $flatten\control.$procdff$1853 ($dff) from module pulse_gen (D = \control.vinput [7:0], Q = \control.period).
+
+6.13.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 93 unused cells and 93 unused wires.
+<suppressed ~94 debug messages>
+
+6.13.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~21 debug messages>
+
+6.13.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.13.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~30 debug messages>
+
+6.13.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$521: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$526: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$536: { $flatten\control.\uart0.$procmux$488_CMP $flatten\control.\uart0.$procmux$405_CMP }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$864: $flatten\control.\uart0.$procmux$565_CMP
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$873: { $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$565_CMP }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$882: { $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$656_CMP $flatten\control.\uart0.$procmux$565_CMP }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$891: { $flatten\control.\uart0.$procmux$710_CMP $flatten\control.\uart0.$procmux$656_CMP $flatten\control.\uart0.$procmux$565_CMP }
+  Optimizing cells in module \pulse_gen.
+Performed a total of 7 changes.
+
+6.13.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~303 debug messages>
+Removed a total of 101 cells.
+
+6.13.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.13.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 0 unused cells and 101 unused wires.
+<suppressed ~1 debug messages>
+
+6.13.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.13.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.13.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~31 debug messages>
+
+6.13.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.13.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.13.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.13.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.13.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.13.23. Finished OPT passes. (There is nothing left to do.)
+
+6.14. Executing WREDUCE pass (reducing word size of cells).
+Removed top 8 bits (of 9) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2037 ($ne).
+Removed top 3 bits (of 8) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2039 ($ne).
+Removed top 2 bits (of 6) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2041 ($ne).
+Removed top 2 bits (of 5) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2043 ($ne).
+Removed top 2 bits (of 4) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2045 ($ne).
+Removed top 3 bits (of 7) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2062 ($ne).
+Removed top 3 bits (of 6) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2064 ($ne).
+Removed top 3 bits (of 8) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2073 ($ne).
+Removed top 1 bits (of 2) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2148 ($ne).
+Removed top 1 bits (of 5) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$1947 ($ne).
+Removed top 2 bits (of 3) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart.v:193$127 ($mux).
+Removed top 30 bits (of 32) from port B of cell pulse_gen.$flatten\control.\uart0.$gt$uart.v:201$129 ($gt).
+Removed top 2 bits (of 3) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart.v:226$133 ($mux).
+Removed top 1 bits (of 2) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart.v:301$140 ($mux).
+Removed top 1 bits (of 2) from port B of cell pulse_gen.$flatten\control.\uart0.$procmux$405_CMP0 ($eq).
+Removed top 1 bits (of 11) from mux cell pulse_gen.$flatten\control.\uart0.$procmux$410 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$420 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$440 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$449 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$456 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$463 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$470 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$485 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$493 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$501 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$517 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$550 ($mux).
+Removed top 1 bits (of 3) from port B of cell pulse_gen.$flatten\control.\uart0.$procmux$565_CMP0 ($eq).
+Removed top 5 bits (of 15) from mux cell pulse_gen.$flatten\control.\uart0.$procmux$572 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$595 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$613 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$622 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$631 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$640 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$651 ($mux).
+Removed top 1 bits (of 3) from port B of cell pulse_gen.$flatten\control.\uart0.$procmux$656_CMP0 ($eq).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$663 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$673 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$693 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$705 ($mux).
+Removed top 2 bits (of 3) from port B of cell pulse_gen.$flatten\control.\uart0.$procmux$710_CMP0 ($eq).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$719 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$747 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$774 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$785 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$807 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$818 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$830 ($mux).
+Removed cell pulse_gen.$flatten\control.\uart0.$procmux$864 ($mux).
+Removed top 7 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1802_CMP0 ($eq).
+Removed top 6 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1790_CMP0 ($eq).
+Removed top 6 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1766_CMP0 ($eq).
+Removed top 5 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1738_CMP0 ($eq).
+Removed top 5 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1729_CMP0 ($eq).
+Removed top 4 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1721_CMP0 ($eq).
+Removed top 5 bits (of 8) from port B of cell pulse_gen.$flatten\control.$procmux$1714_CMP0 ($eq).
+Removed cell pulse_gen.$flatten\control.$procmux$1705 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1701 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1661 ($mux).
+Removed top 1 bits (of 2) from mux cell pulse_gen.$flatten\control.$procmux$1659 ($mux).
+Removed top 1 bits (of 2) from port B of cell pulse_gen.$flatten\control.$procmux$1656_CMP0 ($eq).
+Removed cell pulse_gen.$flatten\control.$procmux$1653 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1646 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1644 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1631 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1629 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1627 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1617 ($mux).
+Removed cell pulse_gen.$flatten\control.$procmux$1613 ($mux).
+Removed top 2 bits (of 3) from port B of cell pulse_gen.$flatten\control.$procmux$1608_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell pulse_gen.$flatten\control.$procmux$1481_CMP0 ($eq).
+Removed top 28 bits (of 32) from port B of cell pulse_gen.$flatten\control.$add$pulse_control.v:144$23 ($add).
+Removed top 26 bits (of 32) from port Y of cell pulse_gen.$flatten\control.$add$pulse_control.v:144$23 ($add).
+Removed top 26 bits (of 32) from port B of cell pulse_gen.$flatten\control.$shl$pulse_control.v:0$19 ($shl).
+Removed top 24 bits (of 32) from port Y of cell pulse_gen.$flatten\control.$and$pulse_control.v:0$17 ($and).
+Removed top 26 bits (of 32) from port B of cell pulse_gen.$flatten\control.$shl$pulse_control.v:0$16 ($shl).
+Removed top 7 bits (of 8) from FF cell pulse_gen.$auto$opt_dff.cc:764:run$2312 ($dffe).
+Removed top 1 bits (of 2) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2269 ($ne).
+Removed top 2 bits (of 3) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2247 ($ne).
+Removed top 1 bits (of 3) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2245 ($ne).
+Removed top 1 bits (of 2) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$2241 ($ne).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1274 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1272 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1270 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1268 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1251 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1237 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1235 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1233 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1229 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1217 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1215 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1213 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1199 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1197 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1195 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1181 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1179 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1177 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1175 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1173 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1161 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1159 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1157 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1155 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1153 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1141 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1139 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1137 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1135 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1133 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1117 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1074 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1053 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1030 ($mux).
+Removed top 16 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$procmux$1017_CMP0 ($eq).
+Removed cell pulse_gen.$flatten\pulses.$procmux$1008 ($mux).
+Removed top 1 bits (of 2) from port B of cell pulse_gen.$flatten\pulses.$procmux$1000_CMP0 ($eq).
+Removed cell pulse_gen.$flatten\pulses.$procmux$984 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$961 ($mux).
+Removed top 6 bits (of 7) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$1909 ($ne).
+Removed cell pulse_gen.$flatten\pulses.$procmux$938 ($mux).
+Removed cell pulse_gen.$flatten\pulses.$procmux$915 ($mux).
+Removed top 31 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:263$87 ($add).
+Removed top 31 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:257$85 ($add).
+Removed top 24 bits (of 32) from port Y of cell pulse_gen.$flatten\pulses.$add$pulses.v:257$85 ($add).
+Removed top 9 bits (of 16) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:256$84 ($add).
+Removed top 6 bits (of 8) from port B of cell pulse_gen.$flatten\pulses.$lt$pulses.v:227$76 ($lt).
+Removed top 9 bits (of 16) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:218$75 ($add).
+Removed top 15 bits (of 32) from port Y of cell pulse_gen.$flatten\pulses.$add$pulses.v:215$72 ($add).
+Removed top 31 bits (of 32) from mux cell pulse_gen.$flatten\pulses.$ternary$pulses.v:199$69 ($mux).
+Removed top 31 bits (of 32) from mux cell pulse_gen.$flatten\pulses.$ternary$pulses.v:187$64 ($mux).
+Removed top 31 bits (of 32) from mux cell pulse_gen.$flatten\pulses.$ternary$pulses.v:183$61 ($mux).
+Removed top 31 bits (of 32) from mux cell pulse_gen.$flatten\pulses.$ternary$pulses.v:184$59 ($mux).
+Removed top 31 bits (of 32) from mux cell pulse_gen.$flatten\pulses.$ternary$pulses.v:185$58 ($mux).
+Removed top 8 bits (of 32) from port A of cell pulse_gen.$flatten\pulses.$sub$pulses.v:154$52 ($sub).
+Removed top 26 bits (of 32) from wire pulse_gen.$flatten\control.$add$pulse_control.v:144$23_Y.
+Removed top 24 bits (of 32) from wire pulse_gen.$flatten\control.$and$pulse_control.v:0$17_Y.
+Removed top 1 bits (of 2) from wire pulse_gen.$flatten\control.$procmux$1659_Y.
+Removed top 1 bits (of 8) from wire pulse_gen.$flatten\control.\uart0.$3\tx_data[7:0].
+Removed top 1 bits (of 8) from wire pulse_gen.$flatten\control.\uart0.$4\tx_data[7:0].
+Removed top 1 bits (of 11) from wire pulse_gen.$flatten\control.\uart0.$5\tx_clk[10:0].
+Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$6\recv_state[2:0].
+Removed top 5 bits (of 15) from wire pulse_gen.$flatten\control.\uart0.$8\rx_clk[14:0].
+Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$9\recv_state[2:0].
+Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart.v:193$127_Y.
+Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart.v:226$133_Y.
+Removed top 1 bits (of 2) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart.v:301$140_Y.
+Removed top 15 bits (of 32) from wire pulse_gen.$flatten\pulses.$add$pulses.v:215$72_Y.
+Removed top 31 bits (of 32) from wire pulse_gen.$flatten\pulses.$ternary$pulses.v:183$61_Y.
+Removed top 31 bits (of 32) from wire pulse_gen.$flatten\pulses.$ternary$pulses.v:185$58_Y.
+Removed top 31 bits (of 32) from wire pulse_gen.$flatten\pulses.$ternary$pulses.v:187$64_Y.
+Removed top 31 bits (of 32) from wire pulse_gen.$flatten\pulses.$ternary$pulses.v:199$69_Y.
+
+6.15. Executing PEEPOPT pass (run peephole optimizers).
+
+6.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 0 unused cells and 96 unused wires.
+<suppressed ~1 debug messages>
+
+6.17. Executing SHARE pass (SAT-based resource sharing).
+
+6.18. Executing TECHMAP pass (map to technology primitives).
+
+6.18.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/cmp2lut.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/cmp2lut.v' to AST representation.
+Generating RTLIL representation for module `\_90_lut_cmp_'.
+Successfully finished Verilog frontend.
+
+6.18.2. Continuing TECHMAP pass.
+Using template $paramod$5c6790619fdd520f2101529d9884f145abb8b880\_90_lut_cmp_ for cells of type $gt.
+No more expansions possible.
+<suppressed ~144 debug messages>
+
+6.19. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.20. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+6.21. Executing TECHMAP pass (map to technology primitives).
+
+6.21.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/mul2dsp.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/mul2dsp.v' to AST representation.
+Generating RTLIL representation for module `\_80_mul'.
+Generating RTLIL representation for module `\_90_soft_mul'.
+Successfully finished Verilog frontend.
+
+6.21.2. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/dsp_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/dsp_map.v' to AST representation.
+Generating RTLIL representation for module `\$__MUL18X18'.
+Successfully finished Verilog frontend.
+
+6.21.3. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~5 debug messages>
+
+6.22. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module pulse_gen:
+  creating $macc model for $flatten\control.$add$pulse_control.v:144$23 ($add).
+  creating $macc model for $flatten\control.$add$pulse_control.v:160$25 ($add).
+  creating $macc model for $flatten\control.$add$pulse_control.v:160$26 ($add).
+  creating $macc model for $flatten\control.$add$pulse_control.v:160$27 ($add).
+  creating $macc model for $flatten\control.\uart0.$add$uart.v:189$124 ($add).
+  creating $macc model for $flatten\control.\uart0.$sub$uart.v:145$117 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart.v:149$119 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart.v:192$125 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart.v:210$130 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart.v:283$138 ($sub).
+  creating $macc model for $flatten\pulses.$add$pulses.v:145$47 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:146$48 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:147$49 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:215$72 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:216$73 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:217$74 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:218$75 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:236$78 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:237$79 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:255$83 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:256$84 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:257$85 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:263$87 ($add).
+  creating $macc model for $flatten\pulses.$sub$pulses.v:147$50 ($sub).
+  creating $macc model for $flatten\pulses.$sub$pulses.v:154$52 ($sub).
+  creating $macc model for $flatten\pulses.$sub$pulses.v:154$53 ($sub).
+  merging $macc model for $flatten\pulses.$add$pulses.v:147$49 into $flatten\pulses.$sub$pulses.v:147$50.
+  merging $macc model for $flatten\control.$add$pulse_control.v:160$26 into $flatten\control.$add$pulse_control.v:160$27.
+  merging $macc model for $flatten\control.$add$pulse_control.v:160$25 into $flatten\control.$add$pulse_control.v:160$27.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:263$87.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:257$85.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:256$84.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:255$83.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:237$79.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:236$78.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:218$75.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:217$74.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:216$73.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:215$72.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:146$48.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:145$47.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart.v:283$138.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart.v:210$130.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart.v:192$125.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart.v:149$119.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart.v:145$117.
+  creating $alu model for $macc $flatten\control.\uart0.$add$uart.v:189$124.
+  creating $alu model for $macc $flatten\pulses.$sub$pulses.v:154$52.
+  creating $alu model for $macc $flatten\pulses.$sub$pulses.v:154$53.
+  creating $alu model for $macc $flatten\control.$add$pulse_control.v:144$23.
+  creating $macc cell for $flatten\control.$add$pulse_control.v:160$27: $auto$alumacc.cc:365:replace_macc$2353
+  creating $macc cell for $flatten\pulses.$sub$pulses.v:147$50: $auto$alumacc.cc:365:replace_macc$2354
+  creating $alu model for $flatten\pulses.$lt$pulses.v:183$55 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:184$56 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:185$57 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:186$62 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:187$63 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:199$67 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:227$76 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:263$86 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$procmux$1017_CMP0 ($eq): merged with $flatten\pulses.$lt$pulses.v:183$55.
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:263$86: $auto$alumacc.cc:485:replace_alu$2363
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:227$76: $auto$alumacc.cc:485:replace_alu$2374
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:199$67: $auto$alumacc.cc:485:replace_alu$2385
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:187$63: $auto$alumacc.cc:485:replace_alu$2396
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:186$62: $auto$alumacc.cc:485:replace_alu$2407
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:185$57: $auto$alumacc.cc:485:replace_alu$2418
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:184$56: $auto$alumacc.cc:485:replace_alu$2429
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:183$55, $flatten\pulses.$procmux$1017_CMP0: $auto$alumacc.cc:485:replace_alu$2440
+  creating $alu cell for $flatten\control.$add$pulse_control.v:144$23: $auto$alumacc.cc:485:replace_alu$2451
+  creating $alu cell for $flatten\pulses.$sub$pulses.v:154$53: $auto$alumacc.cc:485:replace_alu$2454
+  creating $alu cell for $flatten\pulses.$sub$pulses.v:154$52: $auto$alumacc.cc:485:replace_alu$2457
+  creating $alu cell for $flatten\control.\uart0.$add$uart.v:189$124: $auto$alumacc.cc:485:replace_alu$2460
+  creating $alu cell for $flatten\control.\uart0.$sub$uart.v:145$117: $auto$alumacc.cc:485:replace_alu$2463
+  creating $alu cell for $flatten\control.\uart0.$sub$uart.v:149$119: $auto$alumacc.cc:485:replace_alu$2466
+  creating $alu cell for $flatten\control.\uart0.$sub$uart.v:192$125: $auto$alumacc.cc:485:replace_alu$2469
+  creating $alu cell for $flatten\control.\uart0.$sub$uart.v:210$130: $auto$alumacc.cc:485:replace_alu$2472
+  creating $alu cell for $flatten\control.\uart0.$sub$uart.v:283$138: $auto$alumacc.cc:485:replace_alu$2475
+  creating $alu cell for $flatten\pulses.$add$pulses.v:146$48: $auto$alumacc.cc:485:replace_alu$2478
+  creating $alu cell for $flatten\pulses.$add$pulses.v:145$47: $auto$alumacc.cc:485:replace_alu$2481
+  creating $alu cell for $flatten\pulses.$add$pulses.v:215$72: $auto$alumacc.cc:485:replace_alu$2484
+  creating $alu cell for $flatten\pulses.$add$pulses.v:216$73: $auto$alumacc.cc:485:replace_alu$2487
+  creating $alu cell for $flatten\pulses.$add$pulses.v:217$74: $auto$alumacc.cc:485:replace_alu$2490
+  creating $alu cell for $flatten\pulses.$add$pulses.v:218$75: $auto$alumacc.cc:485:replace_alu$2493
+  creating $alu cell for $flatten\pulses.$add$pulses.v:236$78: $auto$alumacc.cc:485:replace_alu$2496
+  creating $alu cell for $flatten\pulses.$add$pulses.v:237$79: $auto$alumacc.cc:485:replace_alu$2499
+  creating $alu cell for $flatten\pulses.$add$pulses.v:255$83: $auto$alumacc.cc:485:replace_alu$2502
+  creating $alu cell for $flatten\pulses.$add$pulses.v:256$84: $auto$alumacc.cc:485:replace_alu$2505
+  creating $alu cell for $flatten\pulses.$add$pulses.v:257$85: $auto$alumacc.cc:485:replace_alu$2508
+  creating $alu cell for $flatten\pulses.$add$pulses.v:263$87: $auto$alumacc.cc:485:replace_alu$2511
+  created 29 $alu and 2 $macc cells.
+
+6.23. Executing OPT pass (performing simple optimizations).
+
+6.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~7 debug messages>
+
+6.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.23.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~29 debug messages>
+
+6.23.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$882: { $flatten\control.\uart0.$procmux$656_CMP $auto$opt_reduce.cc:134:opt_mux$2515 }
+    New ctrl vector for $pmux cell $flatten\control.\uart0.$procmux$891: { $flatten\control.\uart0.$procmux$656_CMP $auto$opt_reduce.cc:134:opt_mux$2517 }
+  Optimizing cells in module \pulse_gen.
+Performed a total of 2 changes.
+
+6.23.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~6 debug messages>
+Removed a total of 2 cells.
+
+6.23.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1973 ($dffe) from module pulse_gen (D = $flatten\pulses.$4\cdelay[31:0] [31:17], Q = \pulses.cdelay [31:17], rval = 15'000000000000000).
+
+6.23.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 10 unused cells and 22 unused wires.
+<suppressed ~11 debug messages>
+
+6.23.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.23.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.23.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~29 debug messages>
+
+6.23.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.23.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.23.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.23.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.23.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.23.16. Finished OPT passes. (There is nothing left to do.)
+
+6.24. Executing MEMORY pass.
+
+6.24.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+6.24.2. Executing MEMORY_DFF pass (merging $dff cells to $memrd and $memwr).
+
+6.24.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.24.4. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+6.24.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.24.6. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+6.25. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.26. Executing MEMORY_BRAM pass (mapping $mem cells to block memories).
+
+6.27. Executing TECHMAP pass (map to technology primitives).
+
+6.27.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/brams_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/brams_map.v' to AST representation.
+Generating RTLIL representation for module `\$__ECP5_DP16KD'.
+Generating RTLIL representation for module `\$__ECP5_PDPW16KD'.
+Successfully finished Verilog frontend.
+
+6.27.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~4 debug messages>
+
+6.28. Executing MEMORY_BRAM pass (mapping $mem cells to block memories).
+
+6.29. Executing TECHMAP pass (map to technology primitives).
+
+6.29.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/lutrams_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/lutrams_map.v' to AST representation.
+Generating RTLIL representation for module `\$__TRELLIS_DPR16X4'.
+Successfully finished Verilog frontend.
+
+6.29.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~3 debug messages>
+
+6.30. Executing OPT pass (performing simple optimizations).
+
+6.30.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~192 debug messages>
+
+6.30.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.30.3. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2302 ($dffe) from module pulse_gen (D = $flatten\control.$2\rx_done[0:0], Q = \control.transmit, rval = 1'0).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2275 ($dffe) from module pulse_gen (D = $flatten\control.$procmux$1669_Y, Q = \control.writestate, rval = 1'0).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2272 ($dffe) from module pulse_gen (D = $auto$wreduce.cc:454:run$2336 [0], Q = \control.readstate [0], rval = 1'0).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2263 ($dffe) from module pulse_gen (D = $auto$wreduce.cc:454:run$2334 [5:0], Q = \control.readcount, rval = 6'000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2239 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$4\rx_samples[3:0], Q = \control.uart0.rx_samples, rval = 4'0000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2224 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$4\rx_sample_countdown[3:0], Q = \control.uart0.rx_sample_countdown, rval = 4'0101).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2198 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$4\rx_bits_remaining[3:0], Q = \control.uart0.rx_bits_remaining, rval = 4'1000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2180 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$3\tx_out[0:0], Q = \control.uart0.tx_out, rval = 1'0).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2164 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$3\tx_bits_remaining[3:0], Q = \control.uart0.tx_bits_remaining, rval = 4'1000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$2153 ($dffe) from module pulse_gen (D = \control.tx_byte [7], Q = \control.uart0.tx_data [7], rval = 1'0).
+
+6.30.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 9 unused cells and 52 unused wires.
+<suppressed ~10 debug messages>
+
+6.30.5. Rerunning OPT passes. (Removed registers in this run.)
+
+6.30.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.30.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.30.8. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1958 ($dffe) from module pulse_gen (D = $flatten\pulses.$4\cpulse[31:0] [31:18], Q = \pulses.cpulse [31:18], rval = 14'00000000000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1943 ($dffe) from module pulse_gen (D = $flatten\pulses.$4\cblock_delay[31:0] [31:19], Q = \pulses.cblock_delay [31:19], rval = 13'0000000000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1924 ($dffe) from module pulse_gen (D = $flatten\pulses.$4\cblock_on[31:0] [31:20], Q = \pulses.cblock_on [31:20], rval = 12'000000000000).
+
+6.30.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.30.10. Rerunning OPT passes. (Removed registers in this run.)
+
+6.30.11. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.30.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.30.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.30.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.30.15. Finished fast OPT passes.
+
+6.31. Executing MEMORY_MAP pass (converting $mem cells to logic and flip-flops).
+
+6.32. Executing OPT pass (performing simple optimizations).
+
+6.32.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.32.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.32.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~24 debug messages>
+
+6.32.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+    Consolidated identical input bits for $mux cell $flatten\control.$procmux$1615:
+      Old ports: A=3'010, B=3'000, Y=$flatten\control.$procmux$1615_Y
+      New ports: A=1'1, B=1'0, Y=$flatten\control.$procmux$1615_Y [1]
+      New connections: { $flatten\control.$procmux$1615_Y [2] $flatten\control.$procmux$1615_Y [0] } = 2'00
+    Consolidated identical input bits for $mux cell $flatten\control.$procmux$1655:
+      Old ports: A={ 1'0 $auto$wreduce.cc:454:run$2336 [0] }, B=2'00, Y=$flatten\control.$procmux$1655_Y
+      New ports: A=$auto$wreduce.cc:454:run$2336 [0], B=1'0, Y=$flatten\control.$procmux$1655_Y [0]
+      New connections: $flatten\control.$procmux$1655_Y [1] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$procmux$410:
+      Old ports: A=10'1000100000, B=10'0011100010, Y=$auto$wreduce.cc:454:run$2339 [9:0]
+      New ports: A=2'10, B=2'01, Y={ $auto$wreduce.cc:454:run$2339 [9] $auto$wreduce.cc:454:run$2339 [1] }
+      New connections: { $auto$wreduce.cc:454:run$2339 [8:2] $auto$wreduce.cc:454:run$2339 [0] } = { 1'0 $auto$wreduce.cc:454:run$2339 [1] $auto$wreduce.cc:454:run$2339 [1] 5'10000 }
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$procmux$560:
+      Old ports: A=3'100, B=3'010, Y=$flatten\control.\uart0.$7\recv_state[2:0]
+      New ports: A=2'10, B=2'01, Y=$flatten\control.\uart0.$7\recv_state[2:0] [2:1]
+      New connections: $flatten\control.\uart0.$7\recv_state[2:0] [0] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$procmux$572:
+      Old ports: A=10'1001110001, B=10'0111010100, Y=$auto$wreduce.cc:454:run$2341 [9:0]
+      New ports: A=2'01, B=2'10, Y={ $auto$wreduce.cc:454:run$2341 [2] $auto$wreduce.cc:454:run$2341 [0] }
+      New connections: { $auto$wreduce.cc:454:run$2341 [9:3] $auto$wreduce.cc:454:run$2341 [1] } = { $auto$wreduce.cc:454:run$2341 [0] $auto$wreduce.cc:454:run$2341 [2] $auto$wreduce.cc:454:run$2341 [2] 1'1 $auto$wreduce.cc:454:run$2341 [0] 3'100 }
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$procmux$584:
+      Old ports: A={ 1'0 \control.uart0.rx_data [7:1] }, B={ 1'1 \control.uart0.rx_data [7:1] }, Y=$flatten\control.\uart0.$0\rx_data[7:0]
+      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$0\rx_data[7:0] [7]
+      New connections: $flatten\control.\uart0.$0\rx_data[7:0] [6:0] = \control.uart0.rx_data [7:1]
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$procmux$733:
+      Old ports: A=3'010, B=3'110, Y=$flatten\control.\uart0.$4\recv_state[2:0]
+      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$4\recv_state[2:0] [2]
+      New connections: $flatten\control.\uart0.$4\recv_state[2:0] [1:0] = 2'10
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$ternary$uart.v:247$135:
+      Old ports: A=3'000, B=3'101, Y=$flatten\control.\uart0.$ternary$uart.v:247$135_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$ternary$uart.v:247$135_Y [0]
+      New connections: $flatten\control.\uart0.$ternary$uart.v:247$135_Y [2:1] = { $flatten\control.\uart0.$ternary$uart.v:247$135_Y [0] 1'0 }
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$ternary$uart.v:306$141:
+      Old ports: A=2'00, B=2'11, Y=$flatten\control.\uart0.$ternary$uart.v:306$141_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$ternary$uart.v:306$141_Y [0]
+      New connections: $flatten\control.\uart0.$ternary$uart.v:306$141_Y [1] = $flatten\control.\uart0.$ternary$uart.v:306$141_Y [0]
+  Optimizing cells in module \pulse_gen.
+    Consolidated identical input bits for $pmux cell $flatten\control.$procmux$1620:
+      Old ports: A=3'000, B={ 6'001010 $flatten\control.$procmux$1615_Y }, Y=$flatten\control.$0\state[2:0]
+      New ports: A=2'00, B={ 4'0110 $flatten\control.$procmux$1615_Y [1] 1'0 }, Y=$flatten\control.$0\state[2:0] [1:0]
+      New connections: $flatten\control.$0\state[2:0] [2] = 1'0
+  Optimizing cells in module \pulse_gen.
+Performed a total of 10 changes.
+
+6.32.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~6 debug messages>
+Removed a total of 2 cells.
+
+6.32.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.32.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 1 unused cells and 3 unused wires.
+<suppressed ~2 debug messages>
+
+6.32.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.32.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.32.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~24 debug messages>
+
+6.32.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.32.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.32.13. Executing OPT_DFF pass (perform DFF optimizations).
+Setting constant 0-bit at position 0 on $auto$opt_dff.cc:764:run$2272 ($dffe) from module pulse_gen.
+Setting constant 0-bit at position 2 on $auto$opt_dff.cc:764:run$2254 ($dffe) from module pulse_gen.
+
+6.32.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.32.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~5 debug messages>
+
+6.32.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.32.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~24 debug messages>
+
+6.32.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.32.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.32.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.32.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+6.32.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.32.23. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.32.24. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \pulse_gen..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~24 debug messages>
+
+6.32.25. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \pulse_gen.
+Performed a total of 0 changes.
+
+6.32.26. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.32.27. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.32.28. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.32.29. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.32.30. Finished OPT passes. (There is nothing left to do.)
+
+6.33. Executing TECHMAP pass (map to technology primitives).
+
+6.33.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+6.33.2. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/arith_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/arith_map.v' to AST representation.
+Generating RTLIL representation for module `\_80_ecp5_alu'.
+Successfully finished Verilog frontend.
+
+6.33.3. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $dffe.
+Using extmapper simplemap for cells of type $sdffce.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $ne.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $sdff.
+Using extmapper simplemap for cells of type $lut.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=8\B_WIDTH=8\Y_WIDTH=8 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=11\B_WIDTH=1\Y_WIDTH=11 for cells of type $alu.
+Using template $paramod\_90_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=4\B_WIDTH=1\Y_WIDTH=4 for cells of type $alu.
+Using extmapper simplemap for cells of type $logic_not.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=15\B_WIDTH=1\Y_WIDTH=15 for cells of type $alu.
+Using extmapper simplemap for cells of type $mux.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=16\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod\_90_pmux\WIDTH=2\S_WIDTH=3 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=11\S_WIDTH=2 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=3\S_WIDTH=7 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=15\S_WIDTH=5 for cells of type $pmux.
+Using extmapper simplemap for cells of type $dff.
+Using template $paramod\_90_pmux\WIDTH=1\S_WIDTH=2 for cells of type $pmux.
+Using extmapper maccmap for cells of type $macc.
+  add \pulses.sync_down (16 bits, unsigned)
+  sub \pulses.pulse_block (8 bits, unsigned)
+  add \pulses.delay (16 bits, unsigned)
+  packed 1 (1) bits / 1 words into adder tree
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=24\B_WIDTH=32\Y_WIDTH=32 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=32\B_WIDTH=32\Y_WIDTH=32 for cells of type $alu.
+Using extmapper simplemap for cells of type $and.
+Using template $paramod$constmap:f1a86313b2935847134cde0e02ff53e41f28add9$paramod$8669418c886d3bd260d664481583c1c71dfc3c9b\_90_shift_ops_shr_shl_sshl_sshr for cells of type $shl.
+Using template $paramod$constmap:65a646296d3e5153eab58e58e05dcc6ed23f3479$paramod$6117e4f67b56bde6aa6a4e39e73a4e382ea036be\_90_shift_ops_shr_shl_sshl_sshr for cells of type $shl.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=16\B_WIDTH=16\Y_WIDTH=17 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=18\B_WIDTH=18\Y_WIDTH=18 for cells of type $alu.
+  add \control.vinput [31:24] (8 bits, unsigned)
+  add \control.vinput [7:0] (8 bits, unsigned)
+  add \control.vinput [15:8] (8 bits, unsigned)
+  add \control.vinput [23:16] (8 bits, unsigned)
+Using template $paramod\_90_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=3\Y_WIDTH=3 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=2\B_WIDTH=8\Y_WIDTH=8 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=32\Y_WIDTH=32 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=8\Y_WIDTH=8 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=8\B_WIDTH=32\Y_WIDTH=32 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=5\B_WIDTH=30\Y_WIDTH=30 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=16\B_WIDTH=32\Y_WIDTH=32 for cells of type $alu.
+Using template $paramod\_80_ecp5_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=19\B_WIDTH=19\Y_WIDTH=19 for cells of type $alu.
+Using extmapper simplemap for cells of type $logic_or.
+Using template $paramod\_90_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=4\Y_WIDTH=4 for cells of type $alu.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $pos.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_fa\WIDTH=16 for cells of type $fa.
+Using template $paramod\_90_lcu\WIDTH=4 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=8 for cells of type $fa.
+Using template $paramod\_90_lcu\WIDTH=3 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~3358 debug messages>
+
+6.34. Executing OPT pass (performing simple optimizations).
+
+6.34.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~2132 debug messages>
+
+6.34.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~1575 debug messages>
+Removed a total of 525 cells.
+
+6.34.3. Executing OPT_DFF pass (perform DFF optimizations).
+Handling D = Q on $auto$simplemap.cc:559:simplemap_adffe_sdffe_sdffce$6056 ($_SDFFCE_PP0P_) from module pulse_gen (conecting SRST instead).
+Setting constant 0-bit at position 0 on $auto$simplemap.cc:559:simplemap_adffe_sdffe_sdffce$6056 ($_SDFFCE_PP0P_) from module pulse_gen.
+Handling D = Q on $auto$simplemap.cc:559:simplemap_adffe_sdffe_sdffce$6057 ($_SDFFCE_PP0P_) from module pulse_gen (conecting SRST instead).
+Setting constant 0-bit at position 0 on $auto$simplemap.cc:559:simplemap_adffe_sdffe_sdffce$6057 ($_SDFFCE_PP0P_) from module pulse_gen.
+Handling D = Q on $auto$simplemap.cc:559:simplemap_adffe_sdffe_sdffce$6058 ($_SDFFCE_PP0P_) from module pulse_gen (conecting SRST instead).
+Setting constant 0-bit at position 0 on $auto$simplemap.cc:559:simplemap_adffe_sdffe_sdffce$6058 ($_SDFFCE_PP0P_) from module pulse_gen.
+
+6.34.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 1249 unused cells and 2420 unused wires.
+<suppressed ~1250 debug messages>
+
+6.34.5. Rerunning OPT passes. (Removed registers in this run.)
+
+6.34.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+<suppressed ~78 debug messages>
+
+6.34.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+<suppressed ~273 debug messages>
+Removed a total of 91 cells.
+
+6.34.8. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$6045 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.\uart0.$procmux$531.Y_B [1], Q = \control.uart0.tx_state [1], rval = 1'0).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$6044 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.\uart0.$procmux$531.Y_B [0], Q = \control.uart0.tx_state [0], rval = 1'1).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$6015 ($_DFFE_PP_) from module pulse_gen (D = \control.uart0.rx_samples [2], Q = \control.uart0.rx_data [7], rval = 1'1).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$5965 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.\uart0.$procmux$846.Y_B [2], Q = \control.uart0.recv_state [2], rval = 1'0).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$5964 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.\uart0.$procmux$846.Y_B [1], Q = \control.uart0.recv_state [1], rval = 1'0).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$5963 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.\uart0.$procmux$846.Y_B [0], Q = \control.uart0.recv_state [0], rval = 1'1).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$5786 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.$procmux$1620.Y_B [1], Q = \control.state [1], rval = 1'0).
+Adding SRST signal on $auto$simplemap.cc:442:simplemap_dffe$5785 ($_DFFE_PP_) from module pulse_gen (D = $flatten\control.$procmux$1620.B_AND_S [4], Q = \control.state [0], rval = 1'0).
+
+6.34.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 8 unused cells and 14 unused wires.
+<suppressed ~9 debug messages>
+
+6.34.10. Rerunning OPT passes. (Removed registers in this run.)
+
+6.34.11. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.34.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\pulse_gen'.
+Removed a total of 0 cells.
+
+6.34.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.34.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.34.15. Finished fast OPT passes.
+
+6.35. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+
+6.36. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+
+6.37. Executing TECHMAP pass (map to technology primitives).
+
+6.37.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/cells_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/cells_map.v' to AST representation.
+Generating RTLIL representation for module `\$_DFF_N_'.
+Generating RTLIL representation for module `\$_DFF_P_'.
+Generating RTLIL representation for module `\$_DFFE_NN_'.
+Generating RTLIL representation for module `\$_DFFE_PN_'.
+Generating RTLIL representation for module `\$_DFFE_NP_'.
+Generating RTLIL representation for module `\$_DFFE_PP_'.
+Generating RTLIL representation for module `\$_DFF_NP0_'.
+Generating RTLIL representation for module `\$_DFF_NP1_'.
+Generating RTLIL representation for module `\$_DFF_PP0_'.
+Generating RTLIL representation for module `\$_DFF_PP1_'.
+Generating RTLIL representation for module `\$_SDFF_NP0_'.
+Generating RTLIL representation for module `\$_SDFF_NP1_'.
+Generating RTLIL representation for module `\$_SDFF_PP0_'.
+Generating RTLIL representation for module `\$_SDFF_PP1_'.
+Generating RTLIL representation for module `\$_DFFE_NP0P_'.
+Generating RTLIL representation for module `\$_DFFE_NP1P_'.
+Generating RTLIL representation for module `\$_DFFE_PP0P_'.
+Generating RTLIL representation for module `\$_DFFE_PP1P_'.
+Generating RTLIL representation for module `\$_DFFE_NP0N_'.
+Generating RTLIL representation for module `\$_DFFE_NP1N_'.
+Generating RTLIL representation for module `\$_DFFE_PP0N_'.
+Generating RTLIL representation for module `\$_DFFE_PP1N_'.
+Generating RTLIL representation for module `\$_SDFFE_NP0P_'.
+Generating RTLIL representation for module `\$_SDFFE_NP1P_'.
+Generating RTLIL representation for module `\$_SDFFE_PP0P_'.
+Generating RTLIL representation for module `\$_SDFFE_PP1P_'.
+Generating RTLIL representation for module `\$_SDFFE_NP0N_'.
+Generating RTLIL representation for module `\$_SDFFE_NP1N_'.
+Generating RTLIL representation for module `\$_SDFFE_PP0N_'.
+Generating RTLIL representation for module `\$_SDFFE_PP1N_'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Successfully finished Verilog frontend.
+
+6.37.2. Continuing TECHMAP pass.
+Using template \$_SDFFE_PP0P_ for cells of type $_SDFFE_PP0P_.
+Using template $paramod\$_DFFE_PP_\_TECHMAP_WIREINIT_Q_=1'x for cells of type $_DFFE_PP_.
+Using template $paramod\$_DFFE_PP_\_TECHMAP_WIREINIT_Q_=1'0 for cells of type $_DFFE_PP_.
+Using template $paramod\$_DFFE_PP_\_TECHMAP_WIREINIT_Q_=1'1 for cells of type $_DFFE_PP_.
+Using template $paramod\$_DFFE_PN_\_TECHMAP_WIREINIT_Q_=1'x for cells of type $_DFFE_PN_.
+Using template $paramod\$_DFF_P_\_TECHMAP_WIREINIT_Q_=1'x for cells of type $_DFF_P_.
+Using template \$_SDFF_PP0_ for cells of type $_SDFF_PP0_.
+Using template $paramod\$_DFFE_PN_\_TECHMAP_WIREINIT_Q_=1'0 for cells of type $_DFFE_PN_.
+Using template \$_SDFFE_PP1P_ for cells of type $_SDFFE_PP1P_.
+Using template $paramod\$_DFFE_PN_\_TECHMAP_WIREINIT_Q_=1'1 for cells of type $_DFFE_PN_.
+No more expansions possible.
+<suppressed ~828 debug messages>
+
+6.38. Executing OPT_EXPR pass (perform const folding).
+Optimizing module pulse_gen.
+
+6.39. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+
+6.40. Executing ECP5_GSR pass (implement FF init values).
+Handling GSR in pulse_gen.
+
+6.41. Executing ATTRMVCP pass (move or copy attributes).
+
+6.42. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \pulse_gen..
+Removed 0 unused cells and 3496 unused wires.
+<suppressed ~1 debug messages>
+
+6.43. Executing TECHMAP pass (map to technology primitives).
+
+6.43.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/latches_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/latches_map.v' to AST representation.
+Generating RTLIL representation for module `\$_DLATCH_N_'.
+Generating RTLIL representation for module `\$_DLATCH_P_'.
+Successfully finished Verilog frontend.
+
+6.43.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~4 debug messages>
+
+6.44. Executing ABC pass (technology mapping using ABC).
+
+6.44.1. Extracting gate netlist of module `\pulse_gen' to `<abc-temp-dir>/input.blif'..
+Extracted 1887 gates and 2520 wires to a netlist network with 631 inputs and 344 outputs.
+
+6.44.1.1. Executing ABC.
+Running ABC command: <yosys-exe-dir>/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lut <abc-temp-dir>/lutdefs.txt 
+ABC: + strash 
+ABC: + ifraig 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + if 
+ABC: + mfs2 
+ABC: + dress 
+ABC: Total number of equiv classes                =     326.
+ABC: Participating nodes from both networks       =     739.
+ABC: Participating nodes from the first network   =     344. (  53.50 % of nodes)
+ABC: Participating nodes from the second network  =     395. (  61.43 % of nodes)
+ABC: Node pairs (any polarity)                    =     344. (  53.50 % of names can be moved)
+ABC: Node pairs (same polarity)                   =     311. (  48.37 % of names can be moved)
+ABC: Total runtime =     0.09 sec
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+6.44.1.2. Re-integrating ABC results.
+ABC RESULTS:              $lut cells:      642
+ABC RESULTS:        internal signals:     1545
+ABC RESULTS:           input signals:      631
+ABC RESULTS:          output signals:      344
+Removing temp directory.
+Removed 0 unused cells and 1356 unused wires.
+
+6.45. Executing TECHMAP pass (map to technology primitives).
+
+6.45.1. Executing Verilog-2005 frontend: /usr/local/bin/../share/yosys/ecp5/cells_map.v
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ecp5/cells_map.v' to AST representation.
+Generating RTLIL representation for module `\$_DFF_N_'.
+Generating RTLIL representation for module `\$_DFF_P_'.
+Generating RTLIL representation for module `\$_DFFE_NN_'.
+Generating RTLIL representation for module `\$_DFFE_PN_'.
+Generating RTLIL representation for module `\$_DFFE_NP_'.
+Generating RTLIL representation for module `\$_DFFE_PP_'.
+Generating RTLIL representation for module `\$_DFF_NP0_'.
+Generating RTLIL representation for module `\$_DFF_NP1_'.
+Generating RTLIL representation for module `\$_DFF_PP0_'.
+Generating RTLIL representation for module `\$_DFF_PP1_'.
+Generating RTLIL representation for module `\$_SDFF_NP0_'.
+Generating RTLIL representation for module `\$_SDFF_NP1_'.
+Generating RTLIL representation for module `\$_SDFF_PP0_'.
+Generating RTLIL representation for module `\$_SDFF_PP1_'.
+Generating RTLIL representation for module `\$_DFFE_NP0P_'.
+Generating RTLIL representation for module `\$_DFFE_NP1P_'.
+Generating RTLIL representation for module `\$_DFFE_PP0P_'.
+Generating RTLIL representation for module `\$_DFFE_PP1P_'.
+Generating RTLIL representation for module `\$_DFFE_NP0N_'.
+Generating RTLIL representation for module `\$_DFFE_NP1N_'.
+Generating RTLIL representation for module `\$_DFFE_PP0N_'.
+Generating RTLIL representation for module `\$_DFFE_PP1N_'.
+Generating RTLIL representation for module `\$_SDFFE_NP0P_'.
+Generating RTLIL representation for module `\$_SDFFE_NP1P_'.
+Generating RTLIL representation for module `\$_SDFFE_PP0P_'.
+Generating RTLIL representation for module `\$_SDFFE_PP1P_'.
+Generating RTLIL representation for module `\$_SDFFE_NP0N_'.
+Generating RTLIL representation for module `\$_SDFFE_NP1N_'.
+Generating RTLIL representation for module `\$_SDFFE_PP0N_'.
+Generating RTLIL representation for module `\$_SDFFE_PP1N_'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Generating RTLIL representation for module `\$lut'.
+Successfully finished Verilog frontend.
+
+6.45.2. Continuing TECHMAP pass.
+Using template $paramod$5547587bde2f1ca8d884d89fe5b90567ab8bb30e\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1001000000001001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000000000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1010000000111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10000000000000000000000000000000 for cells of type $lut.
+Using template $paramod$f8bdca125e424c8e9c5f5e84960e0e034e7c473c\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1011000000001011 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'1001 for cells of type $lut.
+Using template $paramod$5fba6fa4affd3d8cb90b92595f737467c857f3c8\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1100110111111100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111000000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00010000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1011111100000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=1 for cells of type $lut.
+Using template $paramod$53afc4693cdd4770ebaebeb0ab6c288fde062f75\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10000000100000001000000011111111 for cells of type $lut.
+Using template $paramod$50551b8d943b0c170a72faa9739a5a88f4abce2d\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0111111100000000 for cells of type $lut.
+Using template $paramod$0d7a58a2521c9f7f639d5074fac2fc6fc0481634\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0111000011111111 for cells of type $lut.
+Using template $paramod$e10ca4aca4e4c8627be5bb912095a9253494b061\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10101100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1011000010111011 for cells of type $lut.
+Using template $paramod$3dd1cfeaac2399e8e1df42382a37ba2eafacb216\$lut for cells of type $lut.
+Using template $paramod$5a86b476d53309d4c0a95e6ef262985af3b9969b\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'0100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00000001 for cells of type $lut.
+Using template $paramod$89a7c44637a153ae876a5df3b846d5543893af1c\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'0001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10010000000000000000000000000000 for cells of type $lut.
+Using template $paramod$e66cc471b5df98af045e5a88d12e8d811847cf43\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11100000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1001000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=218103821 for cells of type $lut.
+Using template $paramod$183eddeac9f9ff82456b3b477f97e96d7d10d433\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0001000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00000111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10001111111111110000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11100001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'1000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0100000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'1011 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000100000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11101111 for cells of type $lut.
+Using template $paramod$2ddb5b5cad1eda4b448691edd161080bb92bfe50\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'0110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000011110100 for cells of type $lut.
+Using template $paramod$565fc041478cd9e4265902a75530e2cada0cf933\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'1110 for cells of type $lut.
+Using template $paramod$57619346c001bba14f685682aaa48a843cd5a7a5\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11010000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01011100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00001110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111000100000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11111111111111110000000000000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111100000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=33023 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000000000111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01110000 for cells of type $lut.
+Using template $paramod$9e78996d0bba598dd3b5c2b67f719222e5a16cfc\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=9371648 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000011111000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11010000000011010000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1011000000000000 for cells of type $lut.
+Using template $paramod$4266f47e50d92aaa9f0abe526e1897112700a1b7\$lut for cells of type $lut.
+Using template $paramod$2f529d427cc924a1cc28701d0b34219e93566eb9\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1100111110100000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11111111010100110000000011111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00011100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10111011000010110000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=268435456 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=2147418112 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10000000111111110000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=1\LUT=2'01 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'10010000000010010000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10010000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10010110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11101000000101110001011111101000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111000001000100 for cells of type $lut.
+Using template $paramod$7dc7c891cf3c790c25aac24b42cb99d63e14f42a\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11110100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11111111111111110100010011110100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11010100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0111111110000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11111111000100000001000000010000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111110000000 for cells of type $lut.
+Using template $paramod$fcd45dac87ecaf8167f012f6f6d6fa7b369dedb8\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111010011111111 for cells of type $lut.
+Using template $paramod$eba08f481846037ca841daf1538144d9219c233d\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01101001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11111110111010101010100010000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111100011111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=401139735 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00001101 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00001011 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1000000011111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11110000000000000100010001000100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111100010000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11101111000011110000111100001111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11111000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001001111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=65524 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01111000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000010001111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=32'11111111111111110100000000000000 for cells of type $lut.
+Using template $paramod$30c5a815ab2b5cbfeb2f18a2bbb60552fc6672ff\$lut for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000001101111100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=16580608 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=5\LUT=1073807359 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1001011000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0110100110010110 for cells of type $lut.
+No more expansions possible.
+<suppressed ~2180 debug messages>
+
+6.46. Executing OPT_LUT_INS pass (discard unused LUT inputs).
+Optimizing LUTs in pulse_gen.
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut2 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut3 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut4 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut5 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut6 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut7 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12615.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12489.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12423.lut2 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12301.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12301.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12334.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12334.lut2 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12231.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12225.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12225.lut2 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12225.lut3 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12224.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12223.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12226.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12364.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12363.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12363.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12357.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12357.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12421.lut2 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12421.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12420.lut2 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12302.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12302.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12318.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12305.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12304.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12304.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12308.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12308.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12234.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12235.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12240.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12240.lut2 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12240.lut3 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12242.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12241.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut2 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12290.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12290.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12292.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12291.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12291.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12288.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12276.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12271.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut4 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12266.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12266.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12266.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12267.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12267.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut5 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut6 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut7 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12203.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12202.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12202.lut3 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12366.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12365.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12347.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12351.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12350.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12350.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12346.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12369.lut2 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12202.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12200.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12211.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12198.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12222.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12231.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12231.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12234.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12239.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12253.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12252.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12262.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12264.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12271.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12276.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12267.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12283.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12288.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12270.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12289.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12292.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12295.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12301.lut0 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12302.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12303.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12305.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12318.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12318.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12325.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12334.lut0 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12335.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12341.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12346.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12347.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12351.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12354.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12360.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12369.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12364.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12366.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12365.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12373.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12347.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12204.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12366.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12420.lut1 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12377.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12263.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12234.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12397.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12414.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut0 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12423.lut1 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12420.lut0 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12421.lut0 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12423.lut0 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12390.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12425.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12417.lut1 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12421.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12460.lut0 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12472.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12479.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12481.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12487.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12488.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12489.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12489.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12625.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12278.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12573.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12575.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12601.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12605.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12456.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12623.lut0 (4 -> 3)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12621.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12633.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12634.lut0 (4 -> 2)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12635.lut0 (4 -> 1)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12642.lut0 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12634.lut1 (4 -> 2)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12646.lut1 (4 -> 0)
+  Optimizing lut $abc$12196$auto$blifparse.cc:498:parse_blif$12620.lut1 (4 -> 0)
+Removed 0 unused cells and 1455 unused wires.
+
+6.47. Executing AUTONAME pass.
+Renamed 60265 objects in module pulse_gen (129 iterations).
+<suppressed ~3088 debug messages>
+
+6.48. Executing HIERARCHY pass (managing design hierarchy).
+
+6.48.1. Analyzing design hierarchy..
+Top module:  \pulse_gen
+
+6.48.2. Analyzing design hierarchy..
+Top module:  \pulse_gen
+Removed 0 unused modules.
+
+6.49. Printing statistics.
+
+=== pulse_gen ===
+
+   Number of wires:               1086
+   Number of wire bits:           4421
+   Number of public wires:        1086
+   Number of public wire bits:    4421
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               2131
+     CCU2C                         298
+     EHXPLLL                         1
+     L6MUX21                        76
+     LUT4                          889
+     PFUMX                         181
+     TRELLIS_FF                    686
+
+6.50. Executing CHECK pass (checking for obvious problems).
+checking module pulse_gen..
+found and reported 0 problems.
+
+6.51. Executing JSON backend.
+
+Warnings: 7 unique messages, 7 total
+End of script. Logfile hash: 818dbfc617, CPU: user 4.75s system 0.22s, MEM: 252.84 MB peak
+Yosys 0.9+3578 (git sha1 ed579038, clang 6.0.0-1ubuntu2 -fPIC -Os)
+Time spent: 14% 1x abc (0 sec), 14% 18x read_verilog (0 sec), ...
+nextpnr-ecp5 --pre-pack clk_constraint.py --json pulse_gen.json --textcfg pulse_gen_out.config --um5g-85k --package CABGA381 --lpf ecp5.lpf
+Info: constraining clock net 'clk' to 50.00 MHz
+Info: constraining clock net 'clk_pll' to 200.00 MHz
+
+Info: Logic utilisation before packing:
+Info:     Total LUT4s:      1485/83640     1%
+Info:         logic LUTs:    889/83640     1%
+Info:         carry LUTs:    596/83640     0%
+Info:           RAM LUTs:      0/41820     0%
+Info:          RAMW LUTs:      0/20910     0%
+
+Info:      Total DFFs:      1372/83640     1%
+
+Info: Packing IOs..
+Info: pin 'P2$tr_io' constrained to Bel 'X126/Y41/PIOD'.
+Info: pin 'Pulse$tr_io' constrained to Bel 'X126/Y41/PIOA'.
+Info: pin 'RS232_Rx$tr_io' constrained to Bel 'X0/Y92/PIOC'.
+Info: pin 'RS232_Tx$tr_io' constrained to Bel 'X0/Y92/PIOB'.
+Info: pin 'Sync$tr_io' constrained to Bel 'X126/Y41/PIOB'.
+Info: pin 'clk$tr_io' constrained to Bel 'X65/Y0/PIOA'.
+Info: pin 'resetn$tr_io' constrained to Bel 'X0/Y47/PIOA'.
+Info: Packing constants..
+Info: Packing carries...
+Info: Finding LUTFF pairs...
+Info: Packing LUT5-7s...
+Info: Finding LUT-LUT pairs...
+Info: Packing paired LUTs into a SLICE...
+Info: Packing unpaired LUTs into a SLICE...
+Info: Packing unpaired FFs into a SLICE...
+Info: Generating derived timing constraints...
+Info:     Input frequency of PLL 'ecppll.pll_i' is constrained to 50.0 MHz
+Info: Promoting globals...
+Info:     promoting clock net clk_pll to global network
+Info:     promoting clock net clk$TRELLIS_IO_IN to global network
+Info: Checksum: 0x8dba9b1d
+
+Info: Annotating ports with timing budgets for target frequency 12.00 MHz
+Info: Checksum: 0x81630f76
+
+Info: Device utilisation:
+Info: 	       TRELLIS_SLICE:  1238/41820     2%
+Info: 	          TRELLIS_IO:     7/  365     1%
+Info: 	                DCCA:     2/   56     3%
+Info: 	              DP16KD:     0/  208     0%
+Info: 	          MULT18X18D:     0/  156     0%
+Info: 	              ALU54B:     0/   78     0%
+Info: 	             EHXPLLL:     1/    4    25%
+Info: 	             EXTREFB:     0/    2     0%
+Info: 	                DCUA:     0/    2     0%
+Info: 	           PCSCLKDIV:     0/    2     0%
+Info: 	             IOLOGIC:     0/  224     0%
+Info: 	            SIOLOGIC:     0/  141     0%
+Info: 	                 GSR:     0/    1     0%
+Info: 	               JTAGG:     0/    1     0%
+Info: 	                OSCG:     0/    1     0%
+Info: 	               SEDGA:     0/    1     0%
+Info: 	                 DTR:     0/    1     0%
+Info: 	             USRMCLK:     0/    1     0%
+Info: 	             CLKDIVF:     0/    4     0%
+Info: 	           ECLKSYNCB:     0/   10     0%
+Info: 	             DLLDELD:     0/    8     0%
+Info: 	              DDRDLL:     0/    4     0%
+Info: 	             DQSBUFM:     0/   14     0%
+Info: 	     TRELLIS_ECLKBUF:     0/    8     0%
+Info: 	        ECLKBRIDGECS:     0/    2     0%
+
+Info: Placed 8 cells based on constraints.
+Info: Creating initial analytic placement for 838 cells, random placement wirelen = 136661.
+Info:     at initial placer iter 0, wirelen = 1713
+Info:     at initial placer iter 1, wirelen = 1433
+Info:     at initial placer iter 2, wirelen = 1408
+Info:     at initial placer iter 3, wirelen = 1426
+Info: Running main analytical placer.
+Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 1407, spread = 12856, legal = 13520; time = 0.04s
+Info:     at iteration #2, type TRELLIS_SLICE: wirelen solved = 1801, spread = 9250, legal = 10349; time = 0.05s
+Info:     at iteration #3, type TRELLIS_SLICE: wirelen solved = 2110, spread = 8652, legal = 9393; time = 0.09s
+Info:     at iteration #4, type TRELLIS_SLICE: wirelen solved = 2440, spread = 8699, legal = 9596; time = 0.05s
+Info:     at iteration #5, type TRELLIS_SLICE: wirelen solved = 2813, spread = 8773, legal = 9675; time = 0.05s
+Info:     at iteration #6, type TRELLIS_SLICE: wirelen solved = 2975, spread = 9000, legal = 9641; time = 0.03s
+Info:     at iteration #7, type TRELLIS_SLICE: wirelen solved = 3293, spread = 8606, legal = 9339; time = 0.06s
+Info:     at iteration #8, type TRELLIS_SLICE: wirelen solved = 3334, spread = 8601, legal = 9645; time = 0.04s
+Info:     at iteration #9, type TRELLIS_SLICE: wirelen solved = 3625, spread = 8361, legal = 9216; time = 0.05s
+Info:     at iteration #10, type TRELLIS_SLICE: wirelen solved = 3904, spread = 8133, legal = 9144; time = 0.03s
+Info:     at iteration #11, type TRELLIS_SLICE: wirelen solved = 3987, spread = 8224, legal = 9046; time = 0.07s
+Info:     at iteration #12, type TRELLIS_SLICE: wirelen solved = 4153, spread = 7744, legal = 8692; time = 0.05s
+Info:     at iteration #13, type TRELLIS_SLICE: wirelen solved = 4281, spread = 7794, legal = 8678; time = 0.07s
+Info:     at iteration #14, type TRELLIS_SLICE: wirelen solved = 4434, spread = 7802, legal = 8818; time = 0.05s
+Info:     at iteration #15, type TRELLIS_SLICE: wirelen solved = 4589, spread = 7683, legal = 8415; time = 0.04s
+Info:     at iteration #16, type TRELLIS_SLICE: wirelen solved = 4580, spread = 8014, legal = 8847; time = 0.04s
+Info:     at iteration #17, type TRELLIS_SLICE: wirelen solved = 4927, spread = 8450, legal = 8942; time = 0.04s
+Info:     at iteration #18, type TRELLIS_SLICE: wirelen solved = 4912, spread = 8058, legal = 8690; time = 0.05s
+Info:     at iteration #19, type TRELLIS_SLICE: wirelen solved = 5089, spread = 8356, legal = 8955; time = 0.03s
+Info:     at iteration #20, type TRELLIS_SLICE: wirelen solved = 5197, spread = 8554, legal = 9257; time = 0.09s
+Info: HeAP Placer Time: 1.91s
+Info:   of which solving equations: 0.85s
+Info:   of which spreading cells: 0.13s
+Info:   of which strict legalisation: 0.08s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 466, wirelen = 8415
+Info:   at iteration #5: temp = 0.000000, timing cost = 423, wirelen = 7553
+Info:   at iteration #10: temp = 0.000000, timing cost = 393, wirelen = 7279
+Info:   at iteration #15: temp = 0.000000, timing cost = 394, wirelen = 7086
+Info:   at iteration #17: temp = 0.000000, timing cost = 392, wirelen = 7050 
+Info: SA placement time 1.69s
+
+Info: Max frequency for clock           '$glbnet$clk_pll': 136.35 MHz (FAIL at 200.00 MHz)
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 185.56 MHz (PASS at 50.00 MHz)
+
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 9.90 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk_pll          : 8.76 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 7.87 ns
+Info: Max delay posedge $glbnet$clk_pll           -> <async>                          : 3.49 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 11 endpoint(s)
+Info:          + represents [1,11) endpoint(s)
+Info: [ -3755,    431) |************************************************************ 
+Info: [   431,   4617) |**********************************+
+Info: [  4617,   8803) | 
+Info: [  8803,  12989) |****+
+Info: [ 12989,  17175) |*******************+
+Info: [ 17175,  21361) |************+
+Info: [ 21361,  25547) | 
+Info: [ 25547,  29733) | 
+Info: [ 29733,  33919) | 
+Info: [ 33919,  38105) | 
+Info: [ 38105,  42291) | 
+Info: [ 42291,  46477) | 
+Info: [ 46477,  50663) | 
+Info: [ 50663,  54849) | 
+Info: [ 54849,  59035) | 
+Info: [ 59035,  63221) | 
+Info: [ 63221,  67407) | 
+Info: [ 67407,  71593) | 
+Info: [ 71593,  75779) |+
+Info: [ 75779,  79965) |+
+Info: Checksum: 0x0a19da97
+Info: Routing globals...
+Info:     routing clock net $glbnet$clk_pll using global 0
+Info:     routing clock net $glbnet$clk$TRELLIS_IO_IN using global 1
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 5418 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |        3        996 |    3   996 |      4422|       0.82       0.82|
+Info:       2000 |        8       1991 |    5   995 |      3427|       0.51       1.33|
+Info:       3000 |       32       2967 |   24   976 |      2461|       0.67       2.00|
+Info:       4000 |       62       3937 |   30   970 |      1497|       1.01       3.01|
+Info:       5000 |       64       4935 |    2   998 |       500|       0.38       3.39|
+Info:       5513 |       75       5438 |   11   503 |         0|       0.90       4.29|
+Info: Routing complete.
+Info: Router1 time 4.29s
+Info: Checksum: 0x1c44b1c9
+
+Info: Critical path report for clock '$glbnet$clk_pll' (posedge -> posedge):
+Info: curr total
+Info:  0.3  0.3  Source pulses.delay_TRELLIS_FF_Q_14_SLICE.Q0
+Info:  1.2  1.5    Net pulses.delay[1] budget 0.000000 ns (86,41) -> (87,33)
+Info:                Sink pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_8$CCU2_SLICE.B1
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:72.20-72.25
+Info:  0.3  1.8  Source pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_8$CCU2_SLICE.FCO
+Info:  0.0  1.8    Net pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_4_COUT[0] budget 0.000000 ns (87,33) -> (87,33)
+Info:                Sink pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_3$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:215.15-215.30
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.0  1.8  Source pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_3$CCU2_SLICE.FCO
+Info:  0.0  1.8    Net pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_4_COUT[2] budget 0.000000 ns (87,33) -> (87,33)
+Info:                Sink pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_2$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:215.15-215.30
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.0  1.9  Source pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_2$CCU2_SLICE.FCO
+Info:  0.0  1.9    Net pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_4_COUT[4] budget 0.000000 ns (87,33) -> (88,33)
+Info:                Sink pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_1$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:215.15-215.30
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.0  1.9  Source pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_1$CCU2_SLICE.FCO
+Info:  0.0  1.9    Net pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_4_COUT[6] budget 0.000000 ns (88,33) -> (88,33)
+Info:                Sink pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:215.15-215.30
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.0  2.0  Source pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0$CCU2_SLICE.FCO
+Info:  0.0  2.0    Net pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_4_COUT[8] budget 0.000000 ns (88,33) -> (88,33)
+Info:                Sink pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_7$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:215.15-215.30
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.3  2.2  Source pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_7$CCU2_SLICE.F0
+Info:  1.1  3.3    Net pulses.cdelay_TRELLIS_FF_Q_31_DI_LUT4_Z_B[10] budget 0.000000 ns (88,33) -> (91,33)
+Info:                Sink pulses.p2width_CCU2C_A0_6$CCU2_SLICE.B0
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:215.15-215.30
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:34.26-34.27
+Info:  0.3  3.6  Source pulses.p2width_CCU2C_A0_6$CCU2_SLICE.FCO
+Info:  0.0  3.6    Net pulses.cpulse_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_COUT[11] budget 0.000000 ns (91,33) -> (91,33)
+Info:                Sink pulses.p2width_CCU2C_A0_5$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.3  3.9  Source pulses.p2width_CCU2C_A0_5$CCU2_SLICE.F1
+Info:  0.8  4.7    Net pulses.cpulse_TRELLIS_FF_Q_31_DI_LUT4_Z_B[13] budget 0.000000 ns (91,33) -> (91,37)
+Info:                Sink pulses.pulse_block_CCU2C_A0_COUT_CCU2C_COUT_3$CCU2_SLICE.B1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:34.26-34.27
+Info:  0.3  5.0  Source pulses.pulse_block_CCU2C_A0_COUT_CCU2C_COUT_3$CCU2_SLICE.FCO
+Info:  0.0  5.0    Net pulses.cblock_on_TRELLIS_FF_Q_31_DI_LUT4_Z_B_CCU2C_S0_COUT[12] budget 0.000000 ns (91,37) -> (92,37)
+Info:                Sink pulses.pulse_block_CCU2C_A0_COUT_CCU2C_COUT_2$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.3  5.3  Source pulses.pulse_block_CCU2C_A0_COUT_CCU2C_COUT_2$CCU2_SLICE.F1
+Info:  1.0  6.2    Net pulses.cblock_on_TRELLIS_FF_Q_31_DI_LUT4_Z_B[15] budget 0.200000 ns (92,37) -> (94,37)
+Info:                Sink pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_6$CCU2_SLICE.B1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:65.27-65.29
+Info:  0.3  6.5  Source pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_6$CCU2_SLICE.FCO
+Info:  0.0  6.5    Net pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_4_COUT[13] budget 0.000000 ns (94,37) -> (95,37)
+Info:                Sink pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_5$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.0  6.6  Source pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_5$CCU2_SLICE.FCO
+Info:  0.0  6.6    Net pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_4_COUT[15] budget 0.000000 ns (95,37) -> (95,37)
+Info:                Sink pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_4$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.3  6.8  Source pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B_CCU2C_S0_4$CCU2_SLICE.F0
+Info:  0.5  7.3    Net pulses.cblock_on_TRELLIS_FF_Q_29_DI_LUT4_Z_B[16] budget 0.805000 ns (95,37) -> (94,36)
+Info:                Sink pulses.cblock_on_TRELLIS_FF_Q_13_DI_LUT4_Z_SLICE.D0
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:34.26-34.27
+Info:  0.1  7.5  Source pulses.cblock_on_TRELLIS_FF_Q_13_DI_LUT4_Z_SLICE.F0
+Info:  0.1  7.6    Net pulses.cblock_on_TRELLIS_FF_Q_13_DI budget 0.536000 ns (94,36) -> (94,36)
+Info:                Sink pulses.cblock_on_TRELLIS_FF_Q_13_DI_LUT4_Z_SLICE.DI0
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:121.2-269.5
+Info:  0.0  7.6  Setup pulses.cblock_on_TRELLIS_FF_Q_13_DI_LUT4_Z_SLICE.DI0
+Info: 2.8 ns logic, 4.8 ns routing
+
+Info: Critical path report for clock '$glbnet$clk$TRELLIS_IO_IN' (posedge -> posedge):
+Info: curr total
+Info:  0.3  0.3  Source control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_SLICE.Q1
+Info:  0.8  1.1    Net RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_COUT[1] budget 2.925000 ns (73,37) -> (75,38)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_2_S1_CCU2C_S0_1$CCU2_SLICE.A0
+Info:                Defined in:
+Info:                  pulse_gen.v:60.16-78.4
+Info:                  uart.v:98.39-98.45
+Info:                  pulse_control.v:76.7-88.4
+Info:  0.3  1.3  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_2_S1_CCU2C_S0_1$CCU2_SLICE.FCO
+Info:  0.0  1.3    Net RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_1_COUT[0] budget 0.000000 ns (75,38) -> (75,38)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_2_D0_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z_B_CCU2C_S0$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:60.16-78.4
+Info:                  uart.v:145.22-145.35
+Info:                  pulse_control.v:76.7-88.4
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.0  1.4  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_2_D0_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z_B_CCU2C_S0$CCU2_SLICE.FCO
+Info:  0.0  1.4    Net RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_1_COUT[2] budget 0.000000 ns (75,38) -> (75,38)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_2_S1_CCU2C_S0$CCU2_SLICE.FCI
+Info:                Defined in:
+Info:                  pulse_gen.v:60.16-78.4
+Info:                  uart.v:145.22-145.35
+Info:                  pulse_control.v:76.7-88.4
+Info:                  /usr/local/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.3  1.6  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_2_S1_CCU2C_S0$CCU2_SLICE.F0
+Info:  1.1  2.7    Net RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_CCU2C_S0_2_S1[1] budget 2.925000 ns (75,38) -> (74,38)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D0_L6MUX21_Z_D1_PFUMX_Z_SLICE.C1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  2.9  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D0_L6MUX21_Z_D1_PFUMX_Z_SLICE.OFX0
+Info:  0.0  2.9    Net RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D0_L6MUX21_Z_D1 budget 0.000000 ns (74,38) -> (74,38)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D0_L6MUX21_Z_D1_PFUMX_Z_SLICE.FXB
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:158.54-158.56
+Info:  0.1  3.1  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D0_L6MUX21_Z_D1_PFUMX_Z_SLICE.OFX1
+Info:  0.0  3.1    Net RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D0 budget 0.000000 ns (74,38) -> (74,38)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_SLICE.FXA
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:158.66-158.68
+Info:  0.1  3.2  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_SLICE.OFX1
+Info:  0.6  3.8    Net RS232_Rx_LUT4_A_1_Z[3] budget 3.521000 ns (74,38) -> (73,40)
+Info:                Sink RS232_Rx_LUT4_B_Z_PFUMX_ALUT_SLICE.D1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  4.1  Source RS232_Rx_LUT4_B_Z_PFUMX_ALUT_SLICE.OFX0
+Info:  0.0  4.1    Net RS232_Rx_LUT4_B_Z_PFUMX_ALUT_Z budget 0.000000 ns (73,40) -> (73,40)
+Info:                Sink RS232_Rx_LUT4_B_Z_PFUMX_ALUT_SLICE.FXB
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:158.62-158.64
+Info:  0.1  4.2  Source RS232_Rx_LUT4_B_Z_PFUMX_ALUT_SLICE.OFX1
+Info:  0.0  4.2    Net RS232_Rx_LUT4_B_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z budget 0.000000 ns (73,40) -> (73,40)
+Info:                Sink RS232_Rx_LUT4_B_Z_PFUMX_ALUT_Z_L6MUX21_D1_D0_PFUMX_Z_SLICE.FXB
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:158.70-158.72
+Info:  0.1  4.4  Source RS232_Rx_LUT4_B_Z_PFUMX_ALUT_Z_L6MUX21_D1_D0_PFUMX_Z_SLICE.OFX1
+Info:  0.6  5.0    Net RS232_Rx_LUT4_B_Z_PFUMX_ALUT_Z_L6MUX21_D1_Z_L6MUX21_D1_Z[1] budget 3.521000 ns (73,40) -> (72,41)
+Info:                Sink control.uart0.rx_samples_TRELLIS_FF_Q_3_DI_LUT4_Z_SLICE.D1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.1  5.1  Source control.uart0.rx_samples_TRELLIS_FF_Q_3_DI_LUT4_Z_SLICE.F1
+Info:  0.4  5.5    Net control.uart0.rx_samples_TRELLIS_FF_Q_3_LSR budget 3.520000 ns (72,41) -> (72,41)
+Info:                Sink control.uart0.rx_samples_TRELLIS_FF_Q_3_DI_LUT4_Z_SLICE.LSR
+Info:  0.2  5.7  Setup control.uart0.rx_samples_TRELLIS_FF_Q_3_DI_LUT4_Z_SLICE.LSR
+Info: 2.3 ns logic, 3.4 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk$TRELLIS_IO_IN':
+Info: curr total
+Info:  0.0  0.0  Source RS232_Rx$tr_io.O
+Info:  4.9  4.9    Net RS232_Rx$TRELLIS_IO_IN budget 0.000000 ns (0,92) -> (75,40)
+Info:                Sink RS232_Rx_LUT4_D_SLICE.A0
+Info:                Defined in:
+Info:                  pulse_gen.v:60.16-78.4
+Info:                  uart.v:53.11-53.13
+Info:                  pulse_control.v:76.7-88.4
+Info:  0.1  5.0  Source RS232_Rx_LUT4_D_SLICE.F0
+Info:  0.4  5.5    Net RS232_Rx_LUT4_D_Z[5] budget 3.617000 ns (75,40) -> (75,40)
+Info:                Sink RS232_Rx_LUT4_D_SLICE.C1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.1  5.6  Source RS232_Rx_LUT4_D_SLICE.F1
+Info:  1.1  6.7    Net control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_Z_LUT4_Z_8_D[0] budget 4.686000 ns (75,40) -> (75,36)
+Info:                Sink RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_LUT4_D_Z_LUT4_Z_1_SLICE.C1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.1  6.9  Source RS232_Rx_LUT4_A_1_Z_L6MUX21_Z_1_SD_LUT4_D_Z_LUT4_Z_1_SLICE.F1
+Info:  0.6  7.5    Net control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_C0[4] budget 4.686000 ns (75,36) -> (76,36)
+Info:                Sink control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_SLICE.M0
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  7.7  Source control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_SLICE.OFX0
+Info:  0.1  7.7    Net control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_Z[8] budget 3.617000 ns (76,36) -> (76,36)
+Info:                Sink control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_SLICE.DI0
+Info:                Defined in:
+Info:                  pulse_gen.v:60.16-78.4
+Info:                  uart.v:0.0-0.0
+Info:                  uart.v:155.9-258.16
+Info:                  pulse_control.v:76.7-88.4
+Info:                  /usr/local/bin/../share/yosys/techmap.v:575.21-575.22
+Info:  0.0  7.7  Setup control.uart0.recv_state_TRELLIS_FF_Q_2_DI_LUT4_Z_1_A_LUT4_A_Z_PFUMX_ALUT_SLICE.DI0
+Info: 0.6 ns logic, 7.2 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk_pll':
+Info: curr total
+Info:  0.0  0.0  Source resetn$tr_io.O
+Info:  4.0  4.0    Net resetn$TRELLIS_IO_IN budget 0.000000 ns (0,47) -> (93,33)
+Info:                Sink pulses.cpmg_L6MUX21_SD_D1_PFUMX_Z_SLICE.M0
+Info:                Defined in:
+Info:                  pulse_gen.v:5.9-5.15
+Info:  0.2  4.2  Source pulses.cpmg_L6MUX21_SD_D1_PFUMX_Z_SLICE.OFX0
+Info:  0.0  4.2    Net pulses.cpmg_L6MUX21_SD_D1 budget 0.000000 ns (93,33) -> (93,33)
+Info:                Sink pulses.cpmg_L6MUX21_SD_D1_PFUMX_Z_SLICE.FXB
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:142.38-142.40
+Info:  0.1  4.3  Source pulses.cpmg_L6MUX21_SD_D1_PFUMX_Z_SLICE.OFX1
+Info:  0.7  4.9    Net pulses.cpmg_L6MUX21_SD_Z[2] budget 0.000000 ns (93,33) -> (94,33)
+Info:                Sink pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_SLICE.C1
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  5.2  Source pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_SLICE.OFX0
+Info:  0.0  5.2    Net pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D1 budget 0.000000 ns (94,33) -> (94,33)
+Info:                Sink pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_SLICE.FXB
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:158.62-158.64
+Info:  0.1  5.3  Source pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_SLICE.OFX1
+Info:  0.0  5.3    Net pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1 budget 0.000000 ns (94,33) -> (94,33)
+Info:                Sink pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_SLICE.FXB
+Info:                Defined in:
+Info:                  /usr/local/bin/../share/yosys/ecp5/cells_map.v:158.70-158.72
+Info:  0.1  5.5  Source pulses.inh_TRELLIS_FF_Q_CE_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_SLICE.OFX1
+Info:  0.5  6.0    Net pulses.inh_TRELLIS_FF_Q_CE budget 0.577000 ns (94,33) -> (94,32)
+Info:                Sink pulses.block_PFUMX_C0_SLICE.CE
+Info:  0.0  6.0  Setup pulses.block_PFUMX_C0_SLICE.CE
+Info: 0.8 ns logic, 5.1 ns routing
+
+Info: Critical path report for cross-domain path 'posedge $glbnet$clk$TRELLIS_IO_IN' -> '<async>':
+Info: curr total
+Info:  0.3  0.3  Source control.uart0.tx_out_TRELLIS_FF_Q_DI_LUT4_Z_SLICE.Q1
+Info:  5.0  5.3    Net RS232_Tx$TRELLIS_IO_OUT budget 83.025002 ns (75,43) -> (0,92)
+Info:                Sink RS232_Tx$tr_io.I
+Info:                Defined in:
+Info:                  pulse_gen.v:60.16-78.4
+Info:                  uart.v:105.9-105.15
+Info:                  pulse_control.v:76.7-88.4
+Info: 0.3 ns logic, 5.0 ns routing
+
+Info: Critical path report for cross-domain path 'posedge $glbnet$clk_pll' -> '<async>':
+Info: curr total
+Info:  0.3  0.3  Source pulses.cpmg_L6MUX21_SD_Z_LUT4_Z_1_SLICE.Q1
+Info:  2.1  2.4    Net Pulse$TRELLIS_IO_OUT budget 83.025002 ns (92,32) -> (126,41)
+Info:                Sink Pulse$tr_io.I
+Info:                Defined in:
+Info:                  pulse_gen.v:82.9-105.4
+Info:                  pulses.v:42.13-42.21
+Info: 0.3 ns logic, 2.1 ns routing
+
+ERROR: Max frequency for clock           '$glbnet$clk_pll': 131.63 MHz (FAIL at 200.00 MHz)
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 175.44 MHz (PASS at 50.00 MHz)
+
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 7.73 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk_pll          : 5.96 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 5.26 ns
+Info: Max delay posedge $glbnet$clk_pll           -> <async>                          : 2.40 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 12 endpoint(s)
+Info:          + represents [1,12) endpoint(s)
+Info: [ -2597,   1585) |************************************************************ 
+Info: [  1585,   5767) |***********************+
+Info: [  5767,   9949) | 
+Info: [  9949,  14131) |***+
+Info: [ 14131,  18313) |*************************+
+Info: [ 18313,  22495) |**+
+Info: [ 22495,  26677) | 
+Info: [ 26677,  30859) | 
+Info: [ 30859,  35041) | 
+Info: [ 35041,  39223) | 
+Info: [ 39223,  43405) | 
+Info: [ 43405,  47587) | 
+Info: [ 47587,  51769) | 
+Info: [ 51769,  55951) | 
+Info: [ 55951,  60133) | 
+Info: [ 60133,  64315) | 
+Info: [ 64315,  68497) | 
+Info: [ 68497,  72679) | 
+Info: [ 72679,  76861) | 
+Info: [ 76861,  81043) |+
+0 warnings, 1 error
+Makefile:22: recipe for target 'pulse_gen_out.config' failed
+make: *** [pulse_gen_out.config] Error 1
+rm pulse_gen_out.config pulse_gen.json
