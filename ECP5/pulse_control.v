@@ -79,7 +79,7 @@ module pulse_control(
 	wire 			   recv_error;
 
 	// UART module, from https://github.com/cyrozap/osdvu
-	uart uart0(
+	uart #(.baud_rate(115200), .sys_clk_freq(50000000)) uart0( //testing with 115200 baud and 50 MHz clock from sim_tb
 		.clk(clk),                    // The master clock for this module
 		.rst(reset),                      // Synchronous reset
 		.rx(RS232_Rx),                // Incoming serial line
