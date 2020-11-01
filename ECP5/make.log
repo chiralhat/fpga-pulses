@@ -178,8 +178,8 @@ Cleaned up 1 empty switch.
 
 6.4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
 Marked 1 switch rules as full_case in process $proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:350$383 in module TRELLIS_FF.
-Removed 1 dead cases from process $proc$uart_nonblock.v:135$127 in module uart.
-Marked 7 switch rules as full_case in process $proc$uart_nonblock.v:135$127 in module uart.
+Removed 1 dead cases from process $proc$uart_nonblock.v:142$127 in module uart.
+Marked 7 switch rules as full_case in process $proc$uart_nonblock.v:142$127 in module uart.
 Marked 2 switch rules as full_case in process $proc$pulses.v:121$49 in module pulses.
 Removed 1 dead cases from process $proc$pulse_control.v:133$3 in module pulse_control.
 Marked 5 switch rules as full_case in process $proc$pulse_control.v:133$3 in module pulse_control.
@@ -192,11 +192,11 @@ Promoted 52 assignments to connections.
 6.4.4. Executing PROC_INIT pass (extract init attributes).
 Found init rule in `\TRELLIS_FF.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:0$387'.
   Set init value: \Q = 1'0
-Found init rule in `\uart.$proc$uart_nonblock.v:106$157'.
+Found init rule in `\uart.$proc$uart_nonblock.v:113$157'.
   Set init value: \tx_state = 2'00
-Found init rule in `\uart.$proc$uart_nonblock.v:105$156'.
+Found init rule in `\uart.$proc$uart_nonblock.v:112$156'.
   Set init value: \tx_out = 1'1
-Found init rule in `\uart.$proc$uart_nonblock.v:101$155'.
+Found init rule in `\uart.$proc$uart_nonblock.v:108$155'.
   Set init value: \recv_state = 3'000
 Found init rule in `\pulses.$proc$pulses.v:98$120'.
   Set init value: \xfer_bits = 2'01
@@ -282,10 +282,10 @@ Creating decoders for process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yo
      2/3: $0$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$302_DATA[3:0]$306
      3/3: $0$memwr$\mem$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:223$302_ADDR[3:0]$305
 Creating decoders for process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$303'.
-Creating decoders for process `\uart.$proc$uart_nonblock.v:106$157'.
-Creating decoders for process `\uart.$proc$uart_nonblock.v:105$156'.
-Creating decoders for process `\uart.$proc$uart_nonblock.v:101$155'.
-Creating decoders for process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating decoders for process `\uart.$proc$uart_nonblock.v:113$157'.
+Creating decoders for process `\uart.$proc$uart_nonblock.v:112$156'.
+Creating decoders for process `\uart.$proc$uart_nonblock.v:108$155'.
+Creating decoders for process `\uart.$proc$uart_nonblock.v:142$127'.
      1/15: $3\tx_data[7:0]
      2/15: $3\tx_out[0:0]
      3/15: $2\tx_data[7:0]
@@ -430,27 +430,27 @@ Creating register for signal `\TRELLIS_DPR16X4.$memwr$\mem$/usr/local/bin/../sha
   created $dff cell `$procdff$1220' with positive edge clock.
 Creating register for signal `\TRELLIS_DPR16X4.\muxwre' using process `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$303'.
   created direct connection (no actual register cell created).
-Creating register for signal `\uart.\rx_samples' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\rx_samples' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1221' with positive edge clock.
-Creating register for signal `\uart.\rx_sample_countdown' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\rx_sample_countdown' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1222' with positive edge clock.
-Creating register for signal `\uart.\rx_clk' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\rx_clk' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1223' with positive edge clock.
-Creating register for signal `\uart.\tx_clk' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\tx_clk' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1224' with positive edge clock.
-Creating register for signal `\uart.\recv_state' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\recv_state' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1225' with positive edge clock.
-Creating register for signal `\uart.\rx_bits_remaining' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\rx_bits_remaining' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1226' with positive edge clock.
-Creating register for signal `\uart.\rx_data' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\rx_data' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1227' with positive edge clock.
-Creating register for signal `\uart.\tx_out' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\tx_out' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1228' with positive edge clock.
-Creating register for signal `\uart.\tx_state' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\tx_state' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1229' with positive edge clock.
-Creating register for signal `\uart.\tx_bits_remaining' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\tx_bits_remaining' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1230' with positive edge clock.
-Creating register for signal `\uart.\tx_data' using process `\uart.$proc$uart_nonblock.v:135$127'.
+Creating register for signal `\uart.\tx_data' using process `\uart.$proc$uart_nonblock.v:142$127'.
   created $dff cell `$procdff$1231' with positive edge clock.
 Creating register for signal `\pulses.\period' using process `\pulses.$proc$pulses.v:121$49'.
   created $dff cell `$procdff$1232' with positive edge clock.
@@ -568,11 +568,11 @@ Removing empty process `TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5
 Found and cleaned up 1 empty switch in `\TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$304'.
 Removing empty process `TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:221$304'.
 Removing empty process `TRELLIS_DPR16X4.$proc$/usr/local/bin/../share/yosys/ecp5/cells_sim.v:213$303'.
-Removing empty process `uart.$proc$uart_nonblock.v:106$157'.
-Removing empty process `uart.$proc$uart_nonblock.v:105$156'.
-Removing empty process `uart.$proc$uart_nonblock.v:101$155'.
-Found and cleaned up 17 empty switches in `\uart.$proc$uart_nonblock.v:135$127'.
-Removing empty process `uart.$proc$uart_nonblock.v:135$127'.
+Removing empty process `uart.$proc$uart_nonblock.v:113$157'.
+Removing empty process `uart.$proc$uart_nonblock.v:112$156'.
+Removing empty process `uart.$proc$uart_nonblock.v:108$155'.
+Found and cleaned up 17 empty switches in `\uart.$proc$uart_nonblock.v:142$127'.
+Removing empty process `uart.$proc$uart_nonblock.v:142$127'.
 Removing empty process `pulses.$proc$pulses.v:98$120'.
 Removing empty process `pulses.$proc$pulses.v:92$119'.
 Removing empty process `pulses.$proc$pulses.v:87$118'.
@@ -832,7 +832,7 @@ Adding EN signal on $flatten\pulses.$procdff$1246 ($dff) from module pulse_gen (
 Adding SRST signal on $auto$opt_dff.cc:764:run$1452 ($dffe) from module pulse_gen (D = $flatten\pulses.$ternary$pulses.v:187$68_Y [0], Q = \pulses.nut_pulse, rval = 1'0).
 Adding EN signal on $flatten\pulses.$procdff$1245 ($dff) from module pulse_gen (D = $flatten\pulses.$procmux$806_Y, Q = \pulses.pulse).
 Adding EN signal on $flatten\pulses.$procdff$1244 ($dff) from module pulse_gen (D = $flatten\pulses.$procmux$826_Y, Q = \pulses.sync).
-Adding SRST signal on $flatten\pulses.$procdff$1243 ($dff) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:279$99_Y, Q = \pulses.counter, rval = 0).
+Adding SRST signal on $flatten\pulses.$procdff$1243 ($dff) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:286$99_Y, Q = \pulses.counter, rval = 0).
 Adding EN signal on $flatten\pulses.$procdff$1242 ($dff) from module pulse_gen (D = $flatten\pulses.$ternary$pulses.v:183$65_Y [0], Q = \pulses.pulses).
 Adding EN signal on $flatten\pulses.$procdff$1241 ($dff) from module pulse_gen (D = \pulses.xfer_bits [1], Q = \pulses.rx_done).
 Adding EN signal on $flatten\pulses.$procdff$1240 ($dff) from module pulse_gen (D = \control.cpmg, Q = \pulses.cpmg).
@@ -1039,10 +1039,10 @@ Optimizing module pulse_gen.
 
 6.14. Executing WREDUCE pass (reducing word size of cells).
 Removed top 1 bits (of 5) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$1342 ($ne).
-Removed top 2 bits (of 3) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:193$140 ($mux).
-Removed top 30 bits (of 32) from port B of cell pulse_gen.$flatten\control.\uart0.$gt$uart_nonblock.v:201$142 ($gt).
-Removed top 2 bits (of 3) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:226$146 ($mux).
-Removed top 1 bits (of 2) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:301$153 ($mux).
+Removed top 2 bits (of 3) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:200$140 ($mux).
+Removed top 30 bits (of 32) from port B of cell pulse_gen.$flatten\control.\uart0.$gt$uart_nonblock.v:208$142 ($gt).
+Removed top 2 bits (of 3) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:233$146 ($mux).
+Removed top 1 bits (of 2) from mux cell pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:308$153 ($mux).
 Removed cell pulse_gen.$flatten\control.\uart0.$procmux$409 ($mux).
 Removed top 1 bits (of 2) from port B of cell pulse_gen.$flatten\control.\uart0.$procmux$414_CMP0 ($eq).
 Removed top 1 bits (of 7) from port B of cell pulse_gen.$auto$opt_dff.cc:218:make_patterns_logic$1304 ($ne).
@@ -1154,10 +1154,10 @@ Removed cell pulse_gen.$flatten\pulses.$procmux$621 ($mux).
 Removed cell pulse_gen.$flatten\pulses.$procmux$619 ($mux).
 Removed cell pulse_gen.$flatten\pulses.$procmux$617 ($mux).
 Removed cell pulse_gen.$flatten\pulses.$procmux$615 ($mux).
-Removed top 31 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:279$99 ($add).
-Removed top 31 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:273$97 ($add).
-Removed top 24 bits (of 32) from port Y of cell pulse_gen.$flatten\pulses.$add$pulses.v:273$97 ($add).
-Removed top 9 bits (of 16) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:271$96 ($add).
+Removed top 31 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:286$99 ($add).
+Removed top 31 bits (of 32) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:280$97 ($add).
+Removed top 24 bits (of 32) from port Y of cell pulse_gen.$flatten\pulses.$add$pulses.v:280$97 ($add).
+Removed top 9 bits (of 16) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:278$96 ($add).
 Removed top 9 bits (of 16) from port B of cell pulse_gen.$flatten\pulses.$add$pulses.v:225$85 ($add).
 Removed top 15 bits (of 32) from port Y of cell pulse_gen.$flatten\pulses.$add$pulses.v:222$76 ($add).
 Removed top 31 bits (of 32) from mux cell pulse_gen.$flatten\pulses.$ternary$pulses.v:199$73 ($mux).
@@ -1175,9 +1175,9 @@ Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$procmux$5
 Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$procmux$521_Y.
 Removed top 1 bits (of 11) from wire pulse_gen.$flatten\control.\uart0.$procmux$539_Y.
 Removed top 5 bits (of 15) from wire pulse_gen.$flatten\control.\uart0.$procmux$555_Y.
-Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:193$140_Y.
-Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:226$146_Y.
-Removed top 1 bits (of 2) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:301$153_Y.
+Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:200$140_Y.
+Removed top 2 bits (of 3) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:233$146_Y.
+Removed top 1 bits (of 2) from wire pulse_gen.$flatten\control.\uart0.$ternary$uart_nonblock.v:308$153_Y.
 Removed top 15 bits (of 32) from wire pulse_gen.$flatten\pulses.$add$pulses.v:222$76_Y.
 Removed top 31 bits (of 32) from wire pulse_gen.$flatten\pulses.$ternary$pulses.v:183$65_Y.
 Removed top 31 bits (of 32) from wire pulse_gen.$flatten\pulses.$ternary$pulses.v:185$62_Y.
@@ -1236,12 +1236,12 @@ Extracting $alu and $macc cells in module pulse_gen:
   creating $macc model for $flatten\control.$add$pulse_control.v:166$25 ($add).
   creating $macc model for $flatten\control.$add$pulse_control.v:166$26 ($add).
   creating $macc model for $flatten\control.$add$pulse_control.v:166$27 ($add).
-  creating $macc model for $flatten\control.\uart0.$add$uart_nonblock.v:189$136 ($add).
-  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:145$129 ($sub).
-  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:149$131 ($sub).
-  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:192$137 ($sub).
-  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:210$143 ($sub).
-  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:283$151 ($sub).
+  creating $macc model for $flatten\control.\uart0.$add$uart_nonblock.v:196$136 ($add).
+  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:152$129 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:156$131 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:199$137 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:217$143 ($sub).
+  creating $macc model for $flatten\control.\uart0.$sub$uart_nonblock.v:290$151 ($sub).
   creating $macc model for $flatten\pulses.$add$pulses.v:145$51 ($add).
   creating $macc model for $flatten\pulses.$add$pulses.v:146$52 ($add).
   creating $macc model for $flatten\pulses.$add$pulses.v:147$53 ($add).
@@ -1249,36 +1249,36 @@ Extracting $alu and $macc cells in module pulse_gen:
   creating $macc model for $flatten\pulses.$add$pulses.v:223$78 ($add).
   creating $macc model for $flatten\pulses.$add$pulses.v:224$81 ($add).
   creating $macc model for $flatten\pulses.$add$pulses.v:225$85 ($add).
-  creating $macc model for $flatten\pulses.$add$pulses.v:247$88 ($add).
-  creating $macc model for $flatten\pulses.$add$pulses.v:248$90 ($add).
-  creating $macc model for $flatten\pulses.$add$pulses.v:270$94 ($add).
-  creating $macc model for $flatten\pulses.$add$pulses.v:271$96 ($add).
-  creating $macc model for $flatten\pulses.$add$pulses.v:273$97 ($add).
-  creating $macc model for $flatten\pulses.$add$pulses.v:279$99 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:254$88 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:255$90 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:277$94 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:278$96 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:280$97 ($add).
+  creating $macc model for $flatten\pulses.$add$pulses.v:286$99 ($add).
   creating $macc model for $flatten\pulses.$sub$pulses.v:147$54 ($sub).
   creating $macc model for $flatten\pulses.$sub$pulses.v:154$56 ($sub).
   creating $macc model for $flatten\pulses.$sub$pulses.v:154$57 ($sub).
   merging $macc model for $flatten\pulses.$add$pulses.v:147$53 into $flatten\pulses.$sub$pulses.v:147$54.
   merging $macc model for $flatten\control.$add$pulse_control.v:166$26 into $flatten\control.$add$pulse_control.v:166$27.
   merging $macc model for $flatten\control.$add$pulse_control.v:166$25 into $flatten\control.$add$pulse_control.v:166$27.
-  creating $alu model for $macc $flatten\pulses.$add$pulses.v:279$99.
-  creating $alu model for $macc $flatten\pulses.$add$pulses.v:273$97.
-  creating $alu model for $macc $flatten\pulses.$add$pulses.v:271$96.
-  creating $alu model for $macc $flatten\pulses.$add$pulses.v:270$94.
-  creating $alu model for $macc $flatten\pulses.$add$pulses.v:248$90.
-  creating $alu model for $macc $flatten\pulses.$add$pulses.v:247$88.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:286$99.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:280$97.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:278$96.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:277$94.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:255$90.
+  creating $alu model for $macc $flatten\pulses.$add$pulses.v:254$88.
   creating $alu model for $macc $flatten\pulses.$add$pulses.v:225$85.
   creating $alu model for $macc $flatten\pulses.$add$pulses.v:224$81.
   creating $alu model for $macc $flatten\pulses.$add$pulses.v:223$78.
   creating $alu model for $macc $flatten\pulses.$add$pulses.v:222$76.
   creating $alu model for $macc $flatten\pulses.$add$pulses.v:146$52.
   creating $alu model for $macc $flatten\pulses.$add$pulses.v:145$51.
-  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:283$151.
-  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:210$143.
-  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:192$137.
-  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:149$131.
-  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:145$129.
-  creating $alu model for $macc $flatten\control.\uart0.$add$uart_nonblock.v:189$136.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:290$151.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:217$143.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:199$137.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:156$131.
+  creating $alu model for $macc $flatten\control.\uart0.$sub$uart_nonblock.v:152$129.
+  creating $alu model for $macc $flatten\control.\uart0.$add$uart_nonblock.v:196$136.
   creating $alu model for $macc $flatten\pulses.$sub$pulses.v:154$56.
   creating $alu model for $macc $flatten\pulses.$sub$pulses.v:154$57.
   creating $alu model for $macc $flatten\control.$add$pulse_control.v:150$23.
@@ -1290,11 +1290,11 @@ Extracting $alu and $macc cells in module pulse_gen:
   creating $alu model for $flatten\pulses.$lt$pulses.v:186$66 ($lt): new $alu
   creating $alu model for $flatten\pulses.$lt$pulses.v:187$67 ($lt): new $alu
   creating $alu model for $flatten\pulses.$lt$pulses.v:199$71 ($lt): new $alu
-  creating $alu model for $flatten\pulses.$lt$pulses.v:234$86 ($lt): new $alu
-  creating $alu model for $flatten\pulses.$lt$pulses.v:279$98 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:241$86 ($lt): new $alu
+  creating $alu model for $flatten\pulses.$lt$pulses.v:286$98 ($lt): new $alu
   creating $alu model for $flatten\pulses.$procmux$626_CMP0 ($eq): merged with $flatten\pulses.$lt$pulses.v:183$59.
-  creating $alu cell for $flatten\pulses.$lt$pulses.v:279$98: $auto$alumacc.cc:485:replace_alu$1758
-  creating $alu cell for $flatten\pulses.$lt$pulses.v:234$86: $auto$alumacc.cc:485:replace_alu$1769
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:286$98: $auto$alumacc.cc:485:replace_alu$1758
+  creating $alu cell for $flatten\pulses.$lt$pulses.v:241$86: $auto$alumacc.cc:485:replace_alu$1769
   creating $alu cell for $flatten\pulses.$lt$pulses.v:199$71: $auto$alumacc.cc:485:replace_alu$1774
   creating $alu cell for $flatten\pulses.$lt$pulses.v:187$67: $auto$alumacc.cc:485:replace_alu$1785
   creating $alu cell for $flatten\pulses.$lt$pulses.v:186$66: $auto$alumacc.cc:485:replace_alu$1790
@@ -1304,24 +1304,24 @@ Extracting $alu and $macc cells in module pulse_gen:
   creating $alu cell for $flatten\control.$add$pulse_control.v:150$23: $auto$alumacc.cc:485:replace_alu$1828
   creating $alu cell for $flatten\pulses.$sub$pulses.v:154$57: $auto$alumacc.cc:485:replace_alu$1831
   creating $alu cell for $flatten\pulses.$sub$pulses.v:154$56: $auto$alumacc.cc:485:replace_alu$1834
-  creating $alu cell for $flatten\control.\uart0.$add$uart_nonblock.v:189$136: $auto$alumacc.cc:485:replace_alu$1837
-  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:145$129: $auto$alumacc.cc:485:replace_alu$1840
-  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:149$131: $auto$alumacc.cc:485:replace_alu$1843
-  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:192$137: $auto$alumacc.cc:485:replace_alu$1846
-  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:210$143: $auto$alumacc.cc:485:replace_alu$1849
-  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:283$151: $auto$alumacc.cc:485:replace_alu$1852
+  creating $alu cell for $flatten\control.\uart0.$add$uart_nonblock.v:196$136: $auto$alumacc.cc:485:replace_alu$1837
+  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:152$129: $auto$alumacc.cc:485:replace_alu$1840
+  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:156$131: $auto$alumacc.cc:485:replace_alu$1843
+  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:199$137: $auto$alumacc.cc:485:replace_alu$1846
+  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:217$143: $auto$alumacc.cc:485:replace_alu$1849
+  creating $alu cell for $flatten\control.\uart0.$sub$uart_nonblock.v:290$151: $auto$alumacc.cc:485:replace_alu$1852
   creating $alu cell for $flatten\pulses.$add$pulses.v:146$52: $auto$alumacc.cc:485:replace_alu$1855
   creating $alu cell for $flatten\pulses.$add$pulses.v:145$51: $auto$alumacc.cc:485:replace_alu$1858
   creating $alu cell for $flatten\pulses.$add$pulses.v:222$76: $auto$alumacc.cc:485:replace_alu$1861
   creating $alu cell for $flatten\pulses.$add$pulses.v:223$78: $auto$alumacc.cc:485:replace_alu$1864
   creating $alu cell for $flatten\pulses.$add$pulses.v:224$81: $auto$alumacc.cc:485:replace_alu$1867
   creating $alu cell for $flatten\pulses.$add$pulses.v:225$85: $auto$alumacc.cc:485:replace_alu$1870
-  creating $alu cell for $flatten\pulses.$add$pulses.v:247$88: $auto$alumacc.cc:485:replace_alu$1873
-  creating $alu cell for $flatten\pulses.$add$pulses.v:248$90: $auto$alumacc.cc:485:replace_alu$1876
-  creating $alu cell for $flatten\pulses.$add$pulses.v:270$94: $auto$alumacc.cc:485:replace_alu$1879
-  creating $alu cell for $flatten\pulses.$add$pulses.v:271$96: $auto$alumacc.cc:485:replace_alu$1882
-  creating $alu cell for $flatten\pulses.$add$pulses.v:273$97: $auto$alumacc.cc:485:replace_alu$1885
-  creating $alu cell for $flatten\pulses.$add$pulses.v:279$99: $auto$alumacc.cc:485:replace_alu$1888
+  creating $alu cell for $flatten\pulses.$add$pulses.v:254$88: $auto$alumacc.cc:485:replace_alu$1873
+  creating $alu cell for $flatten\pulses.$add$pulses.v:255$90: $auto$alumacc.cc:485:replace_alu$1876
+  creating $alu cell for $flatten\pulses.$add$pulses.v:277$94: $auto$alumacc.cc:485:replace_alu$1879
+  creating $alu cell for $flatten\pulses.$add$pulses.v:278$96: $auto$alumacc.cc:485:replace_alu$1882
+  creating $alu cell for $flatten\pulses.$add$pulses.v:280$97: $auto$alumacc.cc:485:replace_alu$1885
+  creating $alu cell for $flatten\pulses.$add$pulses.v:286$99: $auto$alumacc.cc:485:replace_alu$1888
   created 29 $alu and 2 $macc cells.
 
 6.23. Executing OPT pass (performing simple optimizations).
@@ -1355,7 +1355,7 @@ Finding identical cells in module `\pulse_gen'.
 Removed a total of 2 cells.
 
 6.23.6. Executing OPT_DFF pass (perform DFF optimizations).
-Adding SRST signal on $auto$opt_dff.cc:764:run$1368 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:247$88_Y [31:17], Q = \pulses.cdelay [31:17], rval = 15'000000000000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1368 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:254$88_Y [31:17], Q = \pulses.cdelay [31:17], rval = 15'000000000000000).
 
 6.23.7. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \pulse_gen..
@@ -1455,7 +1455,7 @@ Adding SRST signal on $auto$opt_dff.cc:764:run$1697 ($dffe) from module pulse_ge
 Adding SRST signal on $auto$opt_dff.cc:764:run$1670 ($dffe) from module pulse_gen (D = $flatten\control.$procmux$1078_Y, Q = \control.writestate, rval = 1'0).
 Adding SRST signal on $auto$opt_dff.cc:764:run$1667 ($dffe) from module pulse_gen (D = $auto$wreduce.cc:454:run$1731 [0], Q = \control.readstate [0], rval = 1'0).
 Adding SRST signal on $auto$opt_dff.cc:764:run$1658 ($dffe) from module pulse_gen (D = $auto$wreduce.cc:454:run$1729 [5:0], Q = \control.readcount, rval = 6'000000).
-Adding SRST signal on $auto$opt_dff.cc:764:run$1634 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$add$uart_nonblock.v:189$136_Y, Q = \control.uart0.rx_samples, rval = 4'0000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1634 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$add$uart_nonblock.v:196$136_Y, Q = \control.uart0.rx_samples, rval = 4'0000).
 Adding SRST signal on $auto$opt_dff.cc:764:run$1619 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$procmux$580_Y, Q = \control.uart0.rx_sample_countdown, rval = 4'0101).
 Adding SRST signal on $auto$opt_dff.cc:764:run$1591 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$procmux$496_Y, Q = \control.uart0.rx_bits_remaining, rval = 4'1000).
 Adding SRST signal on $auto$opt_dff.cc:764:run$1577 ($dffe) from module pulse_gen (D = $flatten\control.\uart0.$2\tx_out[0:0], Q = \control.uart0.tx_out, rval = 1'0).
@@ -1480,9 +1480,9 @@ Removed a total of 0 cells.
 Setting constant 0-bit at position 0 on $auto$opt_dff.cc:764:run$1403 ($dffe) from module pulse_gen.
 Setting constant 0-bit at position 0 on $auto$opt_dff.cc:764:run$1398 ($dffe) from module pulse_gen.
 Setting constant 0-bit at position 1 on $auto$opt_dff.cc:764:run$1398 ($dffe) from module pulse_gen.
-Adding SRST signal on $auto$opt_dff.cc:764:run$1353 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:248$90_Y [31:18], Q = \pulses.cpulse [31:18], rval = 14'00000000000000).
-Adding SRST signal on $auto$opt_dff.cc:764:run$1338 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:270$94_Y [31:19], Q = \pulses.cblock_delay [31:19], rval = 13'0000000000000).
-Adding SRST signal on $auto$opt_dff.cc:764:run$1319 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:271$96_Y [31:20], Q = \pulses.cblock_on [31:20], rval = 12'000000000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1353 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:255$90_Y [31:18], Q = \pulses.cpulse [31:18], rval = 14'00000000000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1338 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:277$94_Y [31:19], Q = \pulses.cblock_delay [31:19], rval = 13'0000000000000).
+Adding SRST signal on $auto$opt_dff.cc:764:run$1319 ($dffe) from module pulse_gen (D = $flatten\pulses.$add$pulses.v:278$96_Y [31:20], Q = \pulses.cblock_on [31:20], rval = 12'000000000000).
 
 6.30.9. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \pulse_gen..
@@ -1556,14 +1556,14 @@ Removed 0 multiplexer ports.
       Old ports: A=10'1001110001, B=10'0111010100, Y=$auto$wreduce.cc:454:run$1737 [9:0]
       New ports: A=2'01, B=2'10, Y={ $auto$wreduce.cc:454:run$1737 [2] $auto$wreduce.cc:454:run$1737 [0] }
       New connections: { $auto$wreduce.cc:454:run$1737 [9:3] $auto$wreduce.cc:454:run$1737 [1] } = { $auto$wreduce.cc:454:run$1737 [0] $auto$wreduce.cc:454:run$1737 [2] $auto$wreduce.cc:454:run$1737 [2] 1'1 $auto$wreduce.cc:454:run$1737 [0] 3'100 }
-    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$ternary$uart_nonblock.v:247$148:
-      Old ports: A=3'000, B=3'101, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:247$148_Y
-      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:247$148_Y [0]
-      New connections: $flatten\control.\uart0.$ternary$uart_nonblock.v:247$148_Y [2:1] = { $flatten\control.\uart0.$ternary$uart_nonblock.v:247$148_Y [0] 1'0 }
-    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$ternary$uart_nonblock.v:306$154:
-      Old ports: A=2'00, B=2'11, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:306$154_Y
-      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:306$154_Y [0]
-      New connections: $flatten\control.\uart0.$ternary$uart_nonblock.v:306$154_Y [1] = $flatten\control.\uart0.$ternary$uart_nonblock.v:306$154_Y [0]
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$ternary$uart_nonblock.v:254$148:
+      Old ports: A=3'000, B=3'101, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:254$148_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:254$148_Y [0]
+      New connections: $flatten\control.\uart0.$ternary$uart_nonblock.v:254$148_Y [2:1] = { $flatten\control.\uart0.$ternary$uart_nonblock.v:254$148_Y [0] 1'0 }
+    Consolidated identical input bits for $mux cell $flatten\control.\uart0.$ternary$uart_nonblock.v:313$154:
+      Old ports: A=2'00, B=2'11, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:313$154_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\control.\uart0.$ternary$uart_nonblock.v:313$154_Y [0]
+      New connections: $flatten\control.\uart0.$ternary$uart_nonblock.v:313$154_Y [1] = $flatten\control.\uart0.$ternary$uart_nonblock.v:313$154_Y [0]
   Optimizing cells in module \pulse_gen.
     Consolidated identical input bits for $pmux cell $flatten\control.$procmux$1029:
       Old ports: A=3'000, B={ 6'001010 $flatten\control.$procmux$1024_Y }, Y=$flatten\control.$0\state[2:0]
@@ -1976,7 +1976,7 @@ ABC: Participating nodes from the first network   =     320. (  57.14 % of nodes
 ABC: Participating nodes from the second network  =     362. (  64.64 % of nodes)
 ABC: Node pairs (any polarity)                    =     320. (  57.14 % of names can be moved)
 ABC: Node pairs (same polarity)                   =     292. (  52.14 % of names can be moved)
-ABC: Total runtime =     0.06 sec
+ABC: Total runtime =     0.05 sec
 ABC: + write_blif <abc-temp-dir>/output.blif 
 
 6.44.1.2. Re-integrating ABC results.
@@ -2739,9 +2739,9 @@ found and reported 0 problems.
 
 6.51. Executing JSON backend.
 
-End of script. Logfile hash: faee2b2c2e, CPU: user 6.20s system 0.53s, MEM: 251.50 MB peak
+End of script. Logfile hash: 0038c9f4c5, CPU: user 4.61s system 0.33s, MEM: 252.55 MB peak
 Yosys 0.9+3578 (git sha1 ed579038, clang 6.0.0-1ubuntu2 -fPIC -Os)
-Time spent: 17% 18x read_verilog (1 sec), 13% 1x autoname (0 sec), ...
+Time spent: 14% 18x read_verilog (0 sec), 13% 8x techmap (0 sec), ...
 nextpnr-ecp5 --pre-pack clk_constraint.py --json pulse_gen.json --textcfg pulse_gen_out.config --um5g-85k --package CABGA381 --lpf ecp5.lpf
 Info: constraining clock net 'clk' to 50.00 MHz
 Info: constraining clock net 'clk_pll' to 200.00 MHz
@@ -2776,10 +2776,10 @@ Info:     Input frequency of PLL 'ecppll.pll_i' is constrained to 50.0 MHz
 Info: Promoting globals...
 Info:     promoting clock net clk_pll to global network
 Info:     promoting clock net clk$TRELLIS_IO_IN to global network
-Info: Checksum: 0x994582ea
+Info: Checksum: 0x9ff0fa7b
 
 Info: Annotating ports with timing budgets for target frequency 12.00 MHz
-Info: Checksum: 0xda8a6bc3
+Info: Checksum: 0x31bbb937
 
 Info: Device utilisation:
 Info: 	       TRELLIS_SLICE:  1228/41820     2%
@@ -2816,26 +2816,26 @@ Info:     at initial placer iter 2, wirelen = 1257
 Info:     at initial placer iter 3, wirelen = 1263
 Info: Running main analytical placer.
 Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 1257, spread = 12923, legal = 13362; time = 0.04s
-Info:     at iteration #2, type TRELLIS_SLICE: wirelen solved = 1642, spread = 9721, legal = 10310; time = 0.08s
+Info:     at iteration #2, type TRELLIS_SLICE: wirelen solved = 1642, spread = 9721, legal = 10310; time = 0.04s
 Info:     at iteration #3, type TRELLIS_SLICE: wirelen solved = 1725, spread = 7944, legal = 8860; time = 0.07s
-Info:     at iteration #4, type TRELLIS_SLICE: wirelen solved = 2037, spread = 7783, legal = 8637; time = 0.04s
-Info:     at iteration #5, type TRELLIS_SLICE: wirelen solved = 2401, spread = 7861, legal = 8718; time = 0.07s
-Info:     at iteration #6, type TRELLIS_SLICE: wirelen solved = 2500, spread = 7552, legal = 8542; time = 0.05s
-Info:     at iteration #7, type TRELLIS_SLICE: wirelen solved = 2794, spread = 7144, legal = 8086; time = 0.05s
-Info:     at iteration #8, type TRELLIS_SLICE: wirelen solved = 2871, spread = 7347, legal = 8346; time = 0.05s
-Info:     at iteration #9, type TRELLIS_SLICE: wirelen solved = 3135, spread = 6951, legal = 7907; time = 0.07s
-Info:     at iteration #10, type TRELLIS_SLICE: wirelen solved = 3106, spread = 6794, legal = 8004; time = 0.09s
-Info:     at iteration #11, type TRELLIS_SLICE: wirelen solved = 3470, spread = 6886, legal = 8226; time = 0.05s
-Info:     at iteration #12, type TRELLIS_SLICE: wirelen solved = 3494, spread = 6956, legal = 7903; time = 0.05s
-Info:     at iteration #13, type TRELLIS_SLICE: wirelen solved = 3541, spread = 6984, legal = 8057; time = 0.10s
-Info:     at iteration #14, type TRELLIS_SLICE: wirelen solved = 3935, spread = 7012, legal = 8024; time = 0.11s
-Info:     at iteration #15, type TRELLIS_SLICE: wirelen solved = 3815, spread = 7410, legal = 8403; time = 0.05s
-Info:     at iteration #16, type TRELLIS_SLICE: wirelen solved = 4010, spread = 7108, legal = 8296; time = 0.05s
-Info:     at iteration #17, type TRELLIS_SLICE: wirelen solved = 4197, spread = 7121, legal = 8137; time = 0.05s
-Info: HeAP Placer Time: 2.08s
-Info:   of which solving equations: 0.86s
-Info:   of which spreading cells: 0.13s
-Info:   of which strict legalisation: 0.08s
+Info:     at iteration #4, type TRELLIS_SLICE: wirelen solved = 2037, spread = 7783, legal = 8637; time = 0.03s
+Info:     at iteration #5, type TRELLIS_SLICE: wirelen solved = 2401, spread = 7861, legal = 8718; time = 0.05s
+Info:     at iteration #6, type TRELLIS_SLICE: wirelen solved = 2500, spread = 7552, legal = 8542; time = 0.04s
+Info:     at iteration #7, type TRELLIS_SLICE: wirelen solved = 2794, spread = 7144, legal = 8086; time = 0.04s
+Info:     at iteration #8, type TRELLIS_SLICE: wirelen solved = 2871, spread = 7347, legal = 8346; time = 0.04s
+Info:     at iteration #9, type TRELLIS_SLICE: wirelen solved = 3135, spread = 6951, legal = 7907; time = 0.04s
+Info:     at iteration #10, type TRELLIS_SLICE: wirelen solved = 3106, spread = 6794, legal = 8004; time = 0.06s
+Info:     at iteration #11, type TRELLIS_SLICE: wirelen solved = 3470, spread = 6886, legal = 8226; time = 0.09s
+Info:     at iteration #12, type TRELLIS_SLICE: wirelen solved = 3494, spread = 6956, legal = 7903; time = 0.09s
+Info:     at iteration #13, type TRELLIS_SLICE: wirelen solved = 3541, spread = 6984, legal = 8057; time = 0.06s
+Info:     at iteration #14, type TRELLIS_SLICE: wirelen solved = 3935, spread = 7012, legal = 8024; time = 0.03s
+Info:     at iteration #15, type TRELLIS_SLICE: wirelen solved = 3815, spread = 7410, legal = 8403; time = 0.03s
+Info:     at iteration #16, type TRELLIS_SLICE: wirelen solved = 4010, spread = 7108, legal = 8296; time = 0.04s
+Info:     at iteration #17, type TRELLIS_SLICE: wirelen solved = 4197, spread = 7121, legal = 8137; time = 0.03s
+Info: HeAP Placer Time: 1.54s
+Info:   of which solving equations: 0.77s
+Info:   of which spreading cells: 0.10s
+Info:   of which strict legalisation: 0.07s
 
 Info: Running simulated annealing placer for refinement.
 Info:   at iteration #1: temp = 0.000000, timing cost = 803, wirelen = 7903
@@ -2843,7 +2843,7 @@ Info:   at iteration #5: temp = 0.000000, timing cost = 543, wirelen = 6801
 Info:   at iteration #10: temp = 0.000000, timing cost = 542, wirelen = 6488
 Info:   at iteration #15: temp = 0.000000, timing cost = 536, wirelen = 6367
 Info:   at iteration #15: temp = 0.000000, timing cost = 529, wirelen = 6370 
-Info: SA placement time 2.21s
+Info: SA placement time 1.77s
 
 Info: Max frequency for clock           '$glbnet$clk_pll': 129.79 MHz (FAIL at 200.00 MHz)
 Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 274.12 MHz (PASS at 50.00 MHz)
@@ -2876,7 +2876,7 @@ Info: [ 62935,  67217) |
 Info: [ 67217,  71499) | 
 Info: [ 71499,  75781) | 
 Info: [ 75781,  80063) |+
-Info: Checksum: 0x420f0d9b
+Info: Checksum: 0xfb2fc314
 Info: Routing globals...
 Info:     routing clock net $glbnet$clk_pll using global 0
 Info:     routing clock net $glbnet$clk$TRELLIS_IO_IN using global 1
@@ -2886,15 +2886,15 @@ Info: Setting up routing queue.
 Info: Routing 5368 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:       1000 |        2        997 |    2   997 |      4371|       1.31       1.31|
-Info:       2000 |       10       1989 |    8   992 |      3379|       0.64       1.95|
-Info:       3000 |       17       2982 |    7   993 |      2398|       0.80       2.76|
-Info:       4000 |       55       3944 |   38   962 |      1444|       1.25       4.01|
-Info:       5000 |       61       4938 |    6   994 |       471|       0.61       4.62|
-Info:       5474 |       64       5410 |    3   472 |         0|       0.74       5.36|
+Info:       1000 |        2        997 |    2   997 |      4371|       0.64       0.64|
+Info:       2000 |       10       1989 |    8   992 |      3379|       0.41       1.04|
+Info:       3000 |       17       2982 |    7   993 |      2398|       0.44       1.48|
+Info:       4000 |       55       3944 |   38   962 |      1444|       0.76       2.25|
+Info:       5000 |       61       4938 |    6   994 |       471|       0.35       2.60|
+Info:       5474 |       64       5410 |    3   472 |         0|       0.38       2.98|
 Info: Routing complete.
-Info: Router1 time 5.36s
-Info: Checksum: 0x5d08ead3
+Info: Router1 time 2.98s
+Info: Checksum: 0x72c453a1
 
 Info: Critical path report for clock '$glbnet$clk_pll' (posedge -> posedge):
 Info: curr total
@@ -2986,7 +2986,7 @@ Info:  0.8  1.1    Net control.uart0.rx_clk[9] budget 3.749000 ns (74,54) -> (74
 Info:                Sink RS232_Rx_LUT4_A_2_Z_PFUMX_ALUT_C0_LUT4_Z_A_LUT4_Z_SLICE.B0
 Info:                Defined in:
 Info:                  pulse_gen.v:60.16-78.4
-Info:                  uart_nonblock.v:98.39-98.45
+Info:                  uart_nonblock.v:105.39-105.45
 Info:                  pulse_control.v:82.7-94.4
 Info:  0.1  1.2  Source RS232_Rx_LUT4_A_2_Z_PFUMX_ALUT_C0_LUT4_Z_A_LUT4_Z_SLICE.F0
 Info:  0.5  1.8    Net RS232_Rx_LUT4_A_2_Z_PFUMX_ALUT_C0_LUT4_Z_A[3] budget 3.749000 ns (74,54) -> (74,54)
@@ -3034,7 +3034,7 @@ Info:                Sink RS232_Rx_LUT4_A_2_Z_PFUMX_ALUT_C0_LUT4_Z_A_LUT4_Z_2_SL
 Info:                Defined in:
 Info:                  pulse_gen.v:60.16-78.4
 Info:                  uart_nonblock.v:0.0-0.0
-Info:                  uart_nonblock.v:155.9-258.16
+Info:                  uart_nonblock.v:162.9-265.16
 Info:                  pulse_control.v:82.7-94.4
 Info:                  /usr/local/bin/../share/yosys/techmap.v:575.21-575.22
 Info:  0.0  6.5  Setup RS232_Rx_LUT4_A_2_Z_PFUMX_ALUT_C0_LUT4_Z_A_LUT4_Z_2_SLICE.DI1
@@ -3075,7 +3075,7 @@ Info:  4.6  4.9    Net RS232_Tx$TRELLIS_IO_OUT budget 83.025002 ns (75,53) -> (0
 Info:                Sink RS232_Tx$tr_io.I
 Info:                Defined in:
 Info:                  pulse_gen.v:60.16-78.4
-Info:                  uart_nonblock.v:105.9-105.15
+Info:                  uart_nonblock.v:112.9-112.15
 Info:                  pulse_control.v:82.7-94.4
 Info: 0.3 ns logic, 4.6 ns routing
 

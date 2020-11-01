@@ -73,6 +73,13 @@
     parameter sys_clk_freq = 12000000;
    
     localparam one_baud_cnt = sys_clk_freq / (baud_rate);
+	
+	localparam one_BC_div2 = one_baud_cnt / 2;
+	localparam one_BC_div8 = one_baud_cnt / 8;
+	localparam one_BC_mul3 = one_baud_cnt * 3;
+	localparam one_BC_mul16 = one_baud_cnt * 16;
+	localparam one_BC_23div8 = one_BC_div2 + one_BC_mul3 / 8;
+	localparam sys_clk_div = 8 * sys_clk_freq / (baud_rate);
 
 //** SYMBOLIC STATE DECLARATIONS ******************************
 
@@ -158,7 +165,7 @@
                 // start of data.
                 if (!rx) begin
                     // Wait 1/2 of the bit period
-                    rx_clk <= one_baud_cnt / 2;
+                    rx_clk <= one_BC_div2;
                     recv_state <= RX_CHECK_START;
                 end
             end
@@ -169,7 +176,7 @@
                     if (!rx) begin
                         // Pulse still there - good
                         // Wait the bit period plus 3/8 of the next
-                        rx_clk <= (one_baud_cnt / 2) + (one_baud_cnt * 3) / 8; 
+                        rx_clk <= one_BC_23div8; 
                         rx_bits_remaining <= 8;  
                         recv_state <= RX_SAMPLE_BITS;
                         rx_samples <= 0;
@@ -188,7 +195,7 @@
                     if (rx) begin
                         rx_samples <=  rx_samples + 1'd1;
                     end
-                    rx_clk <= one_baud_cnt / 8;
+                    rx_clk <= one_BC_div8;
                     rx_sample_countdown <= rx_sample_countdown -1'd1;
                     recv_state <= (rx_sample_countdown -1'd1) ? RX_SAMPLE_BITS : RX_READ_BITS;
                 end
@@ -204,7 +211,7 @@
                         rx_data <= {1'd0, rx_data[7:1]};
                     end
                     
-                    rx_clk <= (one_baud_cnt * 3) / 8;
+                    rx_clk <= one_BC_mul3 / 8;
                     rx_samples <= 0;
                     rx_sample_countdown <= 5;
                     rx_bits_remaining <= rx_bits_remaining - 1'd1;
@@ -213,7 +220,7 @@
                         recv_state <= RX_SAMPLE_BITS;
                     end else begin
                         recv_state <= RX_CHECK_STOP;
-                        rx_clk <= one_baud_cnt / 2;
+                        rx_clk <= one_BC_div2;
                     end
                 end
             end
@@ -235,7 +242,7 @@
                 // cycle while in this state and then waits
                 // 2 bit periods before accepting another
                 // transmission.
-                rx_clk <= 8 * sys_clk_freq / (baud_rate);
+                rx_clk <= sys_clk_div;
                 recv_state <= RX_DELAY_RESTART;
             end
             
@@ -288,7 +295,7 @@
                     end else begin
                         // Set delay to send out 2 stop bits.
                         tx_out <= 1;
-                        tx_clk <= 16 * one_baud_cnt;// tx_countdown = 16;
+                        tx_clk <= one_BC_mul16;// tx_countdown = 16;
                         tx_state <= TX_DELAY_RESTART;
                     end
                 end

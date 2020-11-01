@@ -224,6 +224,7 @@ module pulses(
 					cblock_delay <= p1width + delay + p2width + pulse_block;
 					cblock_on <= p1width + delay + p2width + pulse_block + pulse_block_off;
 					ccount <= 0;
+					
 					end // case: 0
 
 					p1width: begin
