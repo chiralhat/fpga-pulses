@@ -45,7 +45,7 @@ module pulse_gen(
    wire 		clk_pll_gl;
    wire 		lock;
 
-   // Setting the PLL to output a 201 MHz clock, based on code from
+   // Setting the PLL to output a 100.5 MHz clock, based on code from
    // https://gist.github.com/thoughtpolice/8ec923e1b3fc4bb12c11aa23b4dc53b5#file-ice40-v
    // Note: These values are slightly different from those outputted by icepll
 //    icepll pll(
@@ -60,6 +60,7 @@ module pulse_gen(
               .clock_out(clk_pll),
 	      .locked(lock)
 	      );
+   // NOSIM_END
 
    // Setting up communications with LabView over USB
    pulse_control control(
@@ -74,16 +75,16 @@ module pulse_gen(
    			//  .pr_att(pre_att),
    			//  .po_att(post_att),
 			 .cp(cpmg),
-			 .p_bl(pulse_block),
+			//  .p_bl(pulse_block),
 			//  .p_bl_off(pulse_block_off),
 			 .bl(block),
 			 .rxd(rx_done)
    			 );
-   // NOSIM_END
    
    // Generating the necessary pulses
    pulses pulses(
 		 .clk_pll(clk_pll),
+		 .clk(clk),
 		 .reset(resetn),
 		 .pu(pump),
 		.per(period),
@@ -93,7 +94,7 @@ module pulse_gen(
 	//  .pr_att(pre_att),
 	//  .po_att(post_att),
 		.cp(cpmg),
-		.p_bl(pulse_block),
+		// .p_bl(pulse_block),
 		// .p_bl_off(pulse_block_off),
 		.bl(block),
 		 .rxd(rx_done),
@@ -104,5 +105,5 @@ module pulse_gen(
 		 .inhib(P2)
 		//  .test({FM, P3, P4})
 		 );
-   // NOSIM2_START
+
 endmodule // pulse_gen

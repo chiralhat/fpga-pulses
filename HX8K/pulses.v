@@ -12,7 +12,8 @@ module pulses(
 	       If 'mode' is 1, a Hahn echo is taken, otherwise it's CPMG. 
 	       Inputs are 'pum
 	       */
-	      input 	   clk_pll, // The 200 MHz clock
+	      input 	   clk_pll, // The PLL clock
+		  input		   clk, // The 12 MHz clock
 	      input 	   reset, // Used only in simulation
 	      input 	   pu, // First pulse on (1) or off (0), set by LabView (LV)
 	      input [7:0] per,
@@ -22,7 +23,7 @@ module pulses(
 		     // input [6:0]  pr_att,
                //       input [6:0]  po_att,
                      input         cp,
-                     input [7:0]  p_bl,
+                    //  input [7:0]  p_bl,
                     //  input [15:0] p_bl_off,
 		     input 	   bl,
 			 input		rxd,
@@ -105,11 +106,8 @@ module pulses(
 	// parameter CPMG_BLOCK_ON = 4'd9;
 	// parameter NUTATION_PULSE_ON = 4'd10;
 
-   /* The main loops runs on the 200 MHz PLL clock.
-    */
-   always @(posedge clk_pll) begin
-      if (!reset) begin
-		  { rx_done, xfer_bits } <= { xfer_bits, rxd };
+	always @(posedge clk) begin
+		{ rx_done, xfer_bits } <= { xfer_bits, rxd };
 
 		if (rx_done) begin
 			pump <= pu;
@@ -117,19 +115,25 @@ module pulses(
 			p1width <= p1wid;
 			p2width <= p2wid;
 			delay <= del;
-			pulse_block <= p_bl;
+			// pulse_block <= p_bl;
 			// pulse_block_off <= p_bl_off;
 			cpmg <= cp;
 			block <= bl;
 		end
+    end
+
+   /* The main loops runs on the 100.5 MHz PLL clock.
+    */
+   always @(posedge clk_pll) begin
+      if (!reset) begin
+		  
 		  
 	if (cpmg > 0) begin
+		// block_on <= block_off + pulse_block_off;
 
 		p2start <= p1width + delay;
 		sync_down <= p2start + p2width;
 		block_off <= sync_down + delay - pulse_block;
-		// block_on <= block_off + pulse_block_off;
-		
 		// if (counter < 2) begin
 		// 	sync_down <= p1width + delay + p2width;
 		// 	nutation_pulse_start <= period - nutation_pulse_delay - nutation_pulse_width;
@@ -144,18 +148,19 @@ module pulses(
 		
 		// inh <= ((counter < block_off) || (counter > block_on)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 		inh <= (counter < (block_off)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
-
-		sync <= (counter < sync_down) ? 1 : 0;
+		counter <= (counter[23:16] < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
+	
+		// sync <= (counter < sync_down) ? 1 : 0;
 		
 		// A1 <= pre_att;
 		// A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 		
-		counter <= (counter[23:16] < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 	end else begin
 		pulse <= 1;
 		// sync <= (counter[31:24] < (period - 1)) ? 0 : 1;
 	end
-      end // if (!reset)
+	sync <= (counter < sync_down) ? 1 : 0;
+	end // if (!reset)
       else begin
 	 counter <= 0;
       end

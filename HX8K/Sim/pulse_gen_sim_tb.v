@@ -39,17 +39,17 @@ module tb;
       clk = 1'b0;
       clk_pll = 1'b1;
       #1 resetn = 1;
-      #100 resetn = 0;
+      #50 resetn = 0;
       //      #150000 P1 = 1;
       //     #1500000 P1 = 0;
       #3000000 $finish;
    end
    
    always begin
-      #5 clk_pll <= ~clk_pll;
+      #1 clk_pll <= ~clk_pll;
    end
 
    always begin
-      #87 clk <= ~clk;
+      #8.375 clk <= ~clk;
    end
 endmodule // tb

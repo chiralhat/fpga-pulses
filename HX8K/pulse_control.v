@@ -4,14 +4,14 @@ module pulse_control(
 		     input 	   RS232_Rx,
 		     output 	   RS232_Tx,
 		     output 	   pu,
-		     output [31:0] per,
-		     output [31:0] p1wid,
-		     output [31:0] del,
-		     output [31:0] p2wid,
+		     output [7:0] per,
+		     output [15:0] p1wid,
+		     output [15:0] del,
+		     output [15:0] p2wid,
 		     // output [6:0]  pr_att,
                //       output [6:0]  po_att,
                      output         cp,
-                     output [7:0]  p_bl,
+                    //  output [7:0]  p_bl,
                     //  output [15:0] p_bl_off,
 		     output 	   bl,
 			 output			rxd
@@ -35,7 +35,7 @@ module pulse_control(
    reg [15:0] 			   p1width = stp1width;
    reg [15:0] 			   delay = stdelay;
    reg [15:0] 			   p2width = stp2width;
-   reg [7:0] 			   pulse_block = 8'd50;
+//    reg [7:0] 			   pulse_block = 8'd50;
 //    reg [15:0] 			   pulse_block_off = stblock;
    reg     			   cpmg = stcpmg;
    reg 				   block = 1;
@@ -55,7 +55,7 @@ module pulse_control(
 //    assign pr_att = pre_att;
 //    assign po_att = post_att;
    assign cp = cpmg;
-   assign p_bl = pulse_block;
+//    assign p_bl = pulse_block;
 //    assign p_bl_off = pulse_block_off;
    assign bl = block;
    assign rxd = rx_done;
@@ -175,7 +175,7 @@ module pulse_control(
 	     CONT_TOGGLE_PULSE1: begin
 		pump <= vinput[0];
 		block <= vinput[1];
-		pulse_block <= vinput[15:8];
+		// pulse_block <= vinput[15:8];
 		// pulse_block_off <= vinput[31:16];
 	     end
 
