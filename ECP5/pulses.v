@@ -116,25 +116,39 @@ module pulses(
 	// parameter CPMG_BLOCK_ON = 4'd9;
 	// parameter NUTATION_PULSE_ON = 4'd10;
 	
+	always @(*) begin
+		pump <= pu;
+		period  <= per;
+		p1width <= p1wid;
+		p2width <= p2wid;
+		delay <= del;
+		nutation_pulse_delay <= nut_d;
+		nutation_pulse_width <= nut_w;
+		pulse_block <= p_bl;
+		pulse_block_off <= p_bl_off;
+		cpmg <= cp;
+		block <= bl;
+	end
+	
 	/* The main loops runs on the 200 MHz PLL clock.
 	*/
 	always @(posedge clk_pll) begin
 		if (!reset) begin
 			{ rx_done, xfer_bits } <= { xfer_bits, rxd };
 
-			if (rx_done) begin
-				pump <= pu;
-				period  <= per;
-				p1width <= p1wid;
-				p2width <= p2wid;
-				delay <= del;
-				nutation_pulse_delay <= nut_d;
-				nutation_pulse_width <= nut_w;
-				pulse_block <= p_bl;
-				pulse_block_off <= p_bl_off;
-				cpmg <= cp;
-				block <= bl;
-			end
+			// if (rx_done) begin
+				// pump <= pu;
+				// period  <= per;
+				// p1width <= p1wid;
+				// p2width <= p2wid;
+				// delay <= del;
+				// nutation_pulse_delay <= nut_d;
+				// nutation_pulse_width <= nut_w;
+				// pulse_block <= p_bl;
+				// pulse_block_off <= p_bl_off;
+				// cpmg <= cp;
+				// block <= bl;
+			// end
 
 			case (cpmg)
 			0 : begin //cpmg=0 : CW (switch always open)
@@ -232,9 +246,11 @@ module pulses(
 					end
 
 					cdelay: begin
-						if (ccount < cpmg) begin
-						pulse <= 1;
-						end
+						pulse <= (ccount < cpmg) ? 1 : pulse;
+						
+						//if (ccount < cpmg) begin
+						//pulse <= 1;
+						//end
 					end
 
 					cpulse: begin		 
@@ -247,17 +263,22 @@ module pulses(
 						//Non-blocking implementation as above:
 						cdelay <= cpulse + delay;
 						cpulse <= cpulse + delay + p2width;
+
 						end
 					end
 
 					cblock_delay: begin
-						if (ccount == 0) begin
-						sync <= 0;
-						end
+						sync <= (ccount == 0) ? 0 : sync;
+						
+						//if (ccount == 0) begin
+						//sync <= 0;
+						//end
 
-						if (ccount < cpmg) begin
-						inh <= 0;
-						end
+						inh <= (ccount < cpmg) ? 0 : inh;
+						
+						//if (ccount < cpmg) begin
+						//inh <= 0;
+						//end
 					end // case: cblock_delay
 
 					cblock_on: begin
@@ -270,7 +291,7 @@ module pulses(
 						//Non-blocking implementation as above:
 						cblock_delay <= cpulse + pulse_block;
 						cblock_on <= cpulse + pulse_block + pulse_block_off;
-						
+	
 						ccount <= ccount + 1;
 						end
 					end
