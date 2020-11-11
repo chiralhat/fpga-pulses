@@ -131,6 +131,11 @@ module pulses(
 		pulse_block_off <= p_bl_off;
 		cpmg <= cp;
 		block <= bl;
+		
+		p2start <= p1width + delay;
+		sync_down <= p2start + p2width;
+		block_off <= sync_down + delay - pulse_block;
+		
 	end
 	
 	/* The main loops runs on the 200 MHz PLL clock.
@@ -171,9 +176,7 @@ module pulses(
 				// sync <= (counter[31:24] < (period - 1)) ? 0 : 1;
 			end
 			1: begin //cpmg=1 : Hahn echo with nutation pulse
-				p2start <= p1width + delay;
-				sync_down <= p2start + p2width;
-				block_off <= sync_down + delay - pulse_block;
+				
 				// block_on <= block_off + pulse_block_off;
 
 				// if (counter < 2) begin
@@ -276,7 +279,7 @@ module pulses(
 
 						end
 						
-						sync <= (ccount == 0) ? 0 : sync;
+						sync <= (ccount == cpmg) ? 0 : sync;
 					end
 
 					cblock_delay: begin
@@ -286,11 +289,11 @@ module pulses(
 						//sync <= 0;
 						//end
 
-						inh <= (ccount < cpmg) ? 0 : inh;
+						//inh <= (ccount < cpmg) ? 0 : inh;
 						
-						//if (ccount < cpmg) begin
-						//inh <= 0;
-						//end
+						if (ccount < cpmg) begin
+						inh <= 0;
+						end
 					end // case: cblock_delay
 
 					cblock_on: begin
