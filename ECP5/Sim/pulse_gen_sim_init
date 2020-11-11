@@ -10,6 +10,7 @@
    parameter stblockoff = 100;
    parameter stnutwid = 300;
    parameter stnutdel = 300;
+   parameter stnut = 0;
 
    // Initialize pulse values
    always @(posedge clk) begin
@@ -25,6 +26,7 @@
 			cpmg = stcpmg;
 			nut_wid = stnutwid;
 			nut_del = stnutdel;
+			nutation = stnut;
 		end // if (reset)
 	end // always @ (posedge clk)
 

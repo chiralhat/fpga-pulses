@@ -10,6 +10,7 @@ module pulse_control(
 	output [15:0] p2wid,
 	output [31:0] nut_w,
 	output [31:0] nut_d,
+	output nut,
 	// output [6:0]  pr_att,
 	//       output [6:0]  po_att,
 		 output [7:0]    cp,
@@ -31,8 +32,9 @@ module pulse_control(
 	parameter stblock = 100; // 500 ns block open
 	parameter stpump = 1; // The pump is on by default
 	parameter stcpmg = 3; // Do Hahn echo by default
-	parameter stnutdel = 300;
+	parameter stnutdel = 300; 
 	parameter stnutwid = 300;
+	parameter stnut = 1; //do nutation pulse by default
 
 	reg 				   pump = stpump;
 	reg [7:0] 			   period = stperiod;
@@ -46,6 +48,7 @@ module pulse_control(
 	reg 				   rx_done = 0;
 	reg [31:0]			   nut_del = stnutdel;
 	reg [31:0]			   nut_wid = stnutdel;
+	reg					   nutation = stnut;
 
 	// Control the attenuators
 	//    parameter att_pre_val = 7'd1;
@@ -67,6 +70,7 @@ module pulse_control(
 	assign rxd = rx_done;
 	assign nut_d = nut_del;
 	assign nut_w = nut_wid;
+	assign nut = nutation;
 
 	// Setup necessary for UART
 	wire 			   reset = 0;
@@ -126,6 +130,7 @@ module pulse_control(
 	parameter CONT_SET_ATT = 8'd6;
 	parameter CONT_SET_NUTW = 8'd7;
 	parameter CONT_SET_NUTD = 8'd8;
+	parameter CONT_SET_NUT = 8'd9;
 
 	reg [2:0] 			   state = STATE_RECEIVING;
 
@@ -199,6 +204,10 @@ module pulse_control(
 		 
 		 CONT_SET_NUTW: begin
 		 nut_wid <= vinput[7:0] << 24;
+		 end
+		 
+		 CONT_SET_NUT: begin
+		 nutation <= vinput[0];
 		 end
 
 	     // CONT_SET_ATT: begin
