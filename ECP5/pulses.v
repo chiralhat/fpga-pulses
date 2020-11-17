@@ -12,6 +12,7 @@ module pulses(
 	If 'mode' is 1, a Hahn echo is taken, otherwise it's CPMG. 
 	Inputs are 'pum
 	*/
+	input 		 clk,
 	input 	     clk_pll, // The 200 MHz clock
 	input 	     reset, // Used only in simulation
 	input 	     pu, // First pulse on (1) or off (0), set by LabView (LV)
@@ -118,46 +119,38 @@ module pulses(
 	// parameter CPMG_BLOCK_ON = 4'd9;
 	// parameter NUTATION_PULSE_ON = 4'd10;
 	
-	always @(*) begin
-		pump <= pu;
-		period  <= per;
-		p1width <= p1wid;
-		p2width <= p2wid;
-		delay <= del;
-		nutation_pulse_delay <= nut_d;
-		nutation_pulse_width <= nut_w;
-		nutation <= nut;
-		pulse_block <= p_bl;
-		pulse_block_off <= p_bl_off;
-		cpmg <= cp;
-		block <= bl;
+	always @(posedge clk) begin
+		{ rx_done, xfer_bits } <= { xfer_bits, rxd };
+		
+		if (rx_done) begin
+			pump <= pu;
+			period  <= per;
+			p1width <= p1wid;
+			p2width <= p2wid;
+			delay <= del;
+			nutation_pulse_delay <= nut_d;
+			nutation_pulse_width <= nut_w;
+			nutation <= nut;
+			pulse_block <= p_bl;
+			pulse_block_off <= p_bl_off;
+			cpmg <= cp;
+			block <= bl;
+		end
 		
 		p2start <= p1width + delay;
 		sync_down <= p2start + p2width;
 		block_off <= sync_down + delay - pulse_block;
+		
+		if (reset) begin
+			counter <= 0;
+		end
 		
 	end
 	
 	/* The main loops runs on the 200 MHz PLL clock.
 	*/
 	always @(posedge clk_pll) begin
-		if (!reset) begin
-			{ rx_done, xfer_bits } <= { xfer_bits, rxd };
-
-			// if (rx_done) begin
-				// pump <= pu;
-				// period  <= per;
-				// p1width <= p1wid;
-				// p2width <= p2wid;
-				// delay <= del;
-				// nutation_pulse_delay <= nut_d;
-				// nutation_pulse_width <= nut_w;
-				// pulse_block <= p_bl;
-				// pulse_block_off <= p_bl_off;
-				// cpmg <= cp;
-				// block <= bl;
-			// end
-			
+		if (!reset) begin			
 			if (nutation) begin
 				per_shift <= period << 16;
 				nutation_pulse_start <= per_shift - nutation_pulse_delay - nutation_pulse_width;
@@ -229,7 +222,7 @@ module pulses(
 
 				// A1 <= pre_att;
 				// A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
-			end 
+			end
 			default : begin //cpmg > 1 : CPMG with # pulses given by value of cpmg
 				case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
 					0: begin
@@ -316,9 +309,6 @@ module pulses(
 		counter <= (counter[23:16] < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 		pulse <= pulses || nut_pulse;
 		end// if (!reset)
-		else begin
-		counter <= 0;
-		end
 
 	end // always @ (posedge clk_pll)
 endmodule // pulses

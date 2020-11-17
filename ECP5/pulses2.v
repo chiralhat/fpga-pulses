@@ -21,6 +21,7 @@ module pulses(
 	input [15:0] p2wid,
 	input [31:0] nut_w,
 	input [31:0] nut_d,
+	input 		 nut,
 	// input [6:0]  pr_att,
 	//       input [6:0]  po_att,
 	input [7:0]  cp,
@@ -82,6 +83,7 @@ module pulses(
 	reg [15:0] block_off = stp1width+stdelay+stdelay+stp2width-8'd50;
 	//    reg [15:0] block_on = stp1width+2*stdelay+stp2width-8'd50+stblock;
 
+	reg 		nutation = 1;
 	reg  		nutation_pulse = 0;
 	reg [31:0]  nutation_pulse_width = 32'd50;
 	reg [31:0]  nutation_pulse_delay = 32'd300;
@@ -124,17 +126,26 @@ module pulses(
 		delay <= del;
 		nutation_pulse_delay <= nut_d;
 		nutation_pulse_width <= nut_w;
+		nutation <= nut;
 		pulse_block <= p_bl;
 		pulse_block_off <= p_bl_off;
 		cpmg <= cp;
 		block <= bl;
+		
+		p2start <= p1width + delay;
+		sync_down <= p2start + p2width;
+		block_off <= sync_down + delay - pulse_block;
+		
+		per_shift <= period << 16;
+		nutation_pulse_start <= per_shift - nutation_pulse_delay - nutation_pulse_width;
+		nutation_pulse_stop <= per_shift - nutation_pulse_delay;
+		
 	end
 	
 	/* The main loops runs on the 200 MHz PLL clock.
 	*/
 	always @(posedge clk_pll) begin
 		if (!reset) begin
-			//{ rx_done, xfer_bits } <= { xfer_bits, rxd };
 
 			// if (rx_done) begin
 				// pump <= pu;
@@ -149,11 +160,18 @@ module pulses(
 				// cpmg <= cp;
 				// block <= bl;
 			// end
-
+			
+			if (nutation) begin	
+				nut_pulse <= (counter < nutation_pulse_start) ? 0 :
+					((counter < nutation_pulse_stop) ? 1 : 0);
+			end
+			else begin
+				nut_pulse <= 0;
+			end
 			case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
 				0: begin
 				sync <= 1;
-				pulse <= pump;
+				pulses <= pump;
 				inh <= block;
 				//A1 = pre_att;
 				//A3 = post_att;
@@ -172,14 +190,13 @@ module pulses(
 				ccount <= 0;
 				
 				end // case: 0
-				
 
 				p1width: begin
-					pulse <= 0;
+					pulses <= 0;
 				end
 
 				cdelay: begin
-					pulse <= (ccount < cpmg) ? 1 : pulse;
+					pulses <= (ccount < cpmg) ? 1 : pulses;
 					
 					//if (ccount < cpmg) begin
 					//pulse <= 1;
@@ -188,7 +205,7 @@ module pulses(
 
 				cpulse: begin		 
 					if (ccount < cpmg) begin
-					pulse <= 0;
+					pulses <= 0;
 
 					//cdelay = cpulse + delay;
 					//cpulse = cdelay + p2width;
@@ -199,7 +216,7 @@ module pulses(
 
 					end
 					
-					sync <= (ccount == 0) ? 0 : sync;
+					sync <= (ccount == cpmg) ? 0 : sync;
 				end
 
 				cblock_delay: begin
@@ -209,13 +226,12 @@ module pulses(
 					//sync <= 0;
 					//end
 
-					inh <= (ccount < cpmg) ? 0 : inh;
+					//inh <= (ccount < cpmg) ? 0 : inh;
 					
-					//if (ccount < cpmg) begin
-					//inh <= 0;
-					//end
+					if (ccount < cpmg) begin
+					inh <= 0;
+					end
 				end // case: cblock_delay
-				
 
 				cblock_on: begin
 					if (ccount < cpmg) begin
@@ -231,13 +247,13 @@ module pulses(
 					ccount <= ccount + 1;
 					end
 				end
-			endcase // case (counter)	
+			endcase // case (counter)
 		counter <= (counter[23:16] < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
+		pulse <= pulses || nut_pulse;
 		end// if (!reset)
 		else begin
 		counter <= 0;
 		end
 
 	end // always @ (posedge clk_pll)
-	
 endmodule // pulses

@@ -82,6 +82,7 @@ module pulse_gen(
    
    // Generating the necessary pulses
 	pulses pulses(
+		.clk(clk),
 		.clk_pll(clk_pll),
 		.reset(resetn),
 		.pu(pump),
