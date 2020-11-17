@@ -34,7 +34,8 @@ module tb;
 
    initial begin
       $dumpfile("Sim/pulse_gen_sim_tb.vcd");
-      $dumpvars(0, test);
+    //   $dumpvars(0, test);
+      $dumpvars(1, Pulse, Sync, P2);
 
       clk = 1'b0;
       clk_pll = 1'b1;
@@ -42,7 +43,8 @@ module tb;
       #50 resetn = 0;
       //      #150000 P1 = 1;
       //     #1500000 P1 = 0;
-      #3000000 $finish;
+    //   #3000000 $finish;
+      #35000000 $finish;
    end
    
    always begin

@@ -22,24 +22,33 @@ module pulse_control(
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-   parameter stperiod = 15; // 1 ms period
-   parameter stp1width = 30; // 150 ns
-   parameter stp2width = 30;
-   parameter stdelay = 200; // 1 us delay
-//    parameter stblock = 100; // 500 ns block open
-   parameter stpump = 1; // The pump is on by default
-   parameter stcpmg = 1; // Do Hahn echo by default
+//    parameter stperiod = 1000; // 1 ms period
+//    parameter stp1width = 30; // 150 ns
+//    parameter stp2width = 30;
+//    parameter stdelay = 200; // 1 us delay
+// //    parameter stblock = 100; // 500 ns block open
+//    parameter stpump = 1; // The pump is on by default
+//    parameter stcpmg = 1; // Do Hahn echo by default
    
-   reg 				   pump = stpump;
-   reg [7:0] 			   period = stperiod;
-   reg [15:0] 			   p1width = stp1width;
-   reg [15:0] 			   delay = stdelay;
-   reg [15:0] 			   p2width = stp2width;
-//    reg [7:0] 			   pulse_block = 8'd50;
-//    reg [15:0] 			   pulse_block_off = stblock;
-   reg     			   cpmg = stcpmg;
-   reg 				   block = 1;
-   reg 					rx_done = 0;
+//    reg 				   pump = stpump;
+//    reg [7:0] 			   period = stperiod;
+//    reg [15:0] 			   p1width = stp1width;
+//    reg [15:0] 			   delay = stdelay;
+//    reg [15:0] 			   p2width = stp2width;
+// //    reg [7:0] 			   pulse_block = 8'd50;
+// //    reg [15:0] 			   pulse_block_off = stblock;
+//    reg     			   cpmg = stcpmg;
+//    reg 				   block = 1;
+//    reg 					rx_done = 0;
+   
+   reg 				   pump;
+   reg [7:0] 			   period;
+   reg [15:0] 			   p1width;
+   reg [15:0] 			   delay;
+   reg [15:0] 			   p2width;
+   reg     			   cpmg;
+   reg 				   block;
+   reg 					rx_done;
    
    // Control the attenuators
 //    parameter att_pre_val = 7'd1;

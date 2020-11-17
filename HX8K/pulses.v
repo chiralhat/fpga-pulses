@@ -44,7 +44,7 @@ module pulses(
 	      output 	   inhib // Wire for blocking switch pulse
 	      );
 
-   reg [31:0] 		   counter = 32'd0; // 32-bit for times up to 21 seconds
+   reg [23:0] 		   counter = 32'd0; // 32-bit for times up to 21 seconds
    reg 			   sync;
    reg 			   pulse;
 //    reg [6:0] 		   A1;
@@ -52,19 +52,19 @@ module pulses(
    reg 			   inh;
    reg 			   rec = 0;
    
-   // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
-   // All the times are thus divided by 4.975 ns to get cycles.
-   // 32-bit allows times up to 21 seconds
-   parameter stperiod = 15; // 1 ms period
-   parameter stp1width = 30; // 150 ns
+   // Running at a 101.5-MHz clock, our time step is ~10 (9.95) ns.
+   // All these numbers are thus multiplied by 9.95 ns to get times.
+   // 24-bit allows periods up to 170 ms
+   parameter stperiod = 1 << 16; // 1 is a 0.652 ms period
+   parameter stp1width = 30; // 298.5 ns
    parameter stp2width = 30;
-   parameter stdelay = 200; // 1 us delay
+   parameter stdelay = 200; // 1.99 us delay
 //    parameter stblock = 100; // 500 ns block open
    parameter stpump = 1; // The pump is on by default
    parameter stcpmg = 1; // Do Hahn echo by default
    
    reg 				   pump = stpump;
-   reg [7:0] 			   period = stperiod;
+   reg [23:0] 			   period = stperiod;
    reg [15:0] 			   p1width = stp1width;
    reg [15:0] 			   delay = stdelay;
    reg [15:0] 			   p2width = stp2width;
@@ -111,7 +111,7 @@ module pulses(
 
 		if (rx_done) begin
 			pump <= pu;
-			period  <= per;
+			period[23:16] <= per;
 			p1width <= p1wid;
 			p2width <= p2wid;
 			delay <= del;
@@ -119,6 +119,9 @@ module pulses(
 			// pulse_block_off <= p_bl_off;
 			cpmg <= cp;
 			block <= bl;
+		end
+		if (reset) begin
+			counter <= 0;
 		end
     end
 
@@ -148,22 +151,23 @@ module pulses(
 		
 		// inh <= ((counter < block_off) || (counter > block_on)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 		inh <= (counter < (block_off)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
-		counter <= (counter[23:16] < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
-	
-		// sync <= (counter < sync_down) ? 1 : 0;
+		
+		sync <= (counter < sync_down) ? 1 : 0;
 		
 		// A1 <= pre_att;
 		// A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 		
 	end else begin
 		pulse <= 1;
-		// sync <= (counter[31:24] < (period - 1)) ? 0 : 1;
+		// sync_down <= 65535;
+		sync <= (counter < (period >> 1)) ? 1 : 0;
 	end
-	sync <= (counter < sync_down) ? 1 : 0;
+	// sync <= (counter < sync_down) ? 1 : 0;
+	counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 	end // if (!reset)
-      else begin
-	 counter <= 0;
-      end
+    //   else begin
+	//  counter <= 0;
+    //   end
 
    end // always @ (posedge clk_pll)
 endmodule // pulses
