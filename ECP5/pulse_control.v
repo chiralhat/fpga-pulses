@@ -4,12 +4,12 @@ module pulse_control(
 	input 	   RS232_Rx,
 	output 	   RS232_Tx,
 	output 	   pu,
-	output [7:0] per,
+	output [23:0] per,
 	output [15:0] p1wid,
 	output [15:0] del,
 	output [15:0] p2wid,
-	output [31:0] nut_w,
-	output [31:0] nut_d,
+	output [7:0] nut_w,
+	output [15:0] nut_d,
 	output nut,
 	// output [6:0]  pr_att,
 	//       output [6:0]  po_att,
@@ -32,12 +32,12 @@ module pulse_control(
 	parameter stblock = 100; // 500 ns block open
 	parameter stpump = 1; // The pump is on by default
 	parameter stcpmg = 3; // Do Hahn echo by default
-	parameter stnutdel = 300; 
-	parameter stnutwid = 300;
+	parameter stnutdel = 100; 
+	parameter stnutwid = 100;
 	parameter stnut = 1; //do nutation pulse by default
 
 	reg 				   pump = stpump;
-	reg [7:0] 			   period = stperiod;
+	reg [23:0] 			   period = stperiod << 16;
 	reg [15:0] 			   p1width = stp1width;
 	reg [15:0] 			   delay = stdelay;
 	reg [15:0] 			   p2width = stp2width;
@@ -46,8 +46,8 @@ module pulse_control(
 	reg [7:0]  			   cpmg = stcpmg;
 	reg 				   block = 1;
 	reg 				   rx_done = 0;
-	reg [31:0]			   nut_del = stnutdel;
-	reg [31:0]			   nut_wid = stnutdel;
+	reg [15:0]			   nut_del = stnutdel;
+	reg [7:0]			   nut_wid = stnutdel;
 	reg					   nutation = stnut;
 
 	// Control the attenuators
@@ -176,7 +176,7 @@ module pulse_control(
 	     end
 
 	     CONT_SET_PERIOD: begin
-		period <= vinput[7:0];
+		period <= vinput[7:0] << 16;
 	     end
 
 	     CONT_SET_PULSE1: begin
@@ -199,11 +199,11 @@ module pulse_control(
 	     end
 		 
 		 CONT_SET_NUTD: begin
-		 nut_del <= vinput[7:0] << 24;
+		 nut_del <= vinput[15:0];
 		 end
 		 
 		 CONT_SET_NUTW: begin
-		 nut_wid <= vinput[7:0] << 24;
+		 nut_wid <= vinput[7:0];
 		 end
 		 
 		 CONT_SET_NUT: begin

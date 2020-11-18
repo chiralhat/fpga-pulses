@@ -26,17 +26,17 @@ module pulse_gen(
 	//  output J4_9
 	);
 
-	wire [7:0] 		period;
+	wire [23:0] 	period;
 	wire [15:0] 	p1width;
 	wire [15:0] 	delay;
 	wire [15:0] 	p2width;
-	wire [31:0]		nut_del;
-	wire [31:0]		nut_wid;
+	wire [15:0]		nut_del;
+	wire [7:0]		nut_wid;
 	wire 			nutation;
 	wire 			pump;
 	wire 			block;
 	wire [7:0] 		pulse_block;
-	wire [15:0] 		pulse_block_off;
+	wire [15:0] 	pulse_block_off;
 	wire [7:0]	 	cpmg;
 	wire			rx_done;
 

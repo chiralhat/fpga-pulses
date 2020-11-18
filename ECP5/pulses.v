@@ -16,12 +16,12 @@ module pulses(
 	input 	     clk_pll, // The 200 MHz clock
 	input 	     reset, // Used only in simulation
 	input 	     pu, // First pulse on (1) or off (0), set by LabView (LV)
-	input [7:0]  per,
+	input [23:0]  per,
 	input [15:0] p1wid,
 	input [15:0] del,
 	input [15:0] p2wid,
-	input [31:0] nut_w,
-	input [31:0] nut_d,
+	input [7:0] nut_w,
+	input [15:0] nut_d,
 	input 		 nut,
 	// input [6:0]  pr_att,
 	//       input [6:0]  po_att,
@@ -69,7 +69,7 @@ module pulses(
 	parameter stcpmg = 3; // Do Hahn echo by default
    
 	reg 				    pump = stpump;
-	reg [7:0] 			    period = stperiod;
+	reg [23:0] 			    period = stperiod << 16;
 	reg [15:0] 			    p1width = stp1width;
 	reg [15:0] 			    delay = stdelay;
 	reg [15:0] 			    p2width = stp2width;
@@ -86,11 +86,10 @@ module pulses(
 
 	reg 		nutation = 1;
 	reg  		nutation_pulse = 0;
-	reg [31:0]  nutation_pulse_width = 32'd50;
-	reg [31:0]  nutation_pulse_delay = 32'd300;
-	reg [31:0]  nutation_pulse_start;
-	reg [31:0]  nutation_pulse_stop;
-	reg [31:0]  per_shift;
+	reg [7:0]  nutation_pulse_width = 8'd50;
+	reg [15:0]  nutation_pulse_delay = 16'd300;
+	reg [23:0]  nutation_pulse_start;
+	reg [23:0]  nutation_pulse_stop;
 
 	reg [7:0] 		   ccount = 0; // Which pi pulse are we on right now
 	reg [31:0] 		   cdelay; // What is the time of the next pi pulse beginning
@@ -107,17 +106,6 @@ module pulses(
 	assign inhib = inh; // The blocking switch pulse
 	// assign inhib = ccount[1];
 
-	// parameter FIRST_PULSE_ON = 4'd0;
-	// parameter FIRST_DELAY = 4'd1;
-	// parameter SECOND_PULSE_ON = 4'd2;
-	// parameter POST_PI_PULSE = 4'd3;
-	// parameter FIRST_BLOCK_OFF = 4'd4;
-	// parameter FIRST_BLOCK_ON = 4'd5;
-	// parameter CPMG_PULSE_ON = 4'd6;
-	// parameter POST_CPMG_PULSE = 4'd7;
-	// parameter CPMG_BLOCK_OFF = 4'd8;
-	// parameter CPMG_BLOCK_ON = 4'd9;
-	// parameter NUTATION_PULSE_ON = 4'd10;
 	
 	always @(posedge clk) begin
 		{ rx_done, xfer_bits } <= { xfer_bits, rxd };
@@ -138,8 +126,8 @@ module pulses(
 		end
 		
 		p2start <= p1width + delay;
-		sync_down <= p2start + p2width;
-		block_off <= sync_down + delay - pulse_block;
+		sync_down <= p1width + delay + p2width;
+		block_off <= p1width + delay + p2width + delay - pulse_block;
 		
 		if (reset) begin
 			counter <= 0;
@@ -152,9 +140,8 @@ module pulses(
 	always @(posedge clk_pll) begin
 		if (!reset) begin			
 			if (nutation) begin
-				per_shift <= period << 16;
-				nutation_pulse_start <= per_shift - nutation_pulse_delay - nutation_pulse_width;
-				nutation_pulse_stop <= per_shift - nutation_pulse_delay;
+				nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
+				nutation_pulse_stop <= per - nutation_pulse_delay;
 				
 				nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 					((counter < nutation_pulse_stop) ? 1 : 0);
@@ -166,56 +153,13 @@ module pulses(
 			case (cpmg)
 			0 : begin //cpmg=0 : CW (switch always open)
 				pulse <= 1;
-				// sync <= (counter[31:24] < (period - 1)) ? 0 : 1;
 			end
 			1: begin //cpmg=1 : Hahn echo with nutation pulse
-				
-				// block_on <= block_off + pulse_block_off;
 
-				// if (counter < 2) begin
-				// 	sync_down <= p1width + delay + p2width;
-
-				
-
-				// 	// cblock_delay <= p1width + delay + p2width + delay - pulse_block;
-				// 	// cblock_on <= p1width + delay + p2width + delay - pulse_block + pulse_block_off;
-				// end
-
-				////OPTION 1: ONE CONDITIONAL BLOCK
-				//pulse <= (counter < p1width) ? pump : // Switch pulse goes up at 0 if the pump is on
-				//	      ((counter < p2start) ? 0 : // then down after p1width
-				//	       ((counter < sync_down) ? 1 : 
-				//		    ((counter < nutation_pulse_start) ? 0 :
-				//		     ((counter < nutation_pulse_stop) ? 1 : 0))));
-
-				////OPTION 2: IF-ELSE BLOCKS
-				//if (counter < p1width)
-				//	pulse <= pump;
-				//else if (counter < p2start)
-				//	pulse <= 0;
-				//else if (counter < sync_down)
-				//	pulse <= 1;
-				//else if (counter < nutation_pulse_start)
-				//	pulse <= 0;
-				//else if (counter < nutation_pulse_stop)
-				//	pulse <= 1;
-				//else
-				//	pulse <= 0;
-
-				////OPTION 3: 2 CONDITIONAL BLOCKS - best for timing
 				pulses <= (counter < p1width) ? pump :// Switch pulse goes up at 0 if the pump is on
 				((counter < p2start) ? 0 : // then down after p1width
 				((counter < sync_down) ? 1 : 0));
-
-				//OPTION 4: 3 CONDITIONAL BLOCKS (ONE FOR EACH PULSE)
-				// pulse1 <= (counter < p1width) ? pump : 0;
-				// pulse2 <= (counter < p2start) ? 0 :
-				// ((counter < sync_down) ? 1 : 0);
-				// nut_pulse <= (counter < nutation_pulse_start) ? 0 :
-					// ((counter < nutation_pulse_stop) ? 1 : 0);
-
-
-				// inh <= ((counter < block_off) || (counter > block_on)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
+				
 				inh <= (counter < (block_off)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
 
 				sync <= (counter < sync_down) ? 1 : 0;
@@ -232,13 +176,6 @@ module pulses(
 					//A1 = pre_att;
 					//A3 = post_att;
 
-					//OPTION 1: Blocking assignments happen sequentially, so should take more time, also apparently not supposed to do inside always@(clk)?
-					//cdelay = p1width + delay;
-					//cpulse = cdelay + p2width;
-					//cblock_delay = cpulse + pulse_block;
-					//cblock_on = cblock_delay + pulse_block_off;
-					
-					//OPTION 2: Non-blocking assignments, being careful with what each adds to
 					cdelay <= p1width + delay;
 					cpulse <= p1width + delay + p2width;
 					cblock_delay <= p1width + delay + p2width + pulse_block;
@@ -249,64 +186,45 @@ module pulses(
 
 					p1width: begin
 						pulses <= 0;
-					end
+					end //case: p1width
 
 					cdelay: begin
 						pulses <= (ccount < cpmg) ? 1 : pulses;
-						
-						//if (ccount < cpmg) begin
-						//pulse <= 1;
-						//end
-					end
+
+					end // case: c1delay
 
 					cpulse: begin		 
 						if (ccount < cpmg) begin
 						pulses <= 0;
 
-						//cdelay = cpulse + delay;
-						//cpulse = cdelay + p2width;
-						
-						//Non-blocking implementation as above:
 						cdelay <= cpulse + delay + delay;
 						cpulse <= cpulse + delay + delay + p2width;
 
 						end
 						
 						sync <= (ccount == cpmg) ? 0 : sync;
-					end
+					end //case: cpulse
 
 					cblock_delay: begin
-						
-						
-						//if (ccount == 0) begin
-						//sync <= 0;
-						//end
-
-						//inh <= (ccount < cpmg) ? 0 : inh;
-						
 						if (ccount < cpmg) begin
-						inh <= 0;
+							inh <= 0;
 						end
 					end // case: cblock_delay
 
 					cblock_on: begin
 						if (ccount < cpmg) begin
-						inh <= block;
+							inh <= block;
 
-						//cblock_delay = cpulse + pulse_block;
-						//cblock_on = cblock_delay + pulse_block_off;
-						
-						//Non-blocking implementation as above:
-						cblock_delay <= cpulse + pulse_block;
-						cblock_on <= cpulse + pulse_block + pulse_block_off;
-	
-						ccount <= ccount + 1;
+							cblock_delay <= cpulse + pulse_block;
+							cblock_on <= cpulse + pulse_block + pulse_block_off;
+		
+							ccount <= ccount + 1;
 						end
-					end
+					end //case: cblock_on
 				endcase // case (counter)
 			end
 		endcase
-		counter <= (counter[23:16] < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
+		counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 		pulse <= pulses || nut_pulse;
 		end// if (!reset)
 
