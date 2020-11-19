@@ -82,6 +82,7 @@ module pulses(
 	reg [15:0] p2start = stp1width+stdelay;
 	reg [15:0] sync_down = stp1width+stdelay+stp2width;
 	reg [15:0] block_off = stp1width+stdelay+stdelay+stp2width-8'd50;
+	reg [15:0] block_on = stp1width+stdelay+stdelay+stp2width;
 	//    reg [15:0] block_on = stp1width+2*stdelay+stp2width-8'd50+stblock;
 
 	reg 		nutation = 1;
@@ -128,6 +129,7 @@ module pulses(
 		p2start <= p1width + delay;
 		sync_down <= p1width + delay + p2width;
 		block_off <= p1width + delay + p2width + delay - pulse_block;
+		block_on <= p1width + delay + p2width + delay;
 		
 		if (reset) begin
 			counter <= 0;
@@ -160,7 +162,8 @@ module pulses(
 				((counter < p2start) ? 0 : // then down after p1width
 				((counter < sync_down) ? 1 : 0));
 				
-				inh <= (counter < (block_off)) ? block : 0; // Turn the blocking switch on except for a window after the second pulse.
+				inh <= (counter < block_off) ? block : 
+				((counter < block_on) ? 0 : block); // Turn the blocking switch on except for a window after the second pulse.
 
 				sync <= (counter < sync_down) ? 1 : 0;
 
