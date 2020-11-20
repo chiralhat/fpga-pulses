@@ -22,7 +22,6 @@ module pulses(
 	input [15:0] p2wid,
 	input [7:0] nut_w,
 	input [15:0] nut_d,
-	input 		 nut,
 	// input [6:0]  pr_att,
 	//       input [6:0]  po_att,
 	input [7:0]  cp,
@@ -85,7 +84,6 @@ module pulses(
 	reg [15:0] block_on = stp1width+stdelay+stdelay+stp2width;
 	//    reg [15:0] block_on = stp1width+2*stdelay+stp2width-8'd50+stblock;
 
-	reg 		nutation = 1;
 	reg  		nutation_pulse = 0;
 	reg [7:0]  nutation_pulse_width = 8'd50;
 	reg [15:0]  nutation_pulse_delay = 16'd300;
@@ -119,7 +117,6 @@ module pulses(
 			delay <= del;
 			nutation_pulse_delay <= nut_d;
 			nutation_pulse_width <= nut_w;
-			nutation <= nut;
 			pulse_block <= p_bl;
 			pulse_block_off <= p_bl_off;
 			cpmg <= cp;
@@ -141,16 +138,11 @@ module pulses(
 	*/
 	always @(posedge clk_pll) begin
 		if (!reset) begin			
-			if (nutation) begin
-				nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
-				nutation_pulse_stop <= per - nutation_pulse_delay;
-				
-				nut_pulse <= (counter < nutation_pulse_start) ? 0 :
-					((counter < nutation_pulse_stop) ? 1 : 0);
-			end
-			else begin
-				nut_pulse <= 0;
-			end
+			nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
+			nutation_pulse_stop <= per - nutation_pulse_delay;
+			
+			nut_pulse <= (counter < nutation_pulse_start) ? 0 :
+				((counter < nutation_pulse_stop) ? 1 : 0);
 
 			case (cpmg)
 			0 : begin //cpmg=0 : CW (switch always open)
@@ -205,7 +197,7 @@ module pulses(
 
 						end
 						
-						sync <= (ccount == cpmg) ? 0 : sync;
+						sync <= (ccount == cpmg - 1) ? 0 : sync;
 					end //case: cpulse
 
 					cblock_delay: begin

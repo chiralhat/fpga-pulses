@@ -32,7 +32,6 @@ module pulse_gen(
 	wire [15:0] 	p2width;
 	wire [15:0]		nut_del;
 	wire [7:0]		nut_wid;
-	wire 			nutation;
 	wire 			pump;
 	wire 			block;
 	wire [7:0] 		pulse_block;
@@ -69,7 +68,6 @@ module pulse_gen(
 		.p2wid(p2width),
 		.nut_d(nut_del),
 		.nut_w(nut_wid),
-		.nut(nutation),
 		//  .pr_att(pre_att),
 		//  .po_att(post_att),
 		.cp(cpmg),
@@ -92,7 +90,6 @@ module pulse_gen(
 		.p2wid(p2width),
 		.nut_d(nut_del),
 		.nut_w(nut_wid),
-		.nut(nutation),
 		//  .pr_att(pre_att),
 		//  .po_att(post_att),
 		.cp(cpmg),
