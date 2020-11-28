@@ -3,7 +3,6 @@ module pulse_control(
 	input 	   clk,
 	input 	   RS232_Rx,
 	output 	   RS232_Tx,
-	output 	   pu,
 	output [23:0] per,
 	output [15:0] p1wid,
 	output [15:0] del,
@@ -29,12 +28,10 @@ module pulse_control(
 	parameter stp2width = 30;
 	parameter stdelay = 200; // 1 us delay
 	parameter stblock = 100; // 500 ns block open
-	parameter stpump = 1; // The pump is on by default
 	parameter stcpmg = 3; // Do Hahn echo by default
 	parameter stnutdel = 100; 
 	parameter stnutwid = 100;
 
-	reg 				   pump = stpump;
 	reg [23:0] 			   period = stperiod << 16;
 	reg [15:0] 			   p1width = stp1width;
 	reg [15:0] 			   delay = stdelay;
@@ -57,7 +54,6 @@ module pulse_control(
 	assign p1wid = p1width;
 	assign p2wid = p2width;
 	assign del = delay;
-	assign pu = pump;
 	//    assign pr_att = pre_att;
 	//    assign po_att = post_att;
 	assign cp = cpmg;
@@ -183,7 +179,6 @@ module pulse_control(
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
-		pump <= vinput[0];
 		block <= vinput[1];
 		pulse_block <= vinput[15:8];
 		// pulse_block_off <= vinput[31:16];

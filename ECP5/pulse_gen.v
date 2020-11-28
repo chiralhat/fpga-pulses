@@ -32,7 +32,6 @@ module pulse_gen(
 	wire [15:0] 	p2width;
 	wire [15:0]		nut_del;
 	wire [7:0]		nut_wid;
-	wire 			pump;
 	wire 			block;
 	wire [7:0] 		pulse_block;
 	wire [15:0] 	pulse_block_off;
@@ -61,7 +60,6 @@ module pulse_gen(
 		.clk(clk),
 		.RS232_Rx(RS232_Rx),
 		.RS232_Tx(RS232_Tx),
-		.pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
@@ -83,7 +81,6 @@ module pulse_gen(
 		.clk(clk),
 		.clk_pll(clk_pll),
 		.reset(resetn),
-		.pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),

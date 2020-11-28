@@ -33,7 +33,6 @@ input clk_pll,
 	reg [15:0] 	p2width;
 	reg [15:0]		nut_del;
 	reg [7:0]		nut_wid;
-	reg 			pump;
 	reg 			block;
 	reg [7:0] 		pulse_block;
 	reg [15:0] 	pulse_block_off;
@@ -49,7 +48,6 @@ input clk_pll,
 		.clk(clk),
 		.clk_pll(clk_pll),
 		.reset(resetn),
-		.pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
@@ -77,7 +75,6 @@ input clk_pll,
    parameter stp1width = 30; // 150 ns
    parameter stp2width = 60;
    parameter stdelay = 200; // 1 us delay
-   parameter stpump = 1; // The pump is on by default
    parameter stcpmg = 4; // Do Hahn echo by default
    parameter stblock = 50;
    parameter stblockoff = 100;
@@ -87,7 +84,6 @@ input clk_pll,
    // Initialize pulse values
    always @(posedge clk) begin
 		if (resetn) begin
-			pump = stpump;
 			period = stperiod << 16;
 			p1width = stp1width;
 			delay = stdelay;

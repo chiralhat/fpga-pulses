@@ -15,7 +15,6 @@ module pulses(
 	input 		 clk,
 	input 	     clk_pll, // The 200 MHz clock
 	input 	     reset, // Used only in simulation
-	input 	     pu, // First pulse on (1) or off (0), set by LabView (LV)
 	input [23:0]  per,
 	input [15:0] p1wid,
 	input [15:0] del,
@@ -64,10 +63,8 @@ module pulses(
 	parameter stp2width = 30;
 	parameter stdelay = 200; // 1 us delay
 	parameter stblock = 100; // 500 ns block open
-	parameter stpump = 1; // The pump is on by default
 	parameter stcpmg = 3; // Do Hahn echo by default
    
-	reg 				    pump = stpump;
 	reg [23:0] 			    period = stperiod << 16;
 	reg [15:0] 			    p1width = stp1width;
 	reg [15:0] 			    delay = stdelay;
@@ -110,7 +107,6 @@ module pulses(
 		{ rx_done, xfer_bits } <= { xfer_bits, rxd };
 		
 		if (rx_done) begin
-			pump <= pu;
 			period  <= per;
 			p1width <= p1wid;
 			p2width <= p2wid;
@@ -150,7 +146,7 @@ module pulses(
 			end
 			1: begin //cpmg=1 : Hahn echo with nutation pulse
 
-				pulses <= (counter < p1width) ? pump :// Switch pulse goes up at 0 if the pump is on
+				pulses <= (counter < p1width) ? 1 :// Switch pulse goes up at 0 if the pump is on
 				((counter < p2start) ? 0 : // then down after p1width
 				((counter < sync_down) ? 1 : 0));
 				
@@ -166,15 +162,15 @@ module pulses(
 				case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
 					0: begin
 					sync <= 1;
-					pulses <= pump;
+					pulses <= 1;
 					inh <= block;
 					//A1 = pre_att;
 					//A3 = post_att;
 
 					cdelay <= p1width + delay;
 					cpulse <= p1width + delay + p2width;
-					cblock_delay <= p1width + delay + p2width + pulse_block;
-					cblock_on <= p1width + delay + p2width + pulse_block + pulse_block_off;
+					cblock_delay <= p1width + delay + p2width + delay;
+					cblock_on <= p1width + delay + p2width + delay + pulse_block_off;
 					ccount <= 0;
 					
 					end // case: 0
@@ -210,8 +206,8 @@ module pulses(
 						if (ccount < cpmg) begin
 							inh <= block;
 
-							cblock_delay <= cpulse + pulse_block;
-							cblock_on <= cpulse + pulse_block + pulse_block_off;
+							cblock_delay <= cpulse + delay;
+							cblock_on <= cpulse + delay + pulse_block_off;
 		
 							ccount <= ccount + 1;
 						end
