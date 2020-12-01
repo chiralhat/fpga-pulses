@@ -15,7 +15,7 @@ module pulses(
 	input 		 clk,
 	input 	     clk_pll, // The 200 MHz clock
 	input 	     reset, // Used only in simulation
-	input [23:0]  per,
+	input [31:0]  per,
 	input [15:0] p1wid,
 	input [15:0] del,
 	input [15:0] p2wid,
@@ -65,7 +65,7 @@ module pulses(
 	parameter stblock = 100; // 500 ns block open
 	parameter stcpmg = 3; // Do Hahn echo by default
    
-	reg [23:0] 			    period = stperiod << 16;
+	reg [31:0] 			    period = stperiod << 16;
 	reg [15:0] 			    p1width = stp1width;
 	reg [15:0] 			    delay = stdelay;
 	reg [15:0] 			    p2width = stp2width;
@@ -169,8 +169,8 @@ module pulses(
 
 					cdelay <= p1width + delay;
 					cpulse <= p1width + delay + p2width;
-					cblock_delay <= p1width + delay + p2width + delay;
-					cblock_on <= p1width + delay + p2width + delay + pulse_block_off;
+					cblock_delay <= p1width + delay + p2width + pulse_block;
+					cblock_on <= p1width + delay + p2width + pulse_block + pulse_block_off;
 					ccount <= 0;
 					
 					end // case: 0
@@ -206,8 +206,8 @@ module pulses(
 						if (ccount < cpmg) begin
 							inh <= block;
 
-							cblock_delay <= cpulse + delay;
-							cblock_on <= cpulse + delay + pulse_block_off;
+							cblock_delay <= cpulse + pulse_block;
+							cblock_on <= cpulse + pulse_block + pulse_block_off;
 		
 							ccount <= ccount + 1;
 						end

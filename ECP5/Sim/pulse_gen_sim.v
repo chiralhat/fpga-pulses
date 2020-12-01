@@ -27,7 +27,7 @@ input clk_pll,
 	//  output J4_9
 	);
 
-	reg [23:0] 	period;
+	reg [31:0] 	period;
 	reg [15:0] 	p1width;
 	reg [15:0] 	delay;
 	reg [15:0] 	p2width;

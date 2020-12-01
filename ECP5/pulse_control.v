@@ -3,7 +3,7 @@ module pulse_control(
 	input 	   clk,
 	input 	   RS232_Rx,
 	output 	   RS232_Tx,
-	output [23:0] per,
+	output [31:0] per,
 	output [15:0] p1wid,
 	output [15:0] del,
 	output [15:0] p2wid,
@@ -32,7 +32,7 @@ module pulse_control(
 	parameter stnutdel = 100; 
 	parameter stnutwid = 100;
 
-	reg [23:0] 			   period = stperiod << 16;
+	reg [31:0] 			   period = stperiod << 16;
 	reg [15:0] 			   p1width = stp1width;
 	reg [15:0] 			   delay = stdelay;
 	reg [15:0] 			   p2width = stp2width;
@@ -167,7 +167,7 @@ module pulse_control(
 	     end
 
 	     CONT_SET_PERIOD: begin
-		period <= vinput[7:0] << 16;
+		period <= vinput[15:0] << 16;
 	     end
 
 	     CONT_SET_PULSE1: begin

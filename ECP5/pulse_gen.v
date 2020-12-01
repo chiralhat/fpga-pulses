@@ -26,7 +26,7 @@ module pulse_gen(
 	//  output J4_9
 	);
 
-	wire [23:0] 	period;
+	wire [31:0] 	period;
 	wire [15:0] 	p1width;
 	wire [15:0] 	delay;
 	wire [15:0] 	p2width;
