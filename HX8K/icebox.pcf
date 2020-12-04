@@ -30,28 +30,28 @@ set_io --warn-no-port RS232_Tx B12
 ###Pulse Gen
 set_io --warn-no-port Sync P16
 set_io --warn-no-port Pulse N16
-set_io --warn-no-port FM M16
+# set_io --warn-no-port FM M16
 # set_io --warn-no-port P1 B16
-set_io --warn-no-port P2 D14
-set_io --warn-no-port P3 D15
-set_io --warn-no-port P4 E14
+set_io --warn-no-port Block D14
+# set_io --warn-no-port P3 D15
+# set_io --warn-no-port P4 E14
 
 ###Attenuators
-set_io --warn-no-port J1_4 A10
-set_io --warn-no-port J1_5 A9
-set_io --warn-no-port J1_6 B8
-set_io --warn-no-port J1_7 B7
-set_io --warn-no-port J1_8 A6
-set_io --warn-no-port J1_9 B6
-set_io --warn-no-port J1_10 A5
-# set_io --warn-no-port Att1 {A10, A9, B8, B7, A6, B6, A5}
-set_io --warn-no-port J4_3 R1
-set_io --warn-no-port J4_4 P2
-set_io --warn-no-port J4_5 N2
-set_io --warn-no-port J4_6 M1
-set_io --warn-no-port J4_7 L1
-set_io --warn-no-port J4_8 K1
-set_io --warn-no-port J4_9 J1
+# set_io --warn-no-port J1_4 A10
+# set_io --warn-no-port J1_5 A9
+# set_io --warn-no-port J1_6 B8
+# set_io --warn-no-port J1_7 B7
+# set_io --warn-no-port J1_8 A6
+# set_io --warn-no-port J1_9 B6
+# set_io --warn-no-port J1_10 A5
+# # set_io --warn-no-port Att1 {A10, A9, B8, B7, A6, B6, A5}
+# set_io --warn-no-port J4_3 R1
+# set_io --warn-no-port J4_4 P2
+# set_io --warn-no-port J4_5 N2
+# set_io --warn-no-port J4_6 M1
+# set_io --warn-no-port J4_7 L1
+# set_io --warn-no-port J4_8 K1
+# set_io --warn-no-port J4_9 J1
 
 ###Reset
-set_io --warn-no-port resetn C16
+# set_io --warn-no-port resetn C16

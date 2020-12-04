@@ -3,8 +3,7 @@ module pulse_control(
 		     input 	   clk,
 		     input 	   RS232_Rx,
 		     output 	   RS232_Tx,
-		     output 	   pu,
-		     output [7:0] per,
+		     output [23:0] per,
 		     output [15:0] p1wid,
 		     output [15:0] del,
 		     output [15:0] p2wid,
@@ -19,36 +18,32 @@ module pulse_control(
 
    // Control the pulses
 
-   // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
-   // All the times are thus divided by 4.975 ns to get cycles.
-   // 32-bit allows times up to 21 seconds
-//    parameter stperiod = 1000; // 1 ms period
-//    parameter stp1width = 30; // 150 ns
-//    parameter stp2width = 30;
-//    parameter stdelay = 200; // 1 us delay
-// //    parameter stblock = 100; // 500 ns block open
-//    parameter stpump = 1; // The pump is on by default
-//    parameter stcpmg = 1; // Do Hahn echo by default
+   // Running at a 101.5-MHz clock, our time step is ~10 (9.95) ns.
+   // All these numbers are thus multiplied by 9.95 ns to get times.
+   // 32-bit allows periods up to 170 ms
+   parameter stperiod = 100500 >> 8; // a 1 ms period
+   parameter stp1width = 30; // 298.5 ns
+   parameter stp2width = 60;
+   parameter stdelay = 200; // 1.99 us delay
+//    parameter stblock = 100; // 500 ns block open
+   parameter stcpmg = 1; // Do Hahn echo by default
    
-//    reg 				   pump = stpump;
-//    reg [7:0] 			   period = stperiod;
-//    reg [15:0] 			   p1width = stp1width;
-//    reg [15:0] 			   delay = stdelay;
-//    reg [15:0] 			   p2width = stp2width;
-// //    reg [7:0] 			   pulse_block = 8'd50;
-// //    reg [15:0] 			   pulse_block_off = stblock;
-//    reg     			   cpmg = stcpmg;
-//    reg 				   block = 1;
-//    reg 					rx_done = 0;
+   reg [23:0] 			   period = stperiod;
+   reg [15:0] 			   p1width = stp1width;
+   reg [15:0] 			   delay = stdelay;
+   reg [15:0] 			   p2width = stp2width;
+   reg     			   cpmg = stcpmg;
+   reg 				   block = 1;
+   reg 					rx_done = 0;
    
-   reg 				   pump;
-   reg [7:0] 			   period;
-   reg [15:0] 			   p1width;
-   reg [15:0] 			   delay;
-   reg [15:0] 			   p2width;
-   reg     			   cpmg;
-   reg 				   block;
-   reg 					rx_done;
+//    reg 				   pump;
+//    reg [7:0] 			   period;
+//    reg [15:0] 			   p1width;
+//    reg [15:0] 			   delay;
+//    reg [15:0] 			   p2width;
+//    reg     			   cpmg;
+//    reg 				   block;
+//    reg 					rx_done;
    
    // Control the attenuators
 //    parameter att_pre_val = 7'd1;
@@ -60,7 +55,6 @@ module pulse_control(
    assign p1wid = p1width;
    assign p2wid = p2width;
    assign del = delay;
-   assign pu = pump;
 //    assign pr_att = pre_att;
 //    assign po_att = post_att;
    assign cp = cpmg;
@@ -170,7 +164,7 @@ module pulse_control(
 	     end
 
 	     CONT_SET_PERIOD: begin
-		period <= vinput[7:0];
+		period <= vinput[31:8];
 	     end
 
 	     CONT_SET_PULSE1: begin
@@ -182,7 +176,6 @@ module pulse_control(
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
-		pump <= vinput[0];
 		block <= vinput[1];
 		// pulse_block <= vinput[15:8];
 		// pulse_block_off <= vinput[31:16];
