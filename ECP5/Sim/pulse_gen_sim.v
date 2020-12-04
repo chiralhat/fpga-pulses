@@ -33,6 +33,7 @@ input clk_pll,
 	reg [15:0] 	p2width;
 	reg [31:0]		nut_del;
 	reg [31:0]		nut_wid;
+	reg 			nutation;
 	reg 			pump;
 	reg 			block;
 	reg [7:0] 		pulse_block;
@@ -46,6 +47,7 @@ input clk_pll,
    
    // Generating the necessary pulses
 	pulses pulses(
+		.clk(clk),
 		.clk_pll(clk_pll),
 		.reset(resetn),
 		.pu(pump),
@@ -55,6 +57,7 @@ input clk_pll,
 		.p2wid(p2width),
 		.nut_d(nut_del),
 		.nut_w(nut_wid),
+		.nut(nutation),
 		//  .pr_att(pre_att),
 		//  .po_att(post_att),
 		.cp(cpmg),
@@ -77,11 +80,12 @@ input clk_pll,
    parameter stp2width = 60;
    parameter stdelay = 200; // 1 us delay
    parameter stpump = 1; // The pump is on by default
-   parameter stcpmg = 4; // Do Hahn echo by default
+   parameter stcpmg = 1; // Do Hahn echo by default
    parameter stblock = 50;
    parameter stblockoff = 100;
    parameter stnutwid = 300;
    parameter stnutdel = 300;
+   parameter stnut = 1;
 
    // Initialize pulse values
    always @(posedge clk) begin
@@ -97,6 +101,7 @@ input clk_pll,
 			cpmg = stcpmg;
 			nut_wid = stnutwid;
 			nut_del = stnutdel;
+			nutation = stnut;
 		end // if (reset)
 	end // always @ (posedge clk)
 
