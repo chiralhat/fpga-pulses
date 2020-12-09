@@ -10,10 +10,10 @@ module pulse_control(
 	output [7:0] nut_w,
 	output [15:0] nut_d,
 	// output [6:0]  pr_att,
-	//       output [6:0]  po_att,
-		 output [7:0]    cp,
-		 output [7:0]  p_bl,
-		output [15:0] p_bl_off,
+	// output [6:0]  po_att,
+	output [7:0]    cp,
+	output [7:0]  p_bl,
+	output [15:0] p_bl_off,
 	output 	   bl,
 	output			rxd
 	);
@@ -167,7 +167,7 @@ module pulse_control(
 	     end
 
 	     CONT_SET_PERIOD: begin
-		period <= vinput[15:0] << 16;
+		period <= vinput;
 	     end
 
 	     CONT_SET_PULSE1: begin

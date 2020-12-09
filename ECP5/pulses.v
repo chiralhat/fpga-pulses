@@ -54,6 +54,7 @@ module pulses(
 	//    reg [6:0] 		   A3;
 	reg 			   inh;
 	reg 			   rec = 0;
+	reg				   cw = 0;
    
 	// Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
 	// All the times are thus divided by 4.975 ns to get cycles.
@@ -128,6 +129,8 @@ module pulses(
 			counter <= 0;
 		end
 		
+		cw <= (cpmg > 0) ? 0 : 1;
+		
 	end
 	
 	/* The main loops runs on the 200 MHz PLL clock.
@@ -147,8 +150,8 @@ module pulses(
 			1: begin //cpmg=1 : Hahn echo with nutation pulse
 
 				pulses <= (counter < p1width) ? 1 :// Switch pulse goes up at 0 if the pump is on
-				((counter < p2start) ? 0 : // then down after p1width
-				((counter < sync_down) ? 1 : 0));
+				((counter < p2start) ? cw : // then down after p1width
+				((counter < sync_down) ? 1 : cw));
 				
 				inh <= (counter < block_off) ? block : 
 				((counter < block_on) ? 0 : block); // Turn the blocking switch on except for a window after the second pulse.

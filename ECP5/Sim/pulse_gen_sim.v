@@ -71,7 +71,7 @@ input clk_pll,
 	// NOSIM2_START
    parameter att_on_val = 7'b1111111;
    parameter att_off_val = 7'b0000000;
-   parameter stperiod = 1; // 1 ms period
+   parameter stperiod = 1;
    parameter stp1width = 30; // 150 ns
    parameter stp2width = 60;
    parameter stdelay = 200; // 1 us delay
@@ -84,7 +84,7 @@ input clk_pll,
    // Initialize pulse values
    always @(posedge clk) begin
 		if (resetn) begin
-			period = stperiod << 16;
+			period = stperiod << 18;
 			p1width = stp1width;
 			delay = stdelay;
 			p2width = stp2width;
