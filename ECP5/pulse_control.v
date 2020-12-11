@@ -28,7 +28,7 @@ module pulse_control(
 	parameter stp2width = 30;
 	parameter stdelay = 200; // 1 us delay
 	parameter stblock = 100; // 500 ns block open
-	parameter stcpmg = 3; // Do Hahn echo by default
+	parameter stcpmg = 3; 
 	parameter stnutdel = 100; 
 	parameter stnutwid = 100;
 

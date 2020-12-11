@@ -75,7 +75,7 @@ input clk_pll,
    parameter stp1width = 30; // 150 ns
    parameter stp2width = 60;
    parameter stdelay = 200; // 1 us delay
-   parameter stcpmg = 4; // Do Hahn echo by default
+   parameter stcpmg = 3; // Do CPMG with 3 pulses by default
    parameter stblock = 50;
    parameter stblockoff = 100;
    parameter stnutwid = 100;
