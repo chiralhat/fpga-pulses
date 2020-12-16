@@ -27,17 +27,17 @@ input clk_pll,
 	//  output J4_9
 	);
 
-	reg [7:0] 		period;
+	reg [23:0] 	period;
 	reg [15:0] 	p1width;
 	reg [15:0] 	delay;
 	reg [15:0] 	p2width;
-	reg [31:0]		nut_del;
-	reg [31:0]		nut_wid;
+	reg [15:0]		nut_del;
+	reg [7:0]		nut_wid;
 	reg 			nutation;
 	reg 			pump;
 	reg 			block;
 	reg [7:0] 		pulse_block;
-	reg [15:0] 		pulse_block_off;
+	reg [15:0] 	pulse_block_off;
 	reg [7:0]	 	cpmg;
 	reg			rx_done;
 
@@ -83,15 +83,15 @@ input clk_pll,
    parameter stcpmg = 1; // Do Hahn echo by default
    parameter stblock = 50;
    parameter stblockoff = 100;
-   parameter stnutwid = 300;
-   parameter stnutdel = 300;
+   parameter stnutwid = 100;
+   parameter stnutdel = 100;
    parameter stnut = 1;
 
    // Initialize pulse values
    always @(posedge clk) begin
 		if (resetn) begin
 			pump = stpump;
-			period = stperiod;
+			period = stperiod << 16;
 			p1width = stp1width;
 			delay = stdelay;
 			p2width = stp2width;

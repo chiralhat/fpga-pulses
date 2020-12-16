@@ -8,15 +8,15 @@
    parameter stcpmg = 1; // Do Hahn echo by default
    parameter stblock = 50;
    parameter stblockoff = 100;
-   parameter stnutwid = 300;
-   parameter stnutdel = 300;
+   parameter stnutwid = 100;
+   parameter stnutdel = 100;
    parameter stnut = 1;
 
    // Initialize pulse values
    always @(posedge clk) begin
 		if (resetn) begin
 			pump = stpump;
-			period = stperiod;
+			period = stperiod << 16;
 			p1width = stp1width;
 			delay = stdelay;
 			p2width = stp2width;
