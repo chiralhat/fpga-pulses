@@ -27,14 +27,12 @@ input clk_pll,
 	//  output J4_9
 	);
 
-	reg [23:0] 	period;
+	reg [31:0] 	period;
 	reg [15:0] 	p1width;
 	reg [15:0] 	delay;
 	reg [15:0] 	p2width;
 	reg [15:0]		nut_del;
 	reg [7:0]		nut_wid;
-	reg 			nutation;
-	reg 			pump;
 	reg 			block;
 	reg [7:0] 		pulse_block;
 	reg [15:0] 	pulse_block_off;
@@ -50,14 +48,12 @@ input clk_pll,
 		.clk(clk),
 		.clk_pll(clk_pll),
 		.reset(resetn),
-		.pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
 		.p2wid(p2width),
 		.nut_d(nut_del),
 		.nut_w(nut_wid),
-		.nut(nutation),
 		//  .pr_att(pre_att),
 		//  .po_att(post_att),
 		.cp(cpmg),
@@ -75,23 +71,20 @@ input clk_pll,
 	// NOSIM2_START
    parameter att_on_val = 7'b1111111;
    parameter att_off_val = 7'b0000000;
-   parameter stperiod = 1; // 1 ms period
+   parameter stperiod = 1;
    parameter stp1width = 30; // 150 ns
    parameter stp2width = 60;
    parameter stdelay = 200; // 1 us delay
-   parameter stpump = 1; // The pump is on by default
-   parameter stcpmg = 1; // Do Hahn echo by default
+   parameter stcpmg = 3; // Do CPMG with 3 pulses by default
    parameter stblock = 50;
    parameter stblockoff = 100;
    parameter stnutwid = 100;
    parameter stnutdel = 100;
-   parameter stnut = 1;
 
    // Initialize pulse values
    always @(posedge clk) begin
 		if (resetn) begin
-			pump = stpump;
-			period = stperiod << 16;
+			period = stperiod << 18;
 			p1width = stp1width;
 			delay = stdelay;
 			p2width = stp2width;
@@ -101,7 +94,6 @@ input clk_pll,
 			cpmg = stcpmg;
 			nut_wid = stnutwid;
 			nut_del = stnutdel;
-			nutation = stnut;
 		end // if (reset)
 	end // always @ (posedge clk)
 

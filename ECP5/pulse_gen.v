@@ -26,14 +26,12 @@ module pulse_gen(
 	//  output J4_9
 	);
 
-	wire [23:0] 	period;
+	wire [31:0] 	period;
 	wire [15:0] 	p1width;
 	wire [15:0] 	delay;
 	wire [15:0] 	p2width;
 	wire [15:0]		nut_del;
 	wire [7:0]		nut_wid;
-	wire 			nutation;
-	wire 			pump;
 	wire 			block;
 	wire [7:0] 		pulse_block;
 	wire [15:0] 	pulse_block_off;
@@ -62,14 +60,12 @@ module pulse_gen(
 		.clk(clk),
 		.RS232_Rx(RS232_Rx),
 		.RS232_Tx(RS232_Tx),
-		.pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
 		.p2wid(p2width),
 		.nut_d(nut_del),
 		.nut_w(nut_wid),
-		.nut(nutation),
 		//  .pr_att(pre_att),
 		//  .po_att(post_att),
 		.cp(cpmg),
@@ -85,14 +81,12 @@ module pulse_gen(
 		.clk(clk),
 		.clk_pll(clk_pll),
 		.reset(resetn),
-		.pu(pump),
 		.per(period),
 		.p1wid(p1width),
 		.del(delay),
 		.p2wid(p2width),
 		.nut_d(nut_del),
 		.nut_w(nut_wid),
-		.nut(nutation),
 		//  .pr_att(pre_att),
 		//  .po_att(post_att),
 		.cp(cpmg),

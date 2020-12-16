@@ -3,19 +3,17 @@ module pulse_control(
 	input 	   clk,
 	input 	   RS232_Rx,
 	output 	   RS232_Tx,
-	output 	   pu,
-	output [23:0] per,
+	output [31:0] per,
 	output [15:0] p1wid,
 	output [15:0] del,
 	output [15:0] p2wid,
 	output [7:0] nut_w,
 	output [15:0] nut_d,
-	output nut,
 	// output [6:0]  pr_att,
-	//       output [6:0]  po_att,
-		 output [7:0]    cp,
-		 output [7:0]  p_bl,
-		output [15:0] p_bl_off,
+	// output [6:0]  po_att,
+	output [7:0]    cp,
+	output [7:0]  p_bl,
+	output [15:0] p_bl_off,
 	output 	   bl,
 	output			rxd
 	);
@@ -30,14 +28,11 @@ module pulse_control(
 	parameter stp2width = 30;
 	parameter stdelay = 200; // 1 us delay
 	parameter stblock = 100; // 500 ns block open
-	parameter stpump = 1; // The pump is on by default
-	parameter stcpmg = 3; // Do Hahn echo by default
+	parameter stcpmg = 3; 
 	parameter stnutdel = 100; 
 	parameter stnutwid = 100;
-	parameter stnut = 1; //do nutation pulse by default
 
-	reg 				   pump = stpump;
-	reg [23:0] 			   period = stperiod << 16;
+	reg [31:0] 			   period = stperiod << 16;
 	reg [15:0] 			   p1width = stp1width;
 	reg [15:0] 			   delay = stdelay;
 	reg [15:0] 			   p2width = stp2width;
@@ -48,7 +43,6 @@ module pulse_control(
 	reg 				   rx_done = 0;
 	reg [15:0]			   nut_del = stnutdel;
 	reg [7:0]			   nut_wid = stnutdel;
-	reg					   nutation = stnut;
 
 	// Control the attenuators
 	//    parameter att_pre_val = 7'd1;
@@ -60,7 +54,6 @@ module pulse_control(
 	assign p1wid = p1width;
 	assign p2wid = p2width;
 	assign del = delay;
-	assign pu = pump;
 	//    assign pr_att = pre_att;
 	//    assign po_att = post_att;
 	assign cp = cpmg;
@@ -70,7 +63,6 @@ module pulse_control(
 	assign rxd = rx_done;
 	assign nut_d = nut_del;
 	assign nut_w = nut_wid;
-	assign nut = nutation;
 
 	// Setup necessary for UART
 	wire 			   reset = 0;
@@ -130,7 +122,6 @@ module pulse_control(
 	parameter CONT_SET_ATT = 8'd6;
 	parameter CONT_SET_NUTW = 8'd7;
 	parameter CONT_SET_NUTD = 8'd8;
-	parameter CONT_SET_NUT = 8'd9;
 
 	reg [2:0] 			   state = STATE_RECEIVING;
 
@@ -176,7 +167,7 @@ module pulse_control(
 	     end
 
 	     CONT_SET_PERIOD: begin
-		period <= vinput[7:0] << 16;
+		period <= vinput;
 	     end
 
 	     CONT_SET_PULSE1: begin
@@ -188,7 +179,6 @@ module pulse_control(
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
-		pump <= vinput[0];
 		block <= vinput[1];
 		pulse_block <= vinput[15:8];
 		// pulse_block_off <= vinput[31:16];
@@ -204,10 +194,6 @@ module pulse_control(
 		 
 		 CONT_SET_NUTW: begin
 		 nut_wid <= vinput[7:0];
-		 end
-		 
-		 CONT_SET_NUT: begin
-		 nutation <= vinput[0];
 		 end
 
 	     // CONT_SET_ATT: begin
