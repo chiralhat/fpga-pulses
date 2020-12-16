@@ -86,7 +86,7 @@ module pulses(
    reg [7:0] 		   pulse_block = 8'd50;
    reg 			   rx_done;
    reg [15:0] 		   p2start;
-   reg [15:0] 		   sync_down;
+   reg [23:0] 		   sync_down;
    reg [15:0] 		   block_off;
 
    // reg  		nutation_pulse = 0;
@@ -95,7 +95,7 @@ module pulses(
    // reg [31:0]  nutation_pulse_start;
    // reg [31:0]  nutation_pulse_stop;
 
-   reg [1:0] 		   xfer_bits = 0;
+   // reg [1:0] 		   xfer_bits = 0;
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse_on = pulse; // The switch pulse
