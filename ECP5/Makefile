@@ -1,5 +1,5 @@
 PROJ=pulse_gen
-TRELLIS?=/usr/share/trellis
+TRELLIS?=/usr/local/share/trellis
 
 PULSEV = pulses.v
 TARGET = pulse_gen
@@ -14,13 +14,15 @@ SED_STR1 = '/NOSIM_START/,/NOSIM_END/d; 1,/NOSIM2_START/!d'
 SED_STR2 = '4iinput clk_pll,'
 SED_STR3 = 's/wire/reg/g'
 
-all: ${PROJ}.bit
+default: all
+
+all: clean ${PROJ}.bit
 
 %.json: %.v
-	yosys -p "synth_ecp5 -json $@ -top pulse_gen" $< ecppll.v pulse_control.v $(PULSEV) uart.v
+	yosys -p "synth_ecp5 -json $@ -top pulse_gen" $< ecppll.v pulse_control.v $(PULSEV) uart.v > make.log
 
 %_out.config: %.json
-	nextpnr-ecp5 --pre-pack clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf ecp5.lpf
+	nextpnr-ecp5 --pre-pack clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf ecp5.lpf 2> pnr.log
 
 %.bit: %_out.config
 	ecppack --svf ${PROJ}.svf $< $@
@@ -28,11 +30,12 @@ all: ${PROJ}.bit
 ${PROJ}.svf : ${PROJ}.bit
 
 prog: ${PROJ}.svf
-	openocd -f ${TRELLIS}/misc/openocd/ecp5-evn.cfg -c "transport select jtag; init; svf $<; exit"
+	openocd -f ${TRELLIS}/misc/openocd/ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> prog.log
 
 clean:
+	cp ${PROJ}.svf ${PROJ}.svf.bak 2>/dev/null || :
 	rm -f *.svf *.bit *.config *.json make.log
-	
+
 simclean:
 	rm -f $(SIMOUT)_post $(SIMOUT)_tb.vcd $(SIMTARGET).v $(SIMCONTROL).v
 
@@ -41,6 +44,6 @@ sim: simclean
 	cat $(SIMINIT) >> $(SIMTARGET).v
 	iverilog -o $(SIMOUT)_post $(SIMTARGET).v $(SIMOUT)_tb.v $(PULSEV)
 	vvp $(SIMOUT)_post
-	#gtkwave $(SIMOUT)_tb.vcd
+	gtkwave $(SIMOUT)_tb.vcd
 
 .PHONY: prog clean

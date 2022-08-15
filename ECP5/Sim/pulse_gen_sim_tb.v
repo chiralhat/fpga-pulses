@@ -3,19 +3,19 @@
 module tb;
 
    reg clk, clk_pll, resetn = 0;
-   wire Pulse, Sync, P2, RS232_Tx, RS232_Rx;
+   wire Pulse, Sync, Block, RS232_Tx, RS232_Rx;
 //    wire J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10;
 //    wire J4_3, J4_4, J4_5, J4_6, J4_7, J4_8, J4_9;
 
    pulse_gen test(
-		  .clk(clk),
+		  .clk_uart(clk),
 		  .clk_pll(clk_pll),
 		  .RS232_Rx(RS232_Rx),
 		  .RS232_Tx(RS232_Tx),
 		  .resetn(resetn),
 		  .Pulse(Pulse),
 		  .Sync(Sync),
-		  .P2(P2)
+		  .Block(Block)
 		//   .J1_4(J1_4),
 		//   .J1_5(J1_5),
 		//   .J1_6(J1_6),
@@ -50,7 +50,7 @@ module tb;
 	end
    
    always begin
-      #2.5 clk_pll <= ~clk_pll;
+      #5 clk_pll <= ~clk_pll;
    end
 
    always begin

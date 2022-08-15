@@ -10,7 +10,7 @@ module pulse_control(
 		     // output [6:0]  pr_att,
                //       output [6:0]  po_att,
                      output         cp,
-                    //  output [7:0]  p_bl,
+                    output [7:0]  p_bl,
                     //  output [15:0] p_bl_off,
 		     output 	   bl,
 			 output			rxd
@@ -25,13 +25,14 @@ module pulse_control(
    parameter stp1width = 30; // 298.5 ns
    parameter stp2width = 60;
    parameter stdelay = 200; // 1.99 us delay
-//    parameter stblock = 100; // 500 ns block open
+   parameter stblock = 20; // 200 ns before signal block open
    parameter stcpmg = 1; // Do Hahn echo by default
    
    reg [23:0] 			   period = stperiod;
    reg [15:0] 			   p1width = stp1width;
    reg [15:0] 			   delay = stdelay;
    reg [15:0] 			   p2width = stp2width;
+   reg [7:0] 			   pulse_block = stblock;
    reg     			   cpmg = stcpmg;
    reg 				   block = 1;
    reg 					rx_done = 0;
@@ -58,7 +59,7 @@ module pulse_control(
 //    assign pr_att = pre_att;
 //    assign po_att = post_att;
    assign cp = cpmg;
-//    assign p_bl = pulse_block;
+   assign p_bl = pulse_block;
 //    assign p_bl_off = pulse_block_off;
    assign bl = block;
    assign rxd = rx_done;
@@ -176,8 +177,8 @@ module pulse_control(
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
-		block <= vinput[1];
-		// pulse_block <= vinput[15:8];
+		block <= vinput[0];
+		pulse_block <= vinput[15:8];
 		// pulse_block_off <= vinput[31:16];
 	     end
 

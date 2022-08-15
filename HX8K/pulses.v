@@ -22,8 +22,6 @@ module pulses(
 	      // input [6:0]  pr_att,
               //       input [6:0]  po_att,
               input 	   cp,
-              //  input [7:0]  p_bl,
-              //  input [15:0] p_bl_off,
 	      input 	   bl,
 	      input 	   rxd,
 	      // 	 input [31:0] period, // Duty cycle (LV)
@@ -33,7 +31,7 @@ module pulses(
 	      // //   input [6:0]  pre_att, // Attenuation for pump pulse (LV)
 	      // //   input [6:0]  post_att, // Attenuation for second attenuator (LV)
 	      //   input 	  cpmg, // Set mode to CW (0), Hahn echo (1) (LV)
-	      //   input [7:0]  pulse_block, // Time after the second pulse to keep the block switch closed (LV)
+	      input [7:0]  pulse_block, // Time before the delay after the second pulse to keep the block switch closed (LV)
 	      //   input [15:0] pulse_block_off, // Width of the signal window when we open the block switch (LV)
 	      //   input 	   block, // Blocking on (1) or off (0) (LV)
 	      output 	   sync_on, // Wire for scope trigger pulse
@@ -79,16 +77,18 @@ module pulses(
 
    reg [23:0] 		   period = stperiod;
    reg [15:0] 		   p1width;
-   reg [15:0] 		   delay;
+   // reg [15:0] 		   delay;
    reg [15:0] 		   p2width;
    reg 			   cpmg;
    reg 			   block;
-   reg [7:0] 		   pulse_block = 8'd50;
+   // reg [7:0] 		   pulse_block = 8'd20;
+   reg [7:0] 		   pulse_block_off = 8'd254;
    reg 			   rx_done;
    reg [15:0] 		   p2start;
    reg [23:0] 		   sync_down;
    reg [15:0] 		   block_off;
-
+   reg [15:0] 		   block_on;
+   
    // reg  		nutation_pulse = 0;
    // reg [31:0]  nutation_pulse_width = 32'd50;
    // reg [31:0]  nutation_pulse_delay = 32'd300;
@@ -124,7 +124,7 @@ module pulses(
 	 period <= per;
 	 p1width <= p1wid;
 	 p2width <= p2wid;
-	 delay <= del;
+	 // delay <= del;
 	 cpmg <= cp;
 	 block <= bl;
 
@@ -132,9 +132,12 @@ module pulses(
       // if (reset) begin
       // 	counter <= 0;
       // end
-      p2start <= p1width + delay;
+      // p2start <= p1width + delay;
+      p2start <= p1width + del;
       sync_down <= (cpmg > 0) ? p2start + p2width : period << 7;
-      block_off <= p2start + p2width + delay - pulse_block;
+      // block_off <= p2start + p2width + delay - pulse_block;
+      block_off <= p2start + p2width + del - pulse_block;
+      block_on <= (period << 8) - pulse_block_off;
 
       cw <= (cpmg > 0) ? 0 : 1;
 	 
@@ -156,7 +159,7 @@ module pulses(
       case (counter)
 	0: begin
 	   pulse <= 1;
-	   inh <= block;
+	   inh <= block & !cw; // We want it to be up to open the blocking switch
 	   sync <= 1;
 	end
 
@@ -174,8 +177,14 @@ module pulses(
 	end
 
 	block_off: begin
-	   inh <= 0;
+	   // inh <= 1;
+	   inh <= cw; // We want it to be down to close the blocking switch
 	end
+
+//	block_on: begin
+   	   // inh <= !block;
+//	   inh <= block & !cw; // We want it to be up to open the blocking switch
+//	end
 	
       endcase // case (counter)
       

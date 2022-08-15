@@ -1,21 +1,23 @@
 `default_nettype none
 module pulse_control(
-	input 	   clk,
-	input 	   RS232_Rx,
-	output 	   RS232_Tx,
+	input 	      clk,
+	input 	      RS232_Rx,
+	output 	      RS232_Tx,
 	output [31:0] per,
 	output [15:0] p1wid,
 	output [15:0] del,
 	output [15:0] p2wid,
-	output [7:0] nut_w,
+	output [7:0]  nut_w,
 	output [15:0] nut_d,
 	// output [6:0]  pr_att,
 	// output [6:0]  po_att,
-	output [7:0]    cp,
+	output [7:0]  cp,
 	output [7:0]  p_bl,
-	output [15:0] p_bl_off,
-	output 	   bl,
-	output			rxd
+	output [15:0] p_bl_hf,
+	output 	      bl,
+	output 	      rxd,
+//	output [7:0]  led,
+	output 	      recv
 	);
 
    // Control the pulses
@@ -23,26 +25,27 @@ module pulse_control(
 	// Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
 	// All the times are thus divided by 4.975 ns to get cycles.
 	// 32-bit allows times up to 21 seconds
-	parameter stperiod = 15; // 1 ms period
+	parameter stperiod = 10000; // 1 ms period
 	parameter stp1width = 30; // 150 ns
-	parameter stp2width = 30;
+	parameter stp2width = 60; // 300 ns
 	parameter stdelay = 200; // 1 us delay
-	parameter stblock = 100; // 500 ns block open
-	parameter stcpmg = 3; 
-	parameter stnutdel = 100; 
-	parameter stnutwid = 100;
+	parameter stblock = 10; // 250 ns block open
+	parameter stcpmg = 1; 
+	parameter stnutdel = 0; 
+	parameter stnutwid = 0;
 
-	reg [31:0] 			   period = stperiod << 16;
+	reg [31:0] 			   period = stperiod;
 	reg [15:0] 			   p1width = stp1width;
 	reg [15:0] 			   delay = stdelay;
 	reg [15:0] 			   p2width = stp2width;
-	reg [7:0] 			   pulse_block = 8'd50;
-	reg [15:0] 			   pulse_block_off = stblock;
+	reg [7:0] 			   pulse_block = stblock;
+	reg [15:0] 			   pulse_block_half = stblock/2;
 	reg [7:0]  			   cpmg = stcpmg;
 	reg 				   block = 1;
 	reg 				   rx_done = 0;
 	reg [15:0]			   nut_del = stnutdel;
 	reg [7:0]			   nut_wid = stnutdel;
+	reg					   recv_set = 0;
 
 	// Control the attenuators
 	//    parameter att_pre_val = 7'd1;
@@ -58,11 +61,12 @@ module pulse_control(
 	//    assign po_att = post_att;
 	assign cp = cpmg;
 	assign p_bl = pulse_block;
-	assign p_bl_off = pulse_block_off;
+	assign p_bl_hf = pulse_block_half;
 	assign bl = block;
 	assign rxd = rx_done;
 	assign nut_d = nut_del;
 	assign nut_w = nut_wid;
+   // assign led = received;
 
 	// Setup necessary for UART
 	wire 			   reset = 0;
@@ -95,6 +99,10 @@ module pulse_control(
 	reg [7:0] 			   voutput;
 	reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
 
+   // Testing whether the programming works
+   reg [7:0] 				   test;
+//      assign led = test;
+
 	// We need to receive multiple bytes sequentially, so this sets up both
 	// reading and writing. Adapted from the uart-adder from
 	// https://github.com/cyrozap/iCEstick-UART-Demo/pull/3/files
@@ -120,21 +128,19 @@ module pulse_control(
 	parameter CONT_TOGGLE_PULSE1 = 8'd4;
 	parameter CONT_SET_CPMG = 8'd5;
 	parameter CONT_SET_ATT = 8'd6;
-	parameter CONT_SET_NUTW = 8'd7;
-	parameter CONT_SET_NUTD = 8'd8;
+	parameter CONT_SET_NUTATION = 8'd7;
 
 	reg [2:0] 			   state = STATE_RECEIVING;
 
    // The communication runs at the 12 MHz clock rather than the 200 MHz clock.
    always @(posedge clk) begin
-      
-      case (state) 
-	
+	 case (state) 	
         STATE_RECEIVING: begin
-           transmit <= 0;
+		   transmit <= 0;
 	   case (readstate)
 	     read_A: begin
 		if(received) begin
+		   recv_set <= 1;
 		   if(readcount == 6'd32) begin // Last byte in the transmission
 		      vcontrol <= rx_byte;
 		      state<=STATE_CALCULATING;
@@ -163,38 +169,44 @@ module pulse_control(
 	   case (vcontrol)
 
 	     CONT_SET_DELAY: begin
+		test <= 1;
 		delay <= vinput[15:0];
 	     end
 
 	     CONT_SET_PERIOD: begin
+		test <= 2;
 		period <= vinput;
 	     end
 
 	     CONT_SET_PULSE1: begin
+		test <= 3;
 		p1width <= vinput[15:0];
 	     end
 
 	     CONT_SET_PULSE2: begin
+		test <= 4;
 		p2width <= vinput[15:0];
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
-		block <= vinput[1];
+		block <= vinput[0];
 		pulse_block <= vinput[15:8];
-		// pulse_block_off <= vinput[31:16];
+		pulse_block_half <= pulse_block/2;
 	     end
 
 	     CONT_SET_CPMG: begin
-		 cpmg <= vinput[7:0];
+		test <= 6;
+		cpmg <= vinput[7:0];
 	     end
 		 
-		 CONT_SET_NUTD: begin
-		 nut_del <= vinput[15:0];
-		 end
+	     CONT_SET_NUTATION: begin
+		nut_wid <= vinput[15:0];
+		nut_del <= vinput[31:16];
+	     end
 		 
-		 CONT_SET_NUTW: begin
-		 nut_wid <= vinput[7:0];
-		 end
+//		 CONT_SET_NUTW: begin
+//		 nut_wid <= vinput[7:0];
+//		 end
 
 	     // CONT_SET_ATT: begin
 		// pre_att <= vinput[7:0];
@@ -242,4 +254,6 @@ module pulse_control(
       endcase // case (state)
       
    end // always @ (posedge iCE_CLK)
+   
+   	assign recv = recv_set;
 endmodule // pulse_control

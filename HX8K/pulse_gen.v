@@ -73,7 +73,7 @@ module pulse_gen(
    			 //  .pr_att(pre_att),
    			 //  .po_att(post_att),
 			 .cp(cpmg),
-			 //  .p_bl(pulse_block),
+			 .p_bl(pulse_block),
 			 //  .p_bl_off(pulse_block_off),
 			 .bl(block),
 			 .rxd(rx_done)
@@ -91,7 +91,7 @@ module pulse_gen(
 		 //  .pr_att(pre_att),
 		 //  .po_att(post_att),
 		 .cp(cpmg),
-		 // .p_bl(pulse_block),
+		 .pulse_block(pulse_block),
 		 // .p_bl_off(pulse_block_off),
 		 .bl(block),
 		 .rxd(rx_done),

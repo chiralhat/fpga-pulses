@@ -28,11 +28,12 @@ set_io --warn-no-port RS232_Rx B10
 set_io --warn-no-port RS232_Tx B12
 
 ###Pulse Gen
-set_io --warn-no-port Sync P16
+set_io --warn-no-port Sync B15
+# set_io --warn-no-port Pulse M1
 set_io --warn-no-port Pulse N16
 # set_io --warn-no-port FM M16
 # set_io --warn-no-port P1 B16
-set_io --warn-no-port Block D14
+set_io --warn-no-port Block N10
 # set_io --warn-no-port P3 D15
 # set_io --warn-no-port P4 E14
 

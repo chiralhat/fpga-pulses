@@ -1,14 +1,17 @@
 `default_nettype none
 module pulse_gen(
-	input 	clk, // 12 MHz base clock
+	input	clk_uart, 
 input clk_pll,
+//	input 	clk,
 	input 	RS232_Rx, // Receive pin for the FTDI chip
-	input 	resetn, // Reset the cycle
+	input 	resetn,	// Reset the cycle
+	output [7:0] led,
 	output RS232_Tx, // Transmit pin for the FTDI chip
 	output Pulse, // Output pin for the switch
 	output Sync, // Output pin for the SYNC pulse
 	//  output FM, // Output pin for the FM pulse
-	 output P2
+	 output Block,
+	 output recv
 	//  output P3,
 	//  output P4,
 	//  output J1_4,
@@ -35,7 +38,7 @@ input clk_pll,
 	reg [7:0]		nut_wid;
 	reg 			block;
 	reg [7:0] 		pulse_block;
-	reg [15:0] 	pulse_block_off;
+	reg [15:0] 	pulse_block_half;
 	reg [7:0]	 	cpmg;
 	reg			rx_done;
 
@@ -45,7 +48,7 @@ input clk_pll,
    
    // Generating the necessary pulses
 	pulses pulses(
-		.clk(clk),
+		.clk(clk_uart),
 		.clk_pll(clk_pll),
 		.reset(resetn),
 		.per(period),
@@ -58,38 +61,39 @@ input clk_pll,
 		//  .po_att(post_att),
 		.cp(cpmg),
 		.p_bl(pulse_block),
-		.p_bl_off(pulse_block_off),
+		.p_bl_hf(pulse_block_half),
 		.bl(block),
 		.rxd(rx_done),
 		.sync_on(Sync),
 		.pulse_on(Pulse),
 		//  .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
 		//  .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
-		.inhib(P2)
+		.led(led),
+		.inhib(Block)
 		//  .test({FM, P3, P4})
 		);
 	// NOSIM2_START
    parameter att_on_val = 7'b1111111;
    parameter att_off_val = 7'b0000000;
-   parameter stperiod = 1;
+   parameter stperiod = 10000;
    parameter stp1width = 30; // 150 ns
    parameter stp2width = 60;
    parameter stdelay = 200; // 1 us delay
    parameter stcpmg = 3; // Do CPMG with 3 pulses by default
-   parameter stblock = 50;
-   parameter stblockoff = 100;
-   parameter stnutwid = 100;
-   parameter stnutdel = 100;
+   parameter stblock = 10;
+   parameter stblockoff = 390/2;
+   parameter stnutwid = 60;
+   parameter stnutdel = 300;
 
    // Initialize pulse values
-   always @(posedge clk) begin
+   always @(posedge clk_uart) begin
 		if (resetn) begin
-			period = stperiod << 18;
+			period = stperiod;
 			p1width = stp1width;
 			delay = stdelay;
 			p2width = stp2width;
 			pulse_block = stblock;
-			pulse_block_off = stblockoff;
+//			pulse_block_off = stblockoff;
 			block = 1;
 			cpmg = stcpmg;
 			nut_wid = stnutwid;
