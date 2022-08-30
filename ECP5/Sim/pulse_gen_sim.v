@@ -1,104 +1,99 @@
 `default_nettype none
 module pulse_gen(
-	input	clk_uart, 
+		 input 	      clk_uart, 
 input clk_pll,
-//	input 	clk,
-	input 	RS232_Rx, // Receive pin for the FTDI chip
-	input 	resetn,	// Reset the cycle
-	output [7:0] led,
-	output RS232_Tx, // Transmit pin for the FTDI chip
-	output Pulse, // Output pin for the switch
-	output Sync, // Output pin for the SYNC pulse
-	//  output FM, // Output pin for the FM pulse
-	 output Block,
-	 output recv
-	//  output P3,
-	//  output P4,
-	//  output J1_4,
-	//  output J1_5,
-	//  output J1_6,
-	//  output J1_7,
-	//  output J1_8,
-	//  output J1_9,
-	//  output J1_10,
-	//  output J4_3,
-	//  output J4_4,
-	//  output J4_5,
-	//  output J4_6,
-	//  output J4_7,
-	//  output J4_8,
-	//  output J4_9
-	);
+		 //	input 	clk,
+		 input 	      RS232_Rx, // Receive pin for the FTDI chip
+		 input 	      resetn, // Reset the cycle
+//		 output [7:0] led,
+		 output       RS232_Tx, // Transmit pin for the FTDI chip
+		 output       Pulse, // Output pin for the switch
+		 output       Pulse2, // Output pin for the second pulse switch
+		 output       Sync, // Output pin for the SYNC pulse
+		 //  output FM, // Output pin for the FM pulse
+		 output       Block,
+		 output       recv,
+		 //  output P3,
+		 //  output P4,
+		 output [6:0] pre_att,
+		 output [6:0] post_att
+		 );
 
-	reg [31:0] 	period;
-	reg [15:0] 	p1width;
-	reg [15:0] 	delay;
-	reg [15:0] 	p2width;
-	reg [15:0]		nut_del;
-	reg [7:0]		nut_wid;
-	reg 			block;
-	reg [7:0] 		pulse_block;
-	reg [15:0] 	pulse_block_half;
-	reg [7:0]	 	cpmg;
-	reg			rx_done;
+   wire [31:0] 		      period;
+   wire [15:0] 		      p1width;
+   wire [15:0] 		      delay;
+   wire [15:0] 		      p2width;
+   wire [15:0] 		      p1start2;
+   wire [15:0] 		      p1width2;
+   wire [15:0] 		      delay2;
+   wire [15:0] 		      p2width2;
+   wire [15:0] 		      nut_del;
+   wire [7:0] 		      nut_wid;
+   wire 		      block;
+   wire [7:0] 		      pulse_block;
+   wire [15:0] 		      pulse_block_half;
+   wire [7:0] 		      cpmg;
+   wire 		      rx_done;
 
-	//    reg [6:0] 		pre_att;
-	//    reg [6:0] 		post_att;
+   wire [6:0] 		      pre_att_val;
+   wire [6:0] 		      post_att_val;
 
+   // Setting up communications with LabView over USB
+   pulse_control control(
+			 .clk(clk_uart),
+			 .RS232_Rx(RS232_Rx),
+			 .RS232_Tx(RS232_Tx),
+			 .per(period),
+			 .p1wid(p1width),
+			 .del(delay),
+			 .p2wid(p2width),
+   			 .p1wid2(p1width2),
+   			 .del2(delay2),
+   			 .p2wid2(p2width2),
+			 .p1st2(p1start2),
+			 .nut_d(nut_del),
+			 .nut_w(nut_wid),
+			 .pr_att(pre_att_val),
+			 .po_att(post_att_val),
+			 .cp(cpmg),
+			 .p_bl(pulse_block),
+			 .p_bl_hf(pulse_block_half),
+			 .bl(block),
+			 .rxd(rx_done),
+			 //		.led(led),
+			 .recv(recv)
+			 );
    
    // Generating the necessary pulses
-	pulses pulses(
-		.clk(clk_uart),
-		.clk_pll(clk_pll),
-		.reset(resetn),
-		.per(period),
-		.p1wid(p1width),
-		.del(delay),
-		.p2wid(p2width),
-		.nut_d(nut_del),
-		.nut_w(nut_wid),
-		//  .pr_att(pre_att),
-		//  .po_att(post_att),
-		.cp(cpmg),
-		.p_bl(pulse_block),
-		.p_bl_hf(pulse_block_half),
-		.bl(block),
-		.rxd(rx_done),
-		.sync_on(Sync),
-		.pulse_on(Pulse),
-		//  .Att1({J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10}),
-		//  .Att3({J4_9, J4_8, J4_7, J4_6, J4_5, J4_4, J4_3}),
-		.led(led),
-		.inhib(Block)
-		//  .test({FM, P3, P4})
-		);
-	// NOSIM2_START
-   parameter att_on_val = 7'b1111111;
-   parameter att_off_val = 7'b0000000;
-   parameter stperiod = 10000;
-   parameter stp1width = 30; // 150 ns
-   parameter stp2width = 60;
-   parameter stdelay = 200; // 1 us delay
-   parameter stcpmg = 3; // Do CPMG with 3 pulses by default
-   parameter stblock = 10;
-   parameter stblockoff = 390/2;
-   parameter stnutwid = 60;
-   parameter stnutdel = 300;
-
-   // Initialize pulse values
-   always @(posedge clk_uart) begin
-		if (resetn) begin
-			period = stperiod;
-			p1width = stp1width;
-			delay = stdelay;
-			p2width = stp2width;
-			pulse_block = stblock;
-//			pulse_block_off = stblockoff;
-			block = 1;
-			cpmg = stcpmg;
-			nut_wid = stnutwid;
-			nut_del = stnutdel;
-		end // if (reset)
-	end // always @ (posedge clk)
-
-endmodule // pulse_gen_sim
+   pulses pulses(
+		 .clk(clk_uart),
+		 .clk_pll(clk_pll),
+		 .reset(resetn),
+		 .per(period),
+		 .p1wid(p1width),
+		 .del(delay),
+		 .p2wid(p2width),
+   		 .p1wid2(p1width2),
+   		 .del2(delay2),
+   		 .p2wid2(p2width2),
+		 .p1st2(p1start2),
+		 .nut_d(nut_del),
+		 .nut_w(nut_wid),
+		 .pr_att(pre_att_val),
+		 .po_att(post_att_val),
+		 .cp(cpmg),
+		 .p_bl(pulse_block),
+		 .p_bl_hf(pulse_block_half),
+		 .bl(block),
+		 .rxd(rx_done),
+		 .sync_on(Sync),
+		 .pulse1_on(Pulse),
+		 .pulse2_on(Pulse2),
+		 .pre_att(pre_att),
+		 .post_att(post_att),
+		 //		 .led(led),
+		 .inhib(Block)
+		 //  .test({FM, P3, P4})
+		 );
+   // NOSIM2_START
+endmodule // pulse_gen

@@ -3,22 +3,56 @@ IOBUF PORT "clk_uart" IO_TYPE=LVCMOS33;
 LOCATE COMP "clk" SITE "B11";
 IOBUF PORT "clk" IO_TYPE=LVCMOS33;
 
-LOCATE COMP "led[0]" SITE "A13";
-IOBUF PORT "led[0]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[1]" SITE "A12";
-IOBUF PORT "led[1]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[2]" SITE "B19";
-IOBUF PORT "led[2]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[3]" SITE "A18";
-IOBUF PORT "led[3]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[4]" SITE "B18";
-IOBUF PORT "led[4]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[5]" SITE "C17";
-IOBUF PORT "led[5]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[6]" SITE "A17";
-IOBUF PORT "led[6]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[7]" SITE "B17";
-IOBUF PORT "led[7]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[0]" SITE "A13";
+// IOBUF PORT "led[0]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[1]" SITE "A12";
+// IOBUF PORT "led[1]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[2]" SITE "B19";
+// IOBUF PORT "led[2]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[3]" SITE "A18";
+// IOBUF PORT "led[3]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[4]" SITE "B18";
+// IOBUF PORT "led[4]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[5]" SITE "C17";
+// IOBUF PORT "led[5]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[6]" SITE "A17";
+// IOBUF PORT "led[6]" IO_TYPE=LVCMOS33;
+// LOCATE COMP "led[7]" SITE "B17";
+// IOBUF PORT "led[7]" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "pre_att[0]" SITE "A4";
+IOBUF PORT "pre_att[0]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[1]" SITE "B5";
+IOBUF PORT "pre_att[1]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[2]" SITE "C4";
+IOBUF PORT "pre_att[2]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[3]" SITE "A3";
+IOBUF PORT "pre_att[3]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[4]" SITE "E4";
+IOBUF PORT "pre_att[4]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[5]" SITE "C3";
+IOBUF PORT "pre_att[5]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[6]" SITE "F4";
+IOBUF PORT "pre_att[6]" IO_TYPE=LVCMOS33;
+LOCATE COMP "pre_att[7]" SITE "E5";
+IOBUF PORT "pre_att[7]" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "post_att[0]" SITE "A5";
+IOBUF PORT "post_att[0]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[1]" SITE "C5";
+IOBUF PORT "post_att[1]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[2]" SITE "B4";
+IOBUF PORT "post_att[2]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[3]" SITE "B3";
+IOBUF PORT "post_att[3]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[4]" SITE "D5";
+IOBUF PORT "post_att[4]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[5]" SITE "D3";
+IOBUF PORT "post_att[5]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[6]" SITE "E3";
+IOBUF PORT "post_att[6]" IO_TYPE=LVCMOS33;
+LOCATE COMP "post_att[7]" SITE "F5";
+IOBUF PORT "post_att[7]" IO_TYPE=LVCMOS33;
 
 LOCATE COMP "resetn" SITE "N20"; //raspberry pi header (JP8) pin 10 - should always be 0 if nothing plugged in
 IOBUF PORT "resetn" IO_TYPE=LVCMOS33;
@@ -30,13 +64,14 @@ IOBUF PORT "RS232_Rx" IO_TYPE=LVCMOS33;
 IOBUF PORT "RS232_Tx" IO_TYPE=LVCMOS33;
 
 LOCATE COMP "recv" SITE "U16"; //raspberry pi header (JP8) pin 5
-LOCATE COMP "Block" SITE "R16"; //raspberry pi header (JP8) pin 7
+LOCATE COMP "Block" SITE "R16"; //raspberry pi header (JP8) pin 40
 //LOCATE COMP "Block" SITE "U17"; //raspberry pi header (JP8) pin 7
 LOCATE COMP "Sync" SITE "P18"; //raspberry pi header (JP8) pin 8
-LOCATE COMP "Pulse" SITE "R20"; //raspberry pi header (JP8) pin 11
-//LOCATE COMP "Pulse" SITE "N19"; //raspberry pi header (JP8) pin 11
+LOCATE COMP "Pulse" SITE "R20"; //raspberry pi header (JP8) pin 23
+LOCATE COMP "Pulse2" SITE "T20"; //raspberry pi header (JP8) pin 32
 
 IOBUF PORT "Sync" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pulse" IO_TYPE=LVCMOS33;
+IOBUF PORT "Pulse2" IO_TYPE=LVCMOS33;
 IOBUF PORT "Block" IO_TYPE=LVCMOS33;
 IOBUF PORT "recv" IO_TYPE=LVCMOS33;
