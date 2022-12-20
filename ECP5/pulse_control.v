@@ -30,20 +30,20 @@ module pulse_control(
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
    parameter stperiod = 10000; // 1 ms period
-   parameter stp1width = 30; // 150 ns
-   parameter stp2width = 30; // 300 ns
-   parameter stp1st2 = 100;
-   parameter stdelay = 200; // 1 us delay
-   parameter stblock = 10; // 250 ns block open
+   parameter stp1width = 9; // 150 ns
+   parameter stp2width = 18; // 300 ns
+   parameter stp1st2 = 0;
+   parameter stdelay = 150; // 1 us delay
+   parameter stblock = 100; // 250 ns block open
    parameter stcpmg = 1; 
-   parameter stnutdel = 0; 
+   parameter stnutdel = 60000; 
    parameter stnutwid = 0;
 
    reg [31:0] 			   period = stperiod;
    reg [15:0] 			   p1width = stp1width;
    reg [15:0] 			   delay = stdelay;
    reg [15:0] 			   p2width = stp2width;
-   reg [15:0] 			   p1width2 = stp1width/3+stp1st2;
+   reg [15:0] 			   p1width2 = stp1width+stp1st2;
    reg [15:0] 			   delay2 = stdelay;
    reg [15:0] 			   p2width2 = stp2width*0;
    reg [15:0] 			   p1start2 = stp1st2;

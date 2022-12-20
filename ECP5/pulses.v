@@ -56,6 +56,7 @@ module pulses(
    reg 			   pulse; //overall output - is 1 if pulses or nut_pulse is 1
    reg 			   pulses; //pulse register
    reg 			   pulse2;
+   reg 			   pulse2s;
    reg 			   nut_pulse; //nutation pulse register
    reg [6:0] 		   pre_att_val;
    reg [6:0] 		   post_att_val;
@@ -190,7 +191,7 @@ module pulses(
 	 nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 		      ((counter < nutation_pulse_stop) ? 1 : 0);
 
-	 pulse2 <= (counter < p1start2) ? 0 :
+	 pulse2s <= (counter < p1start2) ? 0 :
       		   ((counter < p1width2) ? 1 :
       		    ((counter < p2start2) ? 0 :
       		     ((counter < p2stop2) ? 1 : 0)));
@@ -198,6 +199,7 @@ module pulses(
 	 case (cpmg)
 	   0 : begin //cpmg=0 : CW (switch always open)
 	      pulses <= 1;
+	      pulse2s <= 0;
 	      sync <= (counter < sdown) ? 0 : 1;
 	      inh <= 0;
 	      pre_att_val <= pr_att;
@@ -228,7 +230,7 @@ module pulses(
 	      case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
 		0: begin //at 0, turn on sync, pulses, and block, then calculate initial values of time markers
 		   sync <= 1;
-		   pulses <= 1;
+		   pulses <= (p1width > 0) ? 1 : 0;
 		   inh <= block;
 		   pre_att_val <= pr_att;
 		   post_att_val <= po_att;
@@ -251,7 +253,7 @@ module pulses(
 		end //case: p1width
 
 		cdelay: begin
-		   pulses <= (ccount < cpmg) ? 1 : pulses; //set pulses high again if we have not yet reached the last CPMG pulse
+		   pulses <= (ccount < cpmg) ? ((p2width > 0) ? 1 : 0) : pulses; //set pulses high again if we have not yet reached the last CPMG pulse
 
 		end // case: cdelay
 
@@ -276,17 +278,17 @@ module pulses(
 		end
 
 		cblock_delay: begin
-		   //		if (ccount < cpmg) begin //open block if we have not reached the last pulse
-		   inh <= 0;
-		   post_att_val <= 0;
+		   if (ccount < cpmg) begin //open block if we have not reached the last pulse
+		      inh <= 0;
+		      post_att_val <= 0;
 		   
-		   //		end
+		   end
 		end // case: cblock_delay
 
 		cblock_on: begin
+		   inh <= block;
+		   post_att_val <= po_att;
 		   if (ccount < (cpmg-1)) begin //if we have not reached the last pulse, close block and recalculate block marker values
-		      inh <= block;
-		      post_att_val <= po_att;
 		      
 		      cblock_delay <= cpulse + pulse_block; //start of next open period = end of next pulse + block delay
 		      cblock_on <= cpulse + 2*delay-5; //end of next open period = end of next pulse + block off
@@ -308,6 +310,7 @@ module pulses(
 	 endcase
 	 counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
 	 pulse <= pulses || nut_pulse;
+	 pulse2 <= pulse2s || nut_pulse;
       end //if (!reset)
       else begin
 	 counter <= 0;
