@@ -47,7 +47,7 @@ The control byte values are:
 5. Set Block
   * The LSB of the least significant input byte turns the pulse blocking on (1) or off (0).
   * The second and third bytes set the time offset between the end of the second pulse and the closing of the blocking switch.
-6. Set CPMG
+6. Set CPMG (Experimental)
 	* The least-significant byte either sets CW mode (0) or sets the number of final pulses (1-255).
 	* The two most-significant bytes set the time offset between the start of the first pulse for the first switch and the start of the first pulse for the second switch.
 7. Set Attenuators
@@ -57,6 +57,4 @@ The control byte values are:
 	* The two most-significant bytes set the time offset between the nutation pulse and the first pulse.
 
 # Credits
-The UART code is adapted from https://github.com/cyrozap/iCEstick-UART-Demo/pull/3/files#diff-bca38f311bb7e3ea53c7f1f8993dcf59
-
-The PLL code is adapted from https://gist.github.com/thoughtpolice/8ec923e1b3fc4bb12c11aa23b4dc53b5#file-ice40-v
+The UART code comes from Timothy Goddard and Aaron Dahlen.

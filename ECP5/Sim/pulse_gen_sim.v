@@ -11,6 +11,7 @@ input clk_pll,
 		 output       Pulse2, // Output pin for the second pulse switch
 		 output       Sync, // Output pin for the SYNC pulse
 		 //  output FM, // Output pin for the FM pulse
+		 output       Pre_Block, 
 		 output       Block,
 		 output       recv,
 		 //  output P3,
@@ -92,6 +93,7 @@ input clk_pll,
 		 .pre_att(pre_att),
 		 .post_att(post_att),
 		 //		 .led(led),
+		 .pre_block(Pre_Block),
 		 .inhib(Block)
 		 //  .test({FM, P3, P4})
 		 );

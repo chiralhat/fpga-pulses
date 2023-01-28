@@ -47,7 +47,7 @@ module pulses(
 	      output 	   pulse2_on, 
 	      output [6:0] pre_att, // Wires for main attenuator
 	      output [6:0] post_att, // Wires for second attenuator
-	      //	output [7:0] led, 	     
+	      output 	   pre_block,
 	      output 	   inhib // Wire for blocking switch pulse
 	      );
 
@@ -60,6 +60,7 @@ module pulses(
    reg 			   nut_pulse; //nutation pulse register
    reg [6:0] 		   pre_att_val;
    reg [6:0] 		   post_att_val;
+   reg 			   pr_inh;
    reg 			   inh;
    reg 			   rec = 0;
    reg 			   cw = 0;
@@ -122,6 +123,7 @@ module pulses(
    assign pulse2_on = pulse2; // The switch pulse
    assign pre_att = pre_att_val; // The main attenuator control
    assign post_att = post_att_val; // The second attenuator control
+   assign pre_block = pr_inh; // The input blocking pulse (to completely squelch leakage)
    assign inhib = inh; // The blocking switch pulse
    //	assign pulse1_on = clk_pll;
 
@@ -163,9 +165,11 @@ module pulses(
       p2start <= p1width + delay;
       p2start2 <= p1start2 + p1width2 + del2;
       p2stop2 <= p2start2 + p2width2;
-      sdown <= p2start + p2width + 10;
+      sdown <= p2start + p2width;// + 10;
       block_off <= sdown + pulse_block;
       block_on <= period - 10;
+      nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
+      nutation_pulse_stop <= per - nutation_pulse_delay;
       //		block_on <= period - nutation_pulse_delay - nutation_pulse_width - 10;
       // block_on <= block_off + pulse_block;
       
@@ -182,20 +186,9 @@ module pulses(
    /* The main loops runs on the 200 MHz PLL clock.
     */
    always @(posedge clk_pll) begin
-      if (!reset) begin
+//      if (!reset) begin
 	 //Calculate nutation pulse and regular pulses separately, then combine them later, to improve timing
 	 //If nutation pulse is not needed, can just set its width to 0
-	 nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
-	 nutation_pulse_stop <= per - nutation_pulse_delay;
-	 
-	 nut_pulse <= (counter < nutation_pulse_start) ? 0 :
-		      ((counter < nutation_pulse_stop) ? 1 : 0);
-
-	 pulse2s <= (counter < p1start2) ? 0 :
-      		   ((counter < p1width2) ? 1 :
-      		    ((counter < p2start2) ? 0 :
-      		     ((counter < p2stop2) ? 1 : 0)));
-
 	 case (cpmg)
 	   0 : begin //cpmg=0 : CW (switch always open)
 	      pulses <= 1;
@@ -203,22 +196,15 @@ module pulses(
 	      sync <= (counter < sdown) ? 0 : 1;
 	      inh <= 0;
 	      pre_att_val <= pr_att;
-	      post_att_val <= po_att;
+//	      post_att_val <= po_att;
 	      
 	   end
 // 	   1: begin //cpmg=1 : Hahn echo with nutation pulse
 
-// 	      pulses <= (counter < p1width) ? 1 :// Switch pulse goes up before p1width
-// 			((counter < p2start) ? cw : //Then down (if cw mode not on) before p2start
-// 			 ((counter < (sync_down-10)) ? 1 : cw));
-// //			  ((counter < nutation_pulse_start) ? cw : 
-// //			   ((counter < nutation_pulse_stop) ? 1 : cw)))); //Then up before sync_down, down (if cw mode not on) after two pulses finished
 	      
-// 	      inh <= (counter < block_off) ? block :
-// 		     ((counter < (nutation_pulse_start-5)) ? 0 : block);
-// 	      //				       0;//((counter < block_on) ? 0 : block); // Turn the blocking switch on except for a window after the second pulse.
 
-// 	      sync <= (counter < sync_down) ? 1 : 0; //Leave sync on until sync_down (end of pulses)
+
+
 
 // 	      pre_att_val <= (counter < p1width) ? pr_att : 0;
 // 	      post_att_val <= (counter < block_off) ? po_att :
@@ -227,43 +213,62 @@ module pulses(
 // 	      // A3 <= ((counter < (cblock_delay - 32'd30)) || (counter > cblock_on)) ? post_att : 0; // Set the second_attenuator to post_att except for a window after the second pulse. The 32'd30 was found to be good through testing.
 // 	   end
 	   default : begin //cpmg > 1 : CPMG with # pulses given by value of cpmg
+ 	      sync <= (counter < sync_down) ? 1 : 0; //Leave sync on until sync_down (end of pulses)
+
+	      pulses <= (counter < p1width) ? 1 :// Switch pulse goes up before p1width
+			((counter < cdelay) ? 0 : //Then down (if cw mode not on) before p2start
+			 ((counter < cpulse) ? (((ccount < cpmg) && (p2width > 0)) ? 1 : 0) : 0));
+	      
+ 	      inh <= (counter < cblock_delay) ? block :
+		     ((counter < cblock_on) ? ((ccount < cpmg) ? 0 : inh) :
+ 		      ((counter < (nutation_pulse_start-5)) ? inh : block));
+	      
+ 	      nut_pulse <= (counter < nutation_pulse_start) ? 0 :
+			   ((counter < nutation_pulse_stop) ? 1 : 0);
+
+	      pulse2s <= (counter < p1start2) ? 0 :
+      			 ((counter < p1width2) ? 1 :
+      			  ((counter < p2start2) ? 0 :
+      			   ((counter < p2stop2) ? 1 : 0)));
+
+	      pre_att_val <= (counter < p1width | (counter > p1start2 && counter < p1width2)) ? pr_att+6 :
+//			     ((counter < (cdelay-18) | counter < (p2start2-18)) ? 255 :
+//			      ((counter < (cpulse-18) | counter < (p2stop2-18)) ? pr_att :
+//			       ((counter < (nutation_pulse_start-20)) ? 255 :
+//				((counter < nutation_pulse_stop) ? pr_att :
+				 ((counter < (period-20)) ? pr_att : pr_att+6);
+
 	      case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
 		0: begin //at 0, turn on sync, pulses, and block, then calculate initial values of time markers
-		   sync <= 1;
-		   pulses <= (p1width > 0) ? 1 : 0;
-		   inh <= block;
-		   pre_att_val <= pr_att;
-		   post_att_val <= po_att;
 		   sync_down <= sdown;
 
 		   cdelay <= p1width + delay; //start of first CPMG pulse after initial pulse
-		   cpulse <= sdown-10; //end of first CPMG pulse
+		   cpulse <= sdown; //end of first CPMG pulse
 		   // cblock_delay <= p1width + delay + p2width + delay - pulse_block_half; //start of first block open 
-		   cblock_delay <= sdown-10 + pulse_block; //start of first block open 
-		   cblock_on <= sdown-10 + 2*delay-5; //end of first block open
+		   cblock_delay <= sdown + pulse_block; //start of first block open 
+		   cblock_on <= sdown + 2*delay-5; //end of first block open
 		   //					cblock_delay <= p1width + delay + p2width + pulse_block; //start of first block open 
 		   //					cblock_on <= p1width + delay + p2width + delay + pulse_block_half; //end of first block open
 		   ccount <= 0;
 		   
 		end // case: 0
 
-		p1width: begin
-		   pulses <= 0; //turn pulses off at end of first pulse
-		   pre_att_val <= 0;
-		end //case: p1width
+		// p1width: begin
+		//    pulses <= 0; //turn pulses off at end of first pulse
+		//    // pre_att_val <= 255;
+		// end //case: p1width
 
-		cdelay: begin
-		   pulses <= (ccount < cpmg) ? ((p2width > 0) ? 1 : 0) : pulses; //set pulses high again if we have not yet reached the last CPMG pulse
-
-		end // case: cdelay
+// 		cdelay: begin
+// 		   pulses <= (ccount < cpmg) ? ((p2width > 0) ? 1 : 0) : pulses; //set pulses high again if we have not yet reached the last CPMG pulse
+// //		   pre_att_val <= (ccount < cpmg) ? ((p2width > 0) ? pr_att : 255) : pre_att_val;
+		   
+// 		end // case: cdelay
 
 		cpulse: begin		 
 		   if (ccount < cpmg) begin //if we have not yet reached the last pulse, set pulses to 0 and recalculate time marker values
-		      pulses <= 0;
-
 		      cdelay <= cpulse + delay + delay; //start of next pulse = current place + 2*delay
 		      cpulse <= cpulse + delay + delay + p2width; //end of next pulse = current place + 2*delay + width of next pulse
-		      sync_down <= cpulse + 10;
+		      sync_down <= cpulse;
 //delay + delay + p2width + 10;
 		      
 		   end
@@ -273,48 +278,50 @@ module pulses(
 		   
 		end //case: cpulse
 
-		sync_down: begin
-		   sync <= (ccount == cpmg - 1) ? 0 : sync; //turn sync off if we have finished the last pulse
-		end
+		// sync_down: begin
+		//    sync <= (ccount == cpmg - 1) ? 0 : sync; //turn sync off if we have finished the last pulse
+		// end
 
-		cblock_delay: begin
-		   if (ccount < cpmg) begin //open block if we have not reached the last pulse
-		      inh <= 0;
-		      post_att_val <= 0;
+		// cblock_delay: begin
+		//    if (ccount < cpmg) begin //open block if we have not reached the last pulse
+		//       inh <= 0;
+		//       post_att_val <= 0;
 		   
-		   end
-		end // case: cblock_delay
+		//    end
+		// end // case: cblock_delay
 
 		cblock_on: begin
-		   inh <= block;
-		   post_att_val <= po_att;
 		   if (ccount < (cpmg-1)) begin //if we have not reached the last pulse, close block and recalculate block marker values
 		      
 		      cblock_delay <= cpulse + pulse_block; //start of next open period = end of next pulse + block delay
 		      cblock_on <= cpulse + 2*delay-5; //end of next open period = end of next pulse + block off
-		      //							cblock_delay <= cpulse + delay - pulse_block_half; //start of next open period = end of next pulse + block delay
-		      //							cblock_on <= cpulse + delay + pulse_block_half; //end of next open period = end of next pulse + block off
 		      
 		   end
 		   ccount <= ccount + 1;
 		end //case: cblock_on
 
-		(nutation_pulse_start-5): begin
-		   inh <= block;
-		   post_att_val <= po_att;
+// 		(nutation_pulse_start-5): begin
+// 		   inh <= block;
+// //		   pre_att_val <= pr_att;
+// 		   post_att_val <= po_att;
 		   
-		end
+// 		end
+
+//		nutation_pulse_stop: begin
+//		   pre_att_val <= 255;
+//		end
 		
 	      endcase // case (counter)
 	   end
 	 endcase
 	 counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
-	 pulse <= pulses || nut_pulse;
-	 pulse2 <= pulse2s || nut_pulse;
-      end //if (!reset)
-      else begin
-	 counter <= 0;
-      end		   
+	 pulse <= pulses;// | nut_pulse;
+	 pulse2 <= pulse2s | nut_pulse;
+	 pr_inh <= pulse | pulse2;
+//      end //if (!reset)
+//      else begin
+//	 counter <= 0;
+//      end		   
 
    end // always @ (posedge clk_pll)
 endmodule // pulses

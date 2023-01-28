@@ -22,6 +22,7 @@ all: clean ${PROJ}.bit
 	yosys -p "synth_ecp5 -json $@ -top pulse_gen" $< $(PULSEV) ecppll.v > make.log
 
 %_out.config: %.json
+#	nextpnr-ecp5 --pre-pack clk_constraint12.py --json $< --textcfg $@ --12k --package CABGA381 --lpf ecp5.lpf 2> pnr.log
 	nextpnr-ecp5 --pre-pack clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf ecp5.lpf 2> pnr.log
 
 %.bit: %_out.config
@@ -45,6 +46,6 @@ sim: simclean
 #	cat $(SIMINIT) >> $(SIMTARGET).v
 	iverilog -o $(SIMOUT)_post $(SIMTARGET).v $(SIMOUT)_tb.v $(PULSEV)
 	vvp $(SIMOUT)_post
-	gtkwave $(SIMOUT)_tb.vcd
+	gtkwave $(SIMOUT)_tb.vcd > /dev/null
 
 .PHONY: prog clean

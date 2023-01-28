@@ -29,15 +29,15 @@ module pulse_control(
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-   parameter stperiod = 10000; // 1 ms period
-   parameter stp1width = 9; // 150 ns
-   parameter stp2width = 18; // 300 ns
-   parameter stp1st2 = 0;
+   parameter stperiod = 100000; // 1 ms period
+   parameter stp1width = 40; // 150 ns
+   parameter stp2width = 40; // 300 ns
+   parameter stp1st2 = 8;
    parameter stdelay = 150; // 1 us delay
    parameter stblock = 100; // 250 ns block open
    parameter stcpmg = 1; 
    parameter stnutdel = 60000; 
-   parameter stnutwid = 0;
+   parameter stnutwid = 40;
 
    reg [31:0] 			   period = stperiod;
    reg [15:0] 			   p1width = stp1width;
@@ -53,11 +53,11 @@ module pulse_control(
    reg 				   block = 1;
    reg 				   rx_done = 0;
    reg [15:0] 			   nut_del = stnutdel;
-   reg [7:0] 			   nut_wid = stnutdel;
+   reg [7:0] 			   nut_wid = stnutwid;
    reg 				   recv_set = 0;
 
    // Control the attenuators
-   parameter att_pre_val = 7'd3;
+   parameter att_pre_val = 7'd0;
    parameter att_post_val = 7'd127;
    reg [6:0] 			   pre_att = att_pre_val;
    reg [6:0] 			   post_att = att_post_val;
