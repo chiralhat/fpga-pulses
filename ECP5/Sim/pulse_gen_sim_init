@@ -23,6 +23,7 @@
 			cpmg = stcpmg;
 			nut_wid = stnutwid;
 			nut_del = stnutdel;
+			phsub = 1;
 		end // if (reset)
 	end // always @ (posedge clk)
 

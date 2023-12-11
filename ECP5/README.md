@@ -12,3 +12,15 @@ My suggestion for a path forward is to start by setting up [Windows Subsystem in
 Finally, you'll be able to start trying to port the iCE40 code in here over to the ECP5. This is a big task, because it requires figuring out how to use the different set of clocks (including the built-in 200 MHz one for the main logic loop), how to communicate with the board from the computer (maybe try out the simpleuart.v in the soc_ecp5_evn example), and how to rewrite the icebox.pcf pinout file as a .lpf file, linking pins and transmission points correctly. The soc_ecp5_evn example might be a bit more helpful as a place to start with that, comparing its ecp5evn.lpf to the icebox.pcf.
 
 It's a lot, and it's fairly nebulous, but hopefully by the time you get through setting everything up you'll have a better sense for how all this works!
+
+# Setting up the computer and a new board
+Need to get usb access - ensure your account is a member of the "plugdev" group, then create "/etc/udev/rules.d/99-ecp5-evn.rules" (or take the one in this repository), and write in it
+
+`SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="0660", GROUP="plugdev"`
+
+## FTDI
+need to install ftdi-eeprom
+download ftdi.conf
+run `ftdi-eeprom --read-eeprom ftdi.conf`
+open with a hex editor (emacs in hexl-mode will do it), edit the second character to `08` from `01`
+Need to jumper R34, R35, and R21 (R21 may be optional)

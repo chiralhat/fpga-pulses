@@ -4,7 +4,7 @@ module pulse_gen(
 		 //	input 	clk,
 		 input 	      RS232_Rx, // Receive pin for the FTDI chip
 		 input 	      resetn, // Reset the cycle
-//		 output [7:0] led,
+		 output [7:0] led,
 		 output       RS232_Tx, // Transmit pin for the FTDI chip
 		 output       Pulse, // Output pin for the switch
 		 output       Pulse2, // Output pin for the second pulse switch
@@ -16,7 +16,9 @@ module pulse_gen(
 		 //  output P3,
 		 //  output P4,
 		 output [6:0] pre_att,
-		 output [6:0] post_att
+		 output [6:0] post_att,
+		 output       Phase_90,
+		 output       Phase_180       
 		 );
 
    wire [31:0] 		      period;
@@ -34,7 +36,8 @@ module pulse_gen(
    wire [15:0] 		      pulse_block_half;
    wire [7:0] 		      cpmg;
    wire 		      rx_done;
-
+   wire 		      phase_sub;
+   
    wire [6:0] 		      pre_att_val;
    wire [6:0] 		      post_att_val;
 
@@ -77,8 +80,9 @@ module pulse_gen(
 			 .p_bl_hf(pulse_block_half),
 			 .bl(block),
 			 .rxd(rx_done),
-			 //		.led(led),
-			 .recv(recv)
+			 .led(led),
+			 .recv(recv),
+			 .phsub(phase_sub)
 			 );
    
    // Generating the necessary pulses
@@ -110,7 +114,10 @@ module pulse_gen(
 		 .post_att(post_att),
 		 //		 .led(led),
 		 .pre_block(Pre_Block),
-		 .inhib(Block)
+		 .inhib(Block),
+		 .phsub(phase_sub),
+		 .phase90(Phase_90),
+		 .phase180(Phase_180)
 		 //  .test({FM, P3, P4})
 		 );
    // NOSIM2_START

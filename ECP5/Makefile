@@ -1,3 +1,4 @@
+# TODO: add options to extract the eeprom, make the loading and configuring eeprom variants, and then add loading the appropriate variant to the programming setup
 PROJ=pulse_gen
 TRELLIS?=/usr/local/share/trellis
 
@@ -31,7 +32,17 @@ all: clean ${PROJ}.bit
 ${PROJ}.svf : ${PROJ}.bit
 
 prog: ${PROJ}.svf
+	openocd -f ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> prog.log
+#	openocd -f ${TRELLIS}/misc/openocd/ecp5-evn.cfg -c "transport select jtag; init; svf $<; exit" 2> prog.log
+
+eeprog: ${PROJ}.svf
+ifeq ("$(wildcard ftdi_prog.conf)","")
+	ftdi_eeprom --read-eeprom ftdi_prog.conf
+	sed 's/^\x01\x01/\x01\x08/g' eeprom_prog.bin > eeprom_serial.bin
+endif
+	ftdi_eeprom --flash-eeprom ftdi_prog.conf
 	openocd -f ${TRELLIS}/misc/openocd/ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> prog.log
+	ftdi_eeprom --flash-eeprom ftdi_serial.conf
 
 clean:
 	cp ${PROJ}.svf ${PROJ}.svf.bak 2>/dev/null || :
@@ -49,3 +60,7 @@ sim: simclean
 	gtkwave $(SIMOUT)_tb.vcd > /dev/null
 
 .PHONY: prog clean
+
+eeprom:
+	ftdi_eeprom --read-eeprom ftdi_prog.conf
+	sed 's/^\x01\x01/\x01\x08/g' eeprom_prog.bin > eeprom_serial.bin

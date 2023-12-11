@@ -3,7 +3,7 @@
 module tb;
 
    reg clk, clk_pll, resetn = 0;
-   wire Pulse, Sync, Block, RS232_Tx, RS232_Rx;
+   wire Pulse, Sync, Block, RS232_Tx, RS232_Rx, Phase_90, Phase_180;
 //    wire J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10;
 //    wire J4_3, J4_4, J4_5, J4_6, J4_7, J4_8, J4_9;
 
@@ -15,7 +15,9 @@ module tb;
 		  .resetn(resetn),
 		  .Pulse(Pulse),
 		  .Sync(Sync),
-		  .Block(Block)
+		  .Block(Block),
+		  .Phase_90(Phase_90),
+		  .Phase_180(Phase_180)
 		//   .J1_4(J1_4),
 		//   .J1_5(J1_5),
 		//   .J1_6(J1_6),

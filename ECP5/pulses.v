@@ -31,6 +31,7 @@ module pulses(
 	      input [7:0]  p_bl, //start of block open after pulses
 	      input [15:0] p_bl_hf, //half of pulse_block
 	      input 	   bl,
+	      input 	   phsub, 
 	      input 	   rxd,
 	      // 	 input [31:0] period, // Duty cycle (LV)
 	      //   input [31:0] p1width, // Width of the first pulse (LV)
@@ -48,6 +49,8 @@ module pulses(
 	      output [6:0] pre_att, // Wires for main attenuator
 	      output [6:0] post_att, // Wires for second attenuator
 	      output 	   pre_block,
+	      output 	   phase90,
+	      output 	   phase180,
 	      output 	   inhib // Wire for blocking switch pulse
 	      );
 
@@ -64,6 +67,9 @@ module pulses(
    reg 			   inh;
    reg 			   rec = 0;
    reg 			   cw = 0;
+   reg 			   ph90;
+   reg 			   ph180;
+   reg [1:0] 		   pcounter = 2'd0;
    
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
@@ -75,7 +81,7 @@ module pulses(
     parameter stblock = 100; // 500 ns block open
     parameter stcpmg = 3; // Do cpmg with 3 pulses by default*/
    
-   reg [31:0] 		   period;
+   reg [31:0] 		   period = 10000;
    reg [15:0] 		   p1width;
    reg [15:0] 		   delay;
    reg [15:0] 		   p2width;
@@ -88,6 +94,7 @@ module pulses(
    reg [15:0] 		   pulse_block_half;
    reg [7:0] 		   cpmg;
    reg 			   block;
+   reg 			   phase_sub; 			   
    reg 			   rx_done;
 
    //   assign led = cpmg;
@@ -111,7 +118,7 @@ module pulses(
    reg [23:0] 		   nutation_pulse_stop;
 
    reg [7:0] 		   ccount = 0; // Which pi pulse are we on right now
-   reg [31:0] 		   cdelay; // What is the time of the next pi pulse beginning
+   reg [31:0] 		   cdelay = 1000; // What is the time of the next pi pulse beginning
    reg [31:0] 		   cpulse; // What is the time of the next pi pulse ending
    reg [31:0] 		   cblock_delay; // When to stop blocking before the next return signal
    reg [31:0] 		   cblock_on; // When to start blocking after the next return signal
@@ -125,6 +132,8 @@ module pulses(
    assign post_att = post_att_val; // The second attenuator control
    assign pre_block = pr_inh; // The input blocking pulse (to completely squelch leakage)
    assign inhib = inh; // The blocking switch pulse
+   assign phase90 = ph90; // The 90 degree phase shifter
+   assign phase180 = ph180; // The 180 degree phase shifter
    //	assign pulse1_on = clk_pll;
 
    
@@ -138,7 +147,6 @@ module pulses(
       period  <= per;
       p1width <= p1wid;
       p2width <= p2wid;
-      p1width2 <= p1wid2;
       p2width2 <= p2wid2;
       p1start2 <= p1st2;
       delay <= del;
@@ -148,6 +156,7 @@ module pulses(
       pulse_block_half <= p_bl_hf;
       cpmg <= cp;
       block <= bl;
+      phase_sub <= phsub;
       //end
       
       // period <= 4000;
@@ -163,6 +172,7 @@ module pulses(
       
       //Calculate these values here, since they only change when their components are updated - better for timing
       p2start <= p1width + delay;
+      p1width2 <= p1wid2 + p1start2;
       p2start2 <= p1start2 + p1width2 + del2;
       p2stop2 <= p2start2 + p2width2;
       sdown <= p2start + p2width;// + 10;
@@ -191,10 +201,11 @@ module pulses(
 	 //If nutation pulse is not needed, can just set its width to 0
 	 case (cpmg)
 	   0 : begin //cpmg=0 : CW (switch always open)
-	      pulses <= 1;
-	      pulse2s <= 0;
+	      pulse <= !block;
+	      pulse2 <= block;
 	      sync <= (counter < sdown) ? 0 : 1;
 	      inh <= 0;
+	      pr_inh <= 1;
 	      pre_att_val <= pr_att;
 //	      post_att_val <= po_att;
 	      
@@ -238,6 +249,10 @@ module pulses(
 //				((counter < nutation_pulse_stop) ? pr_att :
 				 ((counter < (period-20)) ? pr_att : pr_att+6);
 
+	      ph90 <= phsub ? ((counter < cdelay) ? 0 : 1) : 0;
+	      ph180 <= phsub ? ((counter < cdelay) ? ^pcounter : pcounter[1]) : 0;
+	      
+
 	      case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
 		0: begin //at 0, turn on sync, pulses, and block, then calculate initial values of time markers
 		   sync_down <= sdown;
@@ -250,7 +265,7 @@ module pulses(
 		   //					cblock_delay <= p1width + delay + p2width + pulse_block; //start of first block open 
 		   //					cblock_on <= p1width + delay + p2width + delay + pulse_block_half; //end of first block open
 		   ccount <= 0;
-		   
+		   pcounter <= pcounter + 1;
 		end // case: 0
 
 		// p1width: begin
@@ -312,12 +327,12 @@ module pulses(
 //		end
 		
 	      endcase // case (counter)
+	      pulse <= pulses;// | nut_pulse;
+	      pulse2 <= pulse2s | nut_pulse;
+	      pr_inh <= pulse | pulse2;
 	   end
 	 endcase
 	 counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period
-	 pulse <= pulses;// | nut_pulse;
-	 pulse2 <= pulse2s | nut_pulse;
-	 pr_inh <= pulse | pulse2;
 //      end //if (!reset)
 //      else begin
 //	 counter <= 0;

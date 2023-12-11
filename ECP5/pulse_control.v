@@ -20,8 +20,9 @@ module pulse_control(
 		     output [15:0] p_bl_hf,
 		     output 	   bl,
 		     output 	   rxd,
-		     //	output [7:0]  led,
-		     output 	   recv
+		     output [7:0]  led,
+		     output 	   recv,
+		     output        phsub 	   
 		     );
 
    // Control the pulses
@@ -29,7 +30,7 @@ module pulse_control(
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
-   parameter stperiod = 100000; // 1 ms period
+   parameter stperiod = 10000; // 1 ms period
    parameter stp1width = 40; // 150 ns
    parameter stp2width = 40; // 300 ns
    parameter stp1st2 = 8;
@@ -55,6 +56,7 @@ module pulse_control(
    reg [15:0] 			   nut_del = stnutdel;
    reg [7:0] 			   nut_wid = stnutwid;
    reg 				   recv_set = 0;
+   reg 				   phase_sub = 1; 				   
 
    // Control the attenuators
    parameter att_pre_val = 7'd0;
@@ -79,8 +81,9 @@ module pulse_control(
    assign rxd = rx_done;
    assign nut_d = nut_del;
    assign nut_w = nut_wid;
-   // assign led = received;
-
+   assign led = cpmg;
+   assign phsub = phase_sub;
+   
    // Setup necessary for UART
    wire 			   reset = 0;
    reg 				   transmit;
@@ -192,7 +195,7 @@ module pulse_control(
 
 	     CONT_SET_PULSE1: begin
 		p1width <= vinput[15:0];
-		p1width2 <= p1start2 + vinput[31:16];
+		p1width2 <= vinput[31:16];
 	     end
 
 	     CONT_SET_PULSE2: begin
@@ -202,6 +205,7 @@ module pulse_control(
 
 	     CONT_TOGGLE_PULSE1: begin
 		block <= vinput[0];
+		phase_sub <= vinput[1];
 		pulse_block <= vinput[15:8];
 		pulse_block_half <= pulse_block/2;
 	     end
