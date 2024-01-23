@@ -31,7 +31,7 @@ module pulses(
 	      input [7:0]  p_bl, //start of block open after pulses
 	      input [15:0] p_bl_hf, //half of pulse_block
 	      input 	   bl,
-	      input 	   phsub, 
+	      input [2:0]  phsub,
 	      input 	   rxd,
 	      // 	 input [31:0] period, // Duty cycle (LV)
 	      //   input [31:0] p1width, // Width of the first pulse (LV)
@@ -67,9 +67,10 @@ module pulses(
    reg 			   inh;
    reg 			   rec = 0;
    reg 			   cw = 0;
+   reg [1:0] 		   pcounter;
    reg 			   ph90;
    reg 			   ph180;
-   reg [1:0] 		   pcounter = 2'd0;
+
    
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
    // All the times are thus divided by 4.975 ns to get cycles.
@@ -94,7 +95,7 @@ module pulses(
    reg [15:0] 		   pulse_block_half;
    reg [7:0] 		   cpmg;
    reg 			   block;
-   reg 			   phase_sub; 			   
+   reg [2:0]		   phase_sub; 			   
    reg 			   rx_done;
 
    //   assign led = cpmg;
@@ -140,10 +141,6 @@ module pulses(
    //In order to improve timing on clk_pll, do everything possible on slower clk block
    //Since clk is 50 MHz and clk_pll is 200 MHz (even multiple), hopefully should reduce problems with two blocks being out of sync
    always @(posedge clk) begin
-      //{ rx_done, xfer_bits } <= { xfer_bits, rxd };
-      
-      //assign registers to input values when communication from PC is received
-      //if (rx_done) begin
       period  <= per;
       p1width <= p1wid;
       p2width <= p2wid;
@@ -156,19 +153,8 @@ module pulses(
       pulse_block_half <= p_bl_hf;
       cpmg <= cp;
       block <= bl;
-      phase_sub <= phsub;
-      //end
-      
-      // period <= 4000;
-      // p1width <= 30;
-      // p2width <= 60;
-      // delay <= 200;
-      // nutation_pulse_delay <= 0;
-      // nutation_pulse_width <= 0;
-      // pulse_block <= 100;
-      // pulse_block_half <= pulse_block/2;
-      // cpmg <= 1;
-      // block <= 1;
+      phase_sub <= phsub[0];
+      pcounter <= phsub[2:1];
       
       //Calculate these values here, since they only change when their components are updated - better for timing
       p2start <= p1width + delay;
@@ -208,6 +194,8 @@ module pulses(
 	      pr_inh <= 1;
 	      pre_att_val <= pr_att;
 //	      post_att_val <= po_att;
+	      ph90 <= pcounter[0];
+	      ph180 <= pcounter[1];
 	      
 	   end
 // 	   1: begin //cpmg=1 : Hahn echo with nutation pulse
@@ -249,8 +237,10 @@ module pulses(
 //				((counter < nutation_pulse_stop) ? pr_att :
 				 ((counter < (period-20)) ? pr_att : pr_att+6);
 
-	      ph90 <= phsub ? ((counter < cdelay) ? 0 : 1) : 0;
-	      ph180 <= phsub ? ((counter < cdelay) ? ^pcounter : pcounter[1]) : 0;
+	      ph90 <= phsub ? ((counter < (cdelay-20)) ? 0 :
+			       ((counter < (period-20)) ? 1 : 0)) : 0;
+	      ph180 <= phsub ? ((counter < (cdelay-20)) ? ^pcounter :
+				((counter < (period-20)) ? pcounter[1] : ^pcounter)) : 0;
 	      
 
 	      case (counter) //case blocks generally seem to be faster than if-else, from what I've seen
@@ -265,7 +255,7 @@ module pulses(
 		   //					cblock_delay <= p1width + delay + p2width + pulse_block; //start of first block open 
 		   //					cblock_on <= p1width + delay + p2width + delay + pulse_block_half; //end of first block open
 		   ccount <= 0;
-		   pcounter <= pcounter + 1;
+
 		end // case: 0
 
 		// p1width: begin
