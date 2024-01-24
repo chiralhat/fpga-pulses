@@ -59,13 +59,6 @@ sim: simclean
 	vvp $(SIMOUT)_post
 	gtkwave $(SIMOUT)_tb.vcd > /dev/null
 
-nosim: simclean
-#	sed $(SED_STR1) $(TARGET).v | sed $(SED_STR2) | sed $(SED_STR3) > $(SIMTARGET).v
-	sed $(SED_STR1) $(TARGET).v | sed $(SED_STR2) > $(SIMTARGET).v
-#	cat $(SIMINIT) >> $(SIMTARGET).v
-	iverilog -o $(SIMOUT)_post $(SIMTARGET).v $(SIMOUT)_tb.v $(PULSEV)
-	vvp $(SIMOUT)_post
-
 .PHONY: prog clean
 
 eeprom:

@@ -14,11 +14,15 @@ module pulse_control(
 		     output [7:0]  nut_w,
 		     output [15:0] nut_d,
 		     output [6:0]  pr_att,
-		     output        cp,
+		     output [6:0]  po_att,
+		     output [7:0]  cp,
 		     output [7:0]  p_bl,
+		     output [15:0] p_bl_hf,
 		     output 	   bl,
 		     output 	   rxd,
-		     output 	   recv 	   
+		     output [7:0]  led,
+		     output 	   recv,
+		     output        phsub 	   
 		     );
 
    // Control the pulses
@@ -27,8 +31,8 @@ module pulse_control(
    // All the times are thus divided by 4.975 ns to get cycles.
    // 32-bit allows times up to 21 seconds
    parameter stperiod = 10000; // 1 ms period
-   parameter stp1stop = 40; // 150 ns
-   parameter stp2stop = 200; // 300 ns
+   parameter stp1width = 40; // 150 ns
+   parameter stp2width = 40; // 300 ns
    parameter stp1st2 = 8;
    parameter stdelay = 150; // 1 us delay
    parameter stblock = 100; // 250 ns block open
@@ -37,40 +41,48 @@ module pulse_control(
    parameter stnutwid = 40;
 
    reg [31:0] 			   period = stperiod;
-   reg [15:0] 			   p1stop = stp1stop;
+   reg [15:0] 			   p1width = stp1width;
    reg [15:0] 			   delay = stdelay;
-   reg [15:0] 			   p2stop = stp2stop;
-   reg [15:0]			   p1stop2 = 3;
+   reg [15:0] 			   p2width = stp2width;
+   reg [15:0] 			   p1width2 = stp1width+stp1st2;
    reg [15:0] 			   delay2 = stdelay;
-   reg [15:0] 			   p2stop2 = 154;
+   reg [15:0] 			   p2width2 = stp2width*0;
    reg [15:0] 			   p1start2 = stp1st2;
    reg [7:0] 			   pulse_block = stblock;
-   reg       			   cpmg = stcpmg;
+   reg [15:0] 			   pulse_block_half = stblock/2;
+   reg [7:0] 			   cpmg = stcpmg;
    reg 				   block = 1;
    reg 				   rx_done = 0;
    reg [15:0] 			   nut_del = stnutdel;
    reg [7:0] 			   nut_wid = stnutwid;
    reg 				   recv_set = 0;
+   reg 				   phase_sub = 1; 				   
 
    // Control the attenuators
    parameter att_pre_val = 7'd0;
+   parameter att_post_val = 7'd127;
    reg [6:0] 			   pre_att = att_pre_val;
+   reg [6:0] 			   post_att = att_post_val;
 
    assign per = period;
-   assign p1wid = p1stop;
-   assign p2wid = p2stop;
+   assign p1wid = p1width;
+   assign p2wid = p2width;
    assign del = delay;
-   assign p1wid2 = p1stop2;
-   assign p2wid2 = p2stop2;
+   assign p1wid2 = p1width2;
+   assign p2wid2 = p2width2;
    assign p1st2 = p1start2;
    assign del2 = delay2;
    assign pr_att = pre_att;
+   assign po_att = post_att;
    assign cp = cpmg;
    assign p_bl = pulse_block;
+   assign p_bl_hf = pulse_block_half;
    assign bl = block;
    assign rxd = rx_done;
    assign nut_d = nut_del;
    assign nut_w = nut_wid;
+   assign led = cpmg;
+   assign phsub = phase_sub;
    
    // Setup necessary for UART
    wire 			   reset = 0;
@@ -102,6 +114,10 @@ module pulse_control(
    reg [7:0] 			   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
    reg [7:0] 			   voutput;
    reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
+
+   // Testing whether the programming works
+   reg [7:0] 			   test;
+   //      assign led = test;
 
    // We need to receive multiple bytes sequentially, so this sets up both
    // reading and writing. Adapted from the uart-adder from
@@ -178,22 +194,24 @@ module pulse_control(
 	     end
 
 	     CONT_SET_PULSE1: begin
-		p1stop <= vinput[15:0];
-		p1stop2 <= vinput[31:16];
+		p1width <= vinput[15:0];
+		p1width2 <= vinput[31:16];
 	     end
 
 	     CONT_SET_PULSE2: begin
-		p2stop <= vinput[15:0];
-		p2stop2 <= vinput[31:16];
+		p2width <= vinput[15:0];
+		p2width2 <= vinput[31:16];
 	     end
 
 	     CONT_TOGGLE_PULSE1: begin
 		block <= vinput[0];
+		phase_sub <= vinput[1];
 		pulse_block <= vinput[15:8];
+		pulse_block_half <= pulse_block/2;
 	     end
 
 	     CONT_SET_CPMG: begin
-		cpmg <= vinput[0];
+		cpmg <= vinput[7:0];
 		p1start2 <= vinput[31:16];
 	     end
 	     
@@ -208,6 +226,7 @@ module pulse_control(
 
 	     CONT_SET_ATT: begin
 		pre_att <= vinput[7:0];
+		post_att <= vinput[15:8];
 	     end
 	     
 	   endcase // case (vcontrol)
