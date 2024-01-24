@@ -3,23 +3,6 @@ IOBUF PORT "clk_uart" IO_TYPE=LVCMOS33;
 LOCATE COMP "clk" SITE "B11";
 IOBUF PORT "clk" IO_TYPE=LVCMOS33;
 
-LOCATE COMP "led[0]" SITE "A13";
-IOBUF PORT "led[0]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[1]" SITE "A12";
-IOBUF PORT "led[1]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[2]" SITE "B19";
-IOBUF PORT "led[2]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[3]" SITE "A18";
-IOBUF PORT "led[3]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[4]" SITE "B18";
-IOBUF PORT "led[4]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[5]" SITE "C17";
-IOBUF PORT "led[5]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[6]" SITE "A17";
-IOBUF PORT "led[6]" IO_TYPE=LVCMOS33;
-LOCATE COMP "led[7]" SITE "B17";
-IOBUF PORT "led[7]" IO_TYPE=LVCMOS33;
-
 // RASP_IO 7(4), 13(27), 15(22), 19(10), 21(9), 29(5), 31(6), 33(13). U17, M18, N17, U20, T19, R20, U18, T18, P20.
 LOCATE COMP "pre_att[7]" SITE "U17"; // RP7
 IOBUF PORT "pre_att[7]" IO_TYPE=LVCMOS33;
@@ -38,23 +21,6 @@ IOBUF PORT "pre_att[1]" IO_TYPE=LVCMOS33;
 LOCATE COMP "pre_att[0]" SITE "P20"; // RP33
 IOBUF PORT "pre_att[0]" IO_TYPE=LVCMOS33;
 
-LOCATE COMP "post_att[0]" SITE "A5";
-IOBUF PORT "post_att[0]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[1]" SITE "C5";
-IOBUF PORT "post_att[1]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[2]" SITE "B4";
-IOBUF PORT "post_att[2]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[3]" SITE "B3";
-IOBUF PORT "post_att[3]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[4]" SITE "D5";
-IOBUF PORT "post_att[4]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[5]" SITE "D3";
-IOBUF PORT "post_att[5]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[6]" SITE "E3";
-IOBUF PORT "post_att[6]" IO_TYPE=LVCMOS33;
-LOCATE COMP "post_att[7]" SITE "F5";
-IOBUF PORT "post_att[7]" IO_TYPE=LVCMOS33;
-
 LOCATE COMP "resetn" SITE "N20"; //raspberry pi header (JP8) pin 10 - should always be 0 if nothing plugged in
 IOBUF PORT "resetn" IO_TYPE=LVCMOS33;
 
@@ -68,11 +34,10 @@ LOCATE COMP "recv" SITE "U16"; //raspberry pi header (JP8) pin 5
 LOCATE COMP "Pre_Block" SITE "R18"; //raspberry pi header (JP8) pin 26
 LOCATE COMP "Block" SITE "R16"; //raspberry pi header (JP8) pin 40
 //LOCATE COMP "Block" SITE "U17"; //raspberry pi header (JP8) pin 7
-LOCATE COMP "Sync" SITE "P18"; //raspberry pi header (JP8) pin 8
+LOCATE COMP "Sync" SITE "P17"; //raspberry pi header (JP8) pin 8
+//LOCATE COMP "Sync" SITE "C6"; //
 LOCATE COMP "Pulse" SITE "R20"; //raspberry pi header (JP8) pin 23
 LOCATE COMP "Pulse2" SITE "T20"; //raspberry pi header (JP8) pin 32
-LOCATE COMP "Phase_90" SITE "P19"; //raspberry pi header (JP8) pin 36
-LOCATE COMP "Phase_180" SITE "P16"; //raspberry pi header (JP8) pin 38
 
 IOBUF PORT "Sync" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pulse" IO_TYPE=LVCMOS33;
@@ -80,8 +45,6 @@ IOBUF PORT "Pulse2" IO_TYPE=LVCMOS33;
 IOBUF PORT "Block" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pre_Block" IO_TYPE=LVCMOS33;
 IOBUF PORT "recv" IO_TYPE=LVCMOS33;
-IOBUF PORT "Phase_90" IO_TYPE=LVCMOS33;
-IOBUF PORT "Phase_180" IO_TYPE=LVCMOS33;
 
 // USED RPI HEADERS
 // 5, 7, 8, 13, 15, 19, 21, 23, 26, 29, 31, 32, 33, 36, 38, 40
