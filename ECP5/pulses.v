@@ -83,8 +83,6 @@ module pulses(
    assign pre_att = pre_att_val; // The main attenuator control
    assign pre_block = pr_inh; // The input blocking pulse (to completely squelch leakage)
    assign inhib = inh; // The blocking switch pulse
-   assign phase90 = ph90; // The 90 degree phase shifter
-   assign phase180 = ph180; // The 180 degree phase shifter
 
    
    //In order to improve timing on clk_pll, do everything possible on slower clk block
@@ -106,8 +104,6 @@ module pulses(
       nutation_pulse_width <= nut_w;
       cpmg <= cp;
       block <= bl;
-      phase_sub <= phsub[0];
-      pcounter <= phsub[2:1];
 
       block_off <= p2stop + p_bl;
       nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
@@ -129,8 +125,6 @@ module pulses(
 	      inh <= 0;
 	      pr_inh <= 1;
 	      pre_att_val <= pr_att;
-	      ph90 <= pcounter[0];
-	      ph180 <= pcounter[1];
 	      
 	   end
 
