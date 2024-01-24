@@ -219,10 +219,6 @@ module pulse_control(
 		nut_wid <= vinput[15:0];
 		nut_del <= vinput[31:16];
 	     end
-	     
-	     //		 CONT_SET_NUTW: begin
-	     //		 nut_wid <= vinput[7:0];
-	     //		 end
 
 	     CONT_SET_ATT: begin
 		pre_att <= vinput[7:0];

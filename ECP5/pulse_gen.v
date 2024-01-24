@@ -1,7 +1,6 @@
 `default_nettype none
 module pulse_gen(
 		 input 	      clk_uart, 
-		 //	input 	clk,
 		 input 	      RS232_Rx, // Receive pin for the FTDI chip
 		 input 	      resetn, // Reset the cycle
 		 output [7:0] led,
@@ -9,12 +8,9 @@ module pulse_gen(
 		 output       Pulse, // Output pin for the switch
 		 output       Pulse2, // Output pin for the second pulse switch
 		 output       Sync, // Output pin for the SYNC pulse
-		 //  output FM, // Output pin for the FM pulse
 		 output       Pre_Block, 
 		 output       Block,
 		 output       recv,
-		 //  output P3,
-		 //  output P4,
 		 output [6:0] pre_att,
 		 output [6:0] post_att,
 		 output       Phase_90,
@@ -45,8 +41,6 @@ module pulse_gen(
    wire 		      clk_pll;
    wire 		      clk_pll_gl;
    wire 		      lock;
-   
-   // assign led[7:1] = 1;
 
    // Setting the PLL to output a 201 MHz clock, based on code from
    // https://gist.github.com/thoughtpolice/8ec923e1b3fc4bb12c11aa23b4dc53b5#file-ice40-v
