@@ -60,7 +60,7 @@ module pulses(
    reg [15:0] 		   p2stop;
    reg [15:0] 		   p1stop2;
    reg [15:0] 		   p2stop2;
-   reg [15:0] 		   p1start2;
+   //reg [15:0] 		   p1start2;
    reg [15:0] 		   delay2;
    reg [15:0] 		   p2stop2;
    reg      		   cpmg;
@@ -95,7 +95,7 @@ module pulses(
       period  <= per;
       p1stop <= p1wid;
       p2stop <= p2wid;
-      p1start2 <= p1st2;
+      //p1start2 <= p1st2;
       p1stop2 <= p1wid2;
       delay2 <= del2;
       p2stop2 <= p2wid2;
@@ -117,11 +117,11 @@ module pulses(
 //      if (!reset) begin
 	 //Calculate nutation pulse and regular pulses separately, then combine them later, to improve timing
 	 //If nutation pulse is not needed, can just set its width to 0
+      sync <= (counter < p2stop) ? 1 : 0;
 	 case (cpmg)
 	   0 : begin //cpmg=0 : CW (switch always open)
 	      pulse <= !block;
 	      pulse2 <= block;
-	      sync <= (counter < sdown) ? 0 : 1;
 	      inh <= 0;
 	      pr_inh <= 1;
 	      pre_att_val <= pr_att;
@@ -130,8 +130,6 @@ module pulses(
 
 	      
 	   default : begin //cpmg > 1 : CPMG with # pulses given by value of cpmg
- 	      sync <= (counter < p2stop) ? 1 : 0; //Leave sync on until sync_down (end of pulses)
-
 	      pulses <= (counter < p1stop) ? 1 :// Switch pulse goes up before p1stop
 				((counter < delay) ? 0 : //Then down before p2start
 			 		((counter < p2stop) ? 1 : 0)); //Then up before p2stop
@@ -142,10 +140,9 @@ module pulses(
  	      nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 			   ((counter < nutation_pulse_stop) ? 1 : 0);
 
-	      pulse2s <= (counter < p1start2) ? 0 :
-      			 ((counter < p1stop2) ? 1 :
+	      pulse2s <= (counter < p1stop2) ? 1 :
       			  ((counter < delay2) ? 0 :
-      			   ((counter < p2stop2) ? 1 : 0)));
+      			   ((counter < p2stop2) ? 1 : 0));
 
 	      pre_att_val <= (counter < p1stop | (counter > p1start2 && counter < p1stop2)) ? pr_att+6 :
 				 ((counter < (period-20)) ? pr_att : pr_att+6);
