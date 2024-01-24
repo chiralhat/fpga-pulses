@@ -4,12 +4,12 @@
 // cause of this could be from wrong CPHASE/FPHASE parameters
 module pll
 (
-    input clkin, // 12 MHz, 0 deg
-    output clkout0, // 100 MHz, 0 deg
+    input clkin, // 50 MHz, 0 deg
+    output clkout0, // 200 MHz, 0 deg
     output locked
 );
-(* FREQUENCY_PIN_CLKI="12" *)
-(* FREQUENCY_PIN_CLKOP="100" *)
+(* FREQUENCY_PIN_CLKI="50" *)
+(* FREQUENCY_PIN_CLKOP="200" *)
 (* ICP_CURRENT="12" *) (* LPF_RESISTOR="8" *) (* MFG_ENABLE_FILTEROPAMP="1" *) (* MFG_GMCREF_SEL="2" *)
 EHXPLLL #(
         .PLLRST_ENA("DISABLED"),
@@ -20,13 +20,13 @@ EHXPLLL #(
         .OUTDIVIDER_MUXB("DIVB"),
         .OUTDIVIDER_MUXC("DIVC"),
         .OUTDIVIDER_MUXD("DIVD"),
-        .CLKI_DIV(3),
+        .CLKI_DIV(1),
         .CLKOP_ENABLE("ENABLED"),
-        .CLKOP_DIV(6),
-        .CLKOP_CPHASE(2),
+        .CLKOP_DIV(3),
+        .CLKOP_CPHASE(1),
         .CLKOP_FPHASE(0),
         .FEEDBK_PATH("CLKOP"),
-        .CLKFB_DIV(25)
+        .CLKFB_DIV(4)
     ) pll_i (
         .RST(1'b0),
         .STDBY(1'b0),

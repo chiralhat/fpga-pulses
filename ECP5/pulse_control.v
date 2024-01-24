@@ -14,15 +14,11 @@ module pulse_control(
 		     output [7:0]  nut_w,
 		     output [15:0] nut_d,
 		     output [6:0]  pr_att,
-		     output [6:0]  po_att,
-		     output [7:0]  cp,
+		     output 		 cp,
 		     output [7:0]  p_bl,
-		     output [15:0] p_bl_hf,
 		     output 	   bl,
 		     output 	   rxd,
-		     output [7:0]  led,
-		     output 	   recv,
-		     output        phsub 	   
+		     output 	   recv   
 		     );
 
    // Control the pulses
@@ -49,20 +45,16 @@ module pulse_control(
    reg [15:0] 			   p2width2 = stp2width*0;
    reg [15:0] 			   p1start2 = stp1st2;
    reg [7:0] 			   pulse_block = stblock;
-   reg [15:0] 			   pulse_block_half = stblock/2;
-   reg [7:0] 			   cpmg = stcpmg;
+   reg 		 			   cpmg = stcpmg;
    reg 				   block = 1;
    reg 				   rx_done = 0;
    reg [15:0] 			   nut_del = stnutdel;
    reg [7:0] 			   nut_wid = stnutwid;
-   reg 				   recv_set = 0;
-   reg 				   phase_sub = 1; 				   
+   reg 				   recv_set = 0;			   
 
    // Control the attenuators
    parameter att_pre_val = 7'd0;
-   parameter att_post_val = 7'd127;
    reg [6:0] 			   pre_att = att_pre_val;
-   reg [6:0] 			   post_att = att_post_val;
 
    assign per = period;
    assign p1wid = p1width;
@@ -73,16 +65,12 @@ module pulse_control(
    assign p1st2 = p1start2;
    assign del2 = delay2;
    assign pr_att = pre_att;
-   assign po_att = post_att;
    assign cp = cpmg;
    assign p_bl = pulse_block;
-   assign p_bl_hf = pulse_block_half;
    assign bl = block;
    assign rxd = rx_done;
    assign nut_d = nut_del;
    assign nut_w = nut_wid;
-   assign led = cpmg;
-   assign phsub = phase_sub;
    
    // Setup necessary for UART
    wire 			   reset = 0;
@@ -114,10 +102,6 @@ module pulse_control(
    reg [7:0] 			   vcontrol; // Control byte, the MSB (most significant byte) of the transmission
    reg [7:0] 			   voutput;
    reg [7:0] 			   vcheck; // Checksum byte; the input bytes are summed and sent back as output
-
-   // Testing whether the programming works
-   reg [7:0] 			   test;
-   //      assign led = test;
 
    // We need to receive multiple bytes sequentially, so this sets up both
    // reading and writing. Adapted from the uart-adder from
@@ -205,13 +189,11 @@ module pulse_control(
 
 	     CONT_TOGGLE_PULSE1: begin
 		block <= vinput[0];
-		phase_sub <= vinput[1];
 		pulse_block <= vinput[15:8];
-		pulse_block_half <= pulse_block/2;
 	     end
 
 	     CONT_SET_CPMG: begin
-		cpmg <= vinput[7:0];
+		cpmg <= vinput[0];
 		p1start2 <= vinput[31:16];
 	     end
 	     
@@ -222,7 +204,6 @@ module pulse_control(
 
 	     CONT_SET_ATT: begin
 		pre_att <= vinput[7:0];
-		post_att <= vinput[15:8];
 	     end
 	     
 	   endcase // case (vcontrol)
