@@ -28,7 +28,7 @@ module pulse_control(
    // 32-bit allows times up to 21 seconds
    parameter stperiod = 10000; // 1 ms period
    parameter stp1stop = 40; // 150 ns
-   parameter stp2stop = 40; // 300 ns
+   parameter stp2stop = 200; // 300 ns
    parameter stp1st2 = 8;
    parameter stdelay = 150; // 1 us delay
    parameter stblock = 100; // 250 ns block open
@@ -40,9 +40,9 @@ module pulse_control(
    reg [15:0] 			   p1stop = stp1stop;
    reg [15:0] 			   delay = stdelay;
    reg [15:0] 			   p2stop = stp2stop;
-   reg [15:0] 			   p1stop2 = stp1stop+stp1st2;
+   reg [15:0]			   p1stop2 = 3;
    reg [15:0] 			   delay2 = stdelay;
-   reg [15:0] 			   p2stop2 = stp2stop*0;
+   reg [15:0] 			   p2stop2 = 154;
    reg [15:0] 			   p1start2 = stp1st2;
    reg [7:0] 			   pulse_block = stblock;
    reg       			   cpmg = stcpmg;
