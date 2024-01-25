@@ -148,11 +148,11 @@ module pulses(
 
 	      pulses <= (counter < p1width) ? 1 :// Switch pulse goes up before p1width
 			((counter < cdelay) ? 0 : //Then down (if cw mode not on) before p2start
-			 ((counter < cpulse) ? (((ccount < cpmg) && (p2width > 0)) ? 1 : 0) : 0));
+			 ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0));
 	      
  	      inh <= (counter < cblock_delay) ? block :
-		     ((counter < cblock_on) ? ((ccount < cpmg) ? 0 : inh) :
- 		      ((counter < (nutation_pulse_start-5)) ? inh : block));
+		     ((counter < cblock_on) ? 0 :
+		      ((counter < (nutation_pulse_start-5)) ? inh : block));
 	      
  	      nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 			   ((counter < nutation_pulse_stop) ? 1 : 0);
