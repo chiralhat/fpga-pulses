@@ -1,4 +1,4 @@
-# fpga-pulses-ice
+# fpga-pulses
 Verilog code to turn the [ECP5 Evaluation Board](http://www.latticesemi.com/ecp5-evaluation) into a custom pulse generator for electron spin resonance (ESR) experiments.
 As currently programmed it runs at a PLL clock of 200 MHz, for a time resolution of 5 ns.
 
