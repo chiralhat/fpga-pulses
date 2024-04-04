@@ -2,7 +2,7 @@
 PROJ=pulse_gen
 TRELLIS?=/usr/local/share/trellis
 
-PULSEV = src/pulses.v src/pulse_control.v src/uart.v
+PULSEV = src/pulses.v src/pulse_control.v src/uart.v src/ecppll.v
 TARGET = src/pulse_gen
 
 SIMTARGET = src/pulse_gen_sim
@@ -17,10 +17,10 @@ default: all
 all: clean ${PROJ}.bit
 
 %.json: src/%.v
-	yosys -p "synth_ecp5 -json $@ -top pulse_gen" $< $(PULSEV) ecppll.v > build/make.log
+	yosys -p "synth_ecp5 -json $@ -top pulse_gen" $< $(PULSEV) > build/make.log
 
 %_out.config: %.json
-	nextpnr-ecp5 --pre-pack clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf src/ecp5.lpf 2> build/pnr.log
+	nextpnr-ecp5 --pre-pack src/clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf src/ecp5.lpf 2> build/pnr.log
 
 %.bit: %_out.config
 	ecppack --svf $*.svf $< $@
