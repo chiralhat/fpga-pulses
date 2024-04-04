@@ -12,7 +12,7 @@ module pulses(
 	       If 'mode' is 1, a Hahn echo is taken, otherwise it's CPMG. 
 	       Inputs are 'pum
 	       */
-	      input 	   clk, //The 50 MHz clock
+	      input 	   clk, //The 12 MHz clock
 	      input 	   clk_pll, // The 200 MHz clock
 	      input 	   reset, // Used only in simulation
 	      input [31:0] per, //Period
@@ -27,7 +27,6 @@ module pulses(
 	      input [15:0] nut_d, //Nutation pulse delay - ends this many cycles before new period starts
 	      input [6:0]  pr_att,
 	      input 		 cp, //CPMG settting: 0 for CW, 1 for Hahn echo, N>1 for CPMG with N pulses
-	      input [7:0]  p_bl, //start of block open after pulses
 	      input 	   bl,
 	      input 	   rxd,
 	      output 	   sync_on, // Wire for scope trigger pulse
@@ -35,8 +34,7 @@ module pulses(
 	      output 	   pulse2_on, 
 	      output [6:0] pre_att, // Wires for main attenuator
 	      output [6:0] post_att, // Wires for second attenuator
-	      output 	   pre_block,
-	      output 	   inhib // Wire for blocking switch pulse
+	      output 	   pre_block
 	      );
 
    reg [31:0] 		   counter = 32'd0; // 32-bit for times up to 21 seconds
@@ -48,7 +46,6 @@ module pulses(
    reg 			   nut_pulse; //nutation pulse register
    reg [6:0] 		   pre_att_val;
    reg 			   pr_inh;
-   reg 			   inh;
    reg 			   rec = 0;
    
    // Running at a 201-MHz clock, our time step is ~5 (4.975) ns.
@@ -64,7 +61,6 @@ module pulses(
    reg [15:0] 		   p1start2;
    reg [15:0] 		   p2start2;
    reg [15:0] 		   p2stop2;
-   reg [7:0] 		   pulse_block;
    reg 		 		   cpmg;
    reg 			   block;
    reg 			   phase_sub; 			   
@@ -73,8 +69,6 @@ module pulses(
    reg [15:0] 		   p2start;
    reg [15:0] 		   sdown;
    reg [15:0] 		   sync_down;
-   reg [15:0] 		   block_off;
-   reg [15:0] 		   block_on;
 
    reg [7:0] 		   nutation_pulse_width;
    reg [15:0] 		   nutation_pulse_delay;
@@ -83,8 +77,6 @@ module pulses(
 
    reg [31:0] 		   cdelay = 1000; // What is the time of the next pi pulse beginning
    reg [31:0] 		   cpulse; // What is the time of the next pi pulse ending
-   reg [31:0] 		   cblock_delay; // When to stop blocking before the next return signal
-   reg [31:0] 		   cblock_on; // When to start blocking after the next return signal
 
    reg [1:0] 		   xfer_bits = 1;
    
@@ -93,7 +85,6 @@ module pulses(
    assign pulse2_on = pulse2; // The switch pulse
    assign pre_att = pre_att_val; // The main attenuator control
    assign pre_block = pr_inh; // The input blocking pulse (to completely squelch leakage)
-   assign inhib = inh; // The blocking switch pulse
 
    
    //In order to improve timing on clk_pll, do everything possible on slower clk block
@@ -107,25 +98,20 @@ module pulses(
       delay <= del;
       nutation_pulse_delay <= nut_d;
       nutation_pulse_width <= nut_w;
-      pulse_block <= p_bl;
       cpmg <= cp;
       block <= bl;
       
       //Calculate these values here, since they only change when their components are updated - better for timing
       p2start <= p1width + delay;
       p1width2 <= p1wid2 + p1start2;
-      p2start2 <= p1start2 + p1width2 + del2;
+      p2start2 <= p1width2 + del2;
       p2stop2 <= p2start2 + p2width2;
       sdown <= p2start + p2width;// + 10;
-      block_off <= sdown + pulse_block;
-      block_on <= period - 10;
       nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width;
       nutation_pulse_stop <= per - nutation_pulse_delay;
 
       cdelay <= p1width + delay; //start of first CPMG pulse after initial pulse
 	   cpulse <= sdown; //end of first CPMG pulse
-	   cblock_delay <= sdown + pulse_block; //start of first block open 
-	   cblock_on <= sdown + 2*delay-5; //end of first block open
       
    end
    
@@ -139,7 +125,6 @@ module pulses(
 	   0 : begin //cpmg=0 : CW (switch always open)
 	      pulse <= !block;
 	      pulse2 <= block;
-	      inh <= 0;
 	      pr_inh <= 1;
 	      pre_att_val <= pr_att;
 	      
@@ -149,10 +134,6 @@ module pulses(
 	      pulses <= (counter < p1width) ? 1 :// Switch pulse goes up before p1width
 			((counter < cdelay) ? 0 : //Then down (if cw mode not on) before p2start
 			 ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0));
-	      
- 	      inh <= (counter < cblock_delay) ? block :
-		     ((counter < cblock_on) ? 0 :
-		      ((counter < (nutation_pulse_start-5)) ? inh : block));
 	      
  	      nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 			   ((counter < nutation_pulse_stop) ? 1 : 0);
