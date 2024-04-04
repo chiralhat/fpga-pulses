@@ -1,6 +1,6 @@
 `default_nettype none
 module pulse_gen(
-		 input 	      clk_uart,
+		 input 	      clk_uart, 
 input clk_pll,
 		 input 	      RS232_Rx, // Receive pin for the FTDI chip
 		 input 	      resetn, // Reset the cycle
@@ -8,25 +8,23 @@ input clk_pll,
 		 output       Pulse, // Output pin for the switch
 		 output       Pulse2, // Output pin for the second pulse switch
 		 output       Sync, // Output pin for the SYNC pulse
-		 output       Pre_Block, 
-		 output       Block,
+		 output       Pre_Block, // Output pin for the leakage switch
 		 output       recv,
-		 output [6:0] pre_att     
+		 output [6:0] pre_att    
 		 );
 
    wire [31:0] 		      period;
-   wire [15:0] 		      p1stop;
+   wire [15:0] 		      p1width;
    wire [15:0] 		      delay;
-   wire [15:0] 		      p2stop;
+   wire [15:0] 		      p2width;
    wire [15:0] 		      p1start2;
-   wire [15:0] 		      p1stop2;
+   wire [15:0] 		      p1width2;
    wire [15:0] 		      delay2;
-   wire [15:0] 		      p2stop2;
+   wire [15:0] 		      p2width2;
    wire [15:0] 		      nut_del;
    wire [7:0] 		      nut_wid;
-   wire 		   		  block;
-   wire [7:0] 		      pulse_block;
-   wire     		      cpmg;
+   wire 		      block;
+   wire 	 		      cpmg;
    wire 		      rx_done;
    
    wire [6:0] 		      pre_att_val;
@@ -37,18 +35,17 @@ input clk_pll,
 			 .RS232_Rx(RS232_Rx),
 			 .RS232_Tx(RS232_Tx),
 			 .per(period),
-			 .p1wid(p1stop),
+			 .p1wid(p1width),
 			 .del(delay),
-			 .p2wid(p2stop),
-   			 .p1wid2(p1stop2),
+			 .p2wid(p2width),
+   			 .p1wid2(p1width2),
    			 .del2(delay2),
-   			 .p2wid2(p2stop2),
+   			 .p2wid2(p2width2),
 			 .p1st2(p1start2),
 			 .nut_d(nut_del),
 			 .nut_w(nut_wid),
 			 .pr_att(pre_att_val),
 			 .cp(cpmg),
-			 .p_bl(pulse_block),
 			 .bl(block),
 			 .rxd(rx_done),
 			 .recv(recv)
@@ -60,26 +57,24 @@ input clk_pll,
 		 .clk_pll(clk_pll),
 		 .reset(resetn),
 		 .per(period),
-		 .p1wid(p1stop),
+		 .p1wid(p1width),
 		 .del(delay),
-		 .p2wid(p2stop),
-   		 .p1wid2(p1stop2),
+		 .p2wid(p2width),
+   		 .p1wid2(p1width2),
    		 .del2(delay2),
-   		 .p2wid2(p2stop2),
+   		 .p2wid2(p2width2),
 		 .p1st2(p1start2),
 		 .nut_d(nut_del),
 		 .nut_w(nut_wid),
 		 .pr_att(pre_att_val),
 		 .cp(cpmg),
-		 .p_bl(pulse_block),
 		 .bl(block),
 		 .rxd(rx_done),
 		 .sync_on(Sync),
 		 .pulse1_on(Pulse),
 		 .pulse2_on(Pulse2),
 		 .pre_att(pre_att),
-		 .pre_block(Pre_Block),
-		 .inhib(Block)
+		 .pre_block(Pre_Block)
 		 );
    // NOSIM2_START
 endmodule // pulse_gen
