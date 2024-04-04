@@ -1,6 +1,6 @@
 `default_nettype none
 module pulse_gen(
-		 input 	      clk_uart, 
+		 input 	      clk, 
 		 input 	      RS232_Rx, // Receive pin for the FTDI chip
 		 input 	      resetn, // Reset the cycle
 		 output       RS232_Tx, // Transmit pin for the FTDI chip
@@ -38,14 +38,14 @@ module pulse_gen(
    // Note: These values are slightly different from those outputted by icepll
    
    pll ecppll(
-	      .clkin(clk_uart),
+	      .clkin(clk),
               .clkout0(clk_pll),
 	      .locked(lock)
 	      );
    // NOSIM_END
    // Setting up communications with LabView over USB
    pulse_control control(
-			 .clk(clk_uart),
+			 .clk(clk),
 			 .RS232_Rx(RS232_Rx),
 			 .RS232_Tx(RS232_Tx),
 			 .per(period),
@@ -67,7 +67,7 @@ module pulse_gen(
    
    // Generating the necessary pulses
    pulses pulses(
-		 .clk(clk_uart),
+		 .clk(clk),
 		 .clk_pll(clk_pll),
 		 .reset(resetn),
 		 .per(period),
