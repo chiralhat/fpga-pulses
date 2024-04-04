@@ -2,11 +2,10 @@
 PROJ=pulse_gen
 TRELLIS?=/usr/local/share/trellis
 
-PULSEV = pulses.v pulse_control.v uart.v
-TARGET = pulse_gen
-PLLV = ecppll.v
+PULSEV = src/pulses.v src/pulse_control.v src/uart.v
+TARGET = src/pulse_gen
 
-SIMTARGET = pulse_gen_sim
+SIMTARGET = src/pulse_gen_sim
 SIMOUT = build/pulse_gen_sim
 
 SED_STR1 = '/NOSIM_START/,/NOSIM_END/d'#; 1,/NOSIM2_START/!d'
@@ -17,11 +16,11 @@ default: all
 
 all: clean ${PROJ}.bit
 
-%.json: %.v
+%.json: src/%.v
 	yosys -p "synth_ecp5 -json $@ -top pulse_gen" $< $(PULSEV) ecppll.v > build/make.log
 
 %_out.config: %.json
-	nextpnr-ecp5 --pre-pack clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf ecp5.lpf 2> build/pnr.log
+	nextpnr-ecp5 --pre-pack clk_constraint.py --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf src/ecp5.lpf 2> build/pnr.log
 
 %.bit: %_out.config
 	ecppack --svf $*.svf $< $@
@@ -30,16 +29,16 @@ all: clean ${PROJ}.bit
 ${PROJ}.svf : ${PROJ}.bit
 
 prog: ${PROJ}.svf
-	openocd -f ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> build/prog.log
+	openocd -f src/ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> build/prog.log
 
 eeprog: ${PROJ}.svf
 ifeq ("$(wildcard ftdi_prog.conf)","")
-	ftdi_eeprom --read-eeprom ftdi_prog.conf
+	ftdi_eeprom --read-eeprom src/ftdi_prog.conf
 	sed 's/^\x01\x01/\x01\x08/g' eeprom_prog.bin > eeprom_serial.bin
 endif
-	ftdi_eeprom --flash-eeprom ftdi_prog.conf
+	ftdi_eeprom --flash-eeprom src/ftdi_prog.conf
 	openocd -f ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> prog.log
-	ftdi_eeprom --flash-eeprom ftdi_serial.conf
+	ftdi_eeprom --flash-eeprom src/ftdi_serial.conf
 
 clean:
 	cp ${PROJ}.svf build/${PROJ}.svf.bak 2>/dev/null || :
