@@ -1,0 +1,19 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: fpga-pulses
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Charles
+    family-names: Collett
+    email: cacollet@hamilton.edu
+    affiliation: Hamilton College
+    orcid: 'https://orcid.org/0000-0002-6092-3478'
+repository-code: 'https://github.com/chiralhat/fpga-pulses'
+license: MIT
+commit: 84f144f5ed953d7afe4d7a234cbe0f4d0aab0aaa
+version: No_CPMG
