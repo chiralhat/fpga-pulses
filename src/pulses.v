@@ -106,8 +106,8 @@ module pulses(
       nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width; //Start time of nutation pulse
       nutation_pulse_stop <= per - nutation_pulse_delay; //End time of nutation pulse
 
-      cdelay <= p1width + delay; //Start time of channel 1 pulse 2
-	   cpulse <= sdown; //end of first CPMG pulse
+      cdelay <= p1width + delay; //Same as p2start above, used to improve timings
+	   cpulse <= sdown; //Same as sdown above, used to improve timings
       
    end
    
@@ -116,35 +116,42 @@ module pulses(
    always @(posedge clk_pll) begin
 	 //Calculate nutation pulse and regular pulses separately, then combine them later, to improve timing
 	 //If nutation pulse is not needed, can just set its width to 0
-	 sync <= (counter < sdown) ? 1 : 0;
+	 sync <= (counter < sdown) ? 1 : 0; //Sync pulse goes up at beginning of cycle
 	 case (cpmg)
-	   0 : begin //cpmg=0 : CW (one switch always open)
+	   0 : begin //cpmg=0 : CW (one switch always closed)
 	      pulse <= !block;
 	      pulse2 <= block;
-	      pr_inh <= 1;
-	      pre_att_val <= pr_att;
+	      pr_inh <= 1; //Leakage block switch always closed
+	      pre_att_val <= pr_att; //Attenuate everything the same amount
 	      
 	   end
-	   default : begin //cpmg > 1 : CPMG with # pulses given by value of cpmg
+	   default : begin //cpmg=1 : Hahn echo mode
 
-	      pulses <= (counter < p1width) ? 1 :// Switch pulse goes up before p1width
-			((counter < cdelay) ? 0 : //Then down (if cw mode not on) before p2start
-			 ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0));
+         //Channel 1 pulses based on timings above
+	      pulses <= (counter < p1width) ? 1 : //Channel 1 switch pulse goes up before p1width
+			((counter < cdelay) ? 0 : //Then down before cdelay
+			 ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0)); //Up again before cpulse, then down for the rest of the cycle
 	      
+         //Nutation pulse based on timings above
  	      nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 			   ((counter < nutation_pulse_stop) ? 1 : 0);
 
-	      pulse2s <= (counter < p1start2) ? 0 :
+         //Channel 2 pulses based on timings above
+	      pulse2s <= (counter < p1start2) ? 0 : //Channel 1 switch pulse doesn't go up until after p1start2
       			 ((counter < p1width2) ? 1 :
       			  ((counter < p2start2) ? 0 :
       			   ((counter < p2stop2) ? 1 : 0)));
 
+         //Attenuator values; the smallest step is 0.5 dB
+         //The first pulse is attenuated by an additional 3 dB (halving the power) to form the Hahn echo sequence
 	      pre_att_val <= (counter < p1width | (counter > p1start2 && counter < p1width2)) ? pr_att+6 :
 				 ((counter < (period-20)) ? pr_att : pr_att+6);
 	      
-	      pulse <= pulses;// | nut_pulse;
-	      pulse2 <= pulse2s | nut_pulse;
-	      pr_inh <= pulse | pulse2;
+         //Close the appropriate switches when the registers are high. In this configuration, the nutation pulse is
+         //sent on channel 2, but moving the ` | nutpulse` to the `pulse` definition would change it to channel 1.
+	      pulse <= pulses; //Close the channel 1 switch whenever pulses is high
+	      pulse2 <= pulse2s | nut_pulse; //Close the channel 2 switch whenever pulse2s or nut_pulse are high
+	      pr_inh <= pulse | pulse2; //Close the leakage block switch whenever any pulse is being sent
 	   end
 	 endcase
 	 counter <= (counter < period) ? counter + 1 : 0; // Increment the counter until it reaches the period   
