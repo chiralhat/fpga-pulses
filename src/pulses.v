@@ -73,6 +73,9 @@ module pulses(
    reg [15:0] 		   nutation_pulse_delay;
    reg [23:0] 		   nutation_pulse_start;
    reg [23:0] 		   nutation_pulse_stop;
+
+   reg [31:0] 		   cdelay;
+   reg [31:0] 		   cpulse;
    
    assign sync_on = sync; // The scope trigger pulse
    assign pulse1_on = pulse; // The channel 1 switch pulse
@@ -102,6 +105,9 @@ module pulses(
       sdown <= p2start + p2width; //End time of sync pulse and channel 1 pulse 2
       nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width; //Start time of nutation pulse
       nutation_pulse_stop <= per - nutation_pulse_delay; //End time of nutation pulse
+
+      cdelay <= p1width + delay; //Start time of channel 1 pulse 2
+	   cpulse <= sdown; //end of first CPMG pulse
       
    end
    
@@ -122,8 +128,8 @@ module pulses(
 	   default : begin //cpmg > 1 : CPMG with # pulses given by value of cpmg
 
 	      pulses <= (counter < p1width) ? 1 :// Switch pulse goes up before p1width
-			((counter < p2start) ? 0 : //Then down (if cw mode not on) before p2start
-			 ((counter < sdown) ? ((p2width > 0) ? 1 : 0) : 0));
+			((counter < cdelay) ? 0 : //Then down (if cw mode not on) before p2start
+			 ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0));
 	      
  	      nut_pulse <= (counter < nutation_pulse_start) ? 0 :
 			   ((counter < nutation_pulse_stop) ? 1 : 0);
