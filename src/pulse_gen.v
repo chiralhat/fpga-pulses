@@ -81,7 +81,6 @@ module pulse_gen(
 		 .pr_att(pre_att_val),
 		 .cp(cpmg),
 		 .bl(block),
-		 .rxd(rx_done),
 		 .sync_on(Sync),
 		 .pulse1_on(Pulse),
 		 .pulse2_on(Pulse2),
