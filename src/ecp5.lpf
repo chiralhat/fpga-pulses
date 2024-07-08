@@ -1,10 +1,17 @@
+// Define all connections between Verilog references and pins on the FPGA
+
 LOCATE COMP "clk_uart" SITE "A10";
 IOBUF PORT "clk_uart" IO_TYPE=LVCMOS33;
 LOCATE COMP "clk" SITE "B11";
 IOBUF PORT "clk" IO_TYPE=LVCMOS33;
 
-// RASP_IO 7(4), 13(27), 15(22), 19(10), 21(9), 29(5), 31(6), 33(13). U17, M18, N17, U20, T19, R20, U18, T18, P20.
-LOCATE COMP "pre_att[7]" SITE "U17"; // RP7
+LOCATE COMP "RS232_Rx" SITE "P2";
+LOCATE COMP "RS232_Tx" SITE "P3";
+
+IOBUF PORT "RS232_Rx" IO_TYPE=LVCMOS33;
+IOBUF PORT "RS232_Tx" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "pre_att[7]" SITE "U17"; // raspberry pi header (JP8) pin 7 - RP7
 IOBUF PORT "pre_att[7]" IO_TYPE=LVCMOS33;
 LOCATE COMP "pre_att[6]" SITE "M18"; // RP13
 IOBUF PORT "pre_att[6]" IO_TYPE=LVCMOS33;
@@ -21,30 +28,14 @@ IOBUF PORT "pre_att[1]" IO_TYPE=LVCMOS33;
 LOCATE COMP "pre_att[0]" SITE "P20"; // RP33
 IOBUF PORT "pre_att[0]" IO_TYPE=LVCMOS33;
 
-LOCATE COMP "resetn" SITE "N20"; //raspberry pi header (JP8) pin 10 - should always be 0 if nothing plugged in
-IOBUF PORT "resetn" IO_TYPE=LVCMOS33;
-
-LOCATE COMP "RS232_Rx" SITE "P2";
-LOCATE COMP "RS232_Tx" SITE "P3";
-
-IOBUF PORT "RS232_Rx" IO_TYPE=LVCMOS33;
-IOBUF PORT "RS232_Tx" IO_TYPE=LVCMOS33;
-
 LOCATE COMP "recv" SITE "U16"; //raspberry pi header (JP8) pin 5
 LOCATE COMP "Pre_Block" SITE "R18"; //raspberry pi header (JP8) pin 26
-LOCATE COMP "Block" SITE "R16"; //raspberry pi header (JP8) pin 40
-//LOCATE COMP "Block" SITE "U17"; //raspberry pi header (JP8) pin 7
 LOCATE COMP "Sync" SITE "P17"; //raspberry pi header (JP8) pin 8
-//LOCATE COMP "Sync" SITE "C6"; //
 LOCATE COMP "Pulse" SITE "R20"; //raspberry pi header (JP8) pin 23
 LOCATE COMP "Pulse2" SITE "T20"; //raspberry pi header (JP8) pin 32
 
 IOBUF PORT "Sync" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pulse" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pulse2" IO_TYPE=LVCMOS33;
-IOBUF PORT "Block" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pre_Block" IO_TYPE=LVCMOS33;
 IOBUF PORT "recv" IO_TYPE=LVCMOS33;
-
-// USED RPI HEADERS
-// 5, 7, 8, 13, 15, 19, 21, 23, 26, 29, 31, 32, 33, 36, 38, 40

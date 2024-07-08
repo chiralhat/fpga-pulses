@@ -14,7 +14,6 @@ module pulses(
 	       */
 	      input 	   clk, //The 12 MHz clock
 	      input 	   clk_pll, // The 200 MHz clock
-	      input 	   reset, // Used only in simulation
 	      input [31:0] per, //Period
 	      input [15:0] p1wid, //Width of pulse 1
 	      input [15:0] del, //Delay between pulses

@@ -2,7 +2,6 @@
 module pulse_gen(
 		 input 	      clk_uart, 
 		 input 	      RS232_Rx, // Receive pin for the FTDI chip
-		 input 	      resetn, // Reset the cycle
 		 output       RS232_Tx, // Transmit pin for the FTDI chip
 		 output       Pulse, // Output pin for the switch
 		 output       Pulse2, // Output pin for the second pulse switch
@@ -69,7 +68,6 @@ module pulse_gen(
    pulses pulses(
 		 .clk(clk_uart),
 		 .clk_pll(clk_pll),
-		 .reset(resetn),
 		 .per(period),
 		 .p1wid(p1width),
 		 .del(delay),
