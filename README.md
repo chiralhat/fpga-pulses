@@ -28,18 +28,6 @@ Ensure your account is a member of the "plugdev" group, then create "/etc/udev/r
 
 Note that this gives the "plugdev" group permissions to access to any USB device.
 
-### Drivers for Windows (tested on Windows 7)
-I have only set up to communicate with the FPGA on Windows 7, and I started with the driver installation guide
-[here](https://github.com/FPGAwars/libftdi-cross-builder/wiki#driver-installation).
-Using Zadig allowed me to successfully program the FPGA, but more work is necessary in order to allow LabView to 
-communicate with the board.
-
-In Device Manager there are entries for the board under both libusbK and USB controllers.
-The entry under USB controllers will be something like "USB Serial Converter B". Right click it, go to properties,
-and under the Advanced tab check the "Load VCP" box. After that, a reboot and disconnection/reconnection of the device
-should bring up a new entry in Ports (COM & LPT), named "USB Serial Port (COMX)" where X is a number.
-LabView should now be able to see that port and communicate over VISA.
-
 ## Dynamic Control
 Control code is provided in the [pyscan-esr](https://github.com/chiralhat/pyscan-esr) repository. With the current configuration, the FPGA allows active control of:
 * Pulse count (up to three independent pulses for one output per period, up to two for the second output)
