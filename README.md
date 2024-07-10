@@ -57,7 +57,7 @@ The control byte values are:
 	* The two least-significant bytes set the width of the nutation pulse, which comes before the first pulse.
 	* The two most-significant bytes set the time offset between the nutation pulse and the first pulse.
 8. Set Attenuators
-  * The least-significant byte sets the overall attenuation.
+	* The least-significant byte sets the overall attenuation.
 
 ## Simulation
 The FPGA functionality can be simulated using iverilog and gtkwave (available in software repositories). 
