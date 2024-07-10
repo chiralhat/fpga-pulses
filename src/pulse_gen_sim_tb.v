@@ -2,7 +2,7 @@
 `timescale 1ns / 100ps
 module tb;
 
-   reg clk, clk_pll, resetn = 0;
+   reg clk, clk_pll;
    wire Pulse, Sync, RS232_Tx, RS232_Rx, Pre_Block;
 //    wire J1_4, J1_5, J1_6, J1_7, J1_8, J1_9, J1_10;
 //    wire J4_3, J4_4, J4_5, J4_6, J4_7, J4_8, J4_9;
@@ -12,7 +12,6 @@ module tb;
 		  .clk_pll(clk_pll),
 		  .RS232_Rx(RS232_Rx),
 		  .RS232_Tx(RS232_Tx),
-		  .resetn(resetn),
 		  .Pulse(Pulse),
 		  .Sync(Sync),
 		  .Pre_Block(Pre_Block)
@@ -38,14 +37,8 @@ module tb;
 
       clk = 1'b0;
       clk_pll = 1'b1;
-      resetn = 0;
-	  #1 resetn = 1;
 	end
-	initial 
-      #1000 resetn = 0;
 	initial begin
-      //      #150000 P1 = 1;
-      //     #1500000 P1 = 0;
       #3000000 $finish;
 	end
    

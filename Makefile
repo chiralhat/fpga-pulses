@@ -5,6 +5,7 @@ TRELLIS?=/usr/local/share/trellis
 PULSEV = src/pulses.v src/pulse_control.v src/uart.v src/ecppll.v
 TARGET = src/pulse_gen
 
+SIMPULSEV = src/pulses.v src/pulse_control.v src/uart.v
 SIMTARGET = src/pulse_gen_sim
 SIMOUT = build/pulse_gen_sim
 
@@ -49,7 +50,7 @@ simclean:
 
 nosim: simclean
 	sed $(SED_STR1) $(TARGET).v | sed $(SED_STR2) > $(SIMOUT).v
-	iverilog -o $(SIMOUT)_post $(SIMOUT).v $(SIMTARGET)_tb.v $(PULSEV)
+	iverilog -o $(SIMOUT)_post $(SIMOUT).v $(SIMTARGET)_tb.v $(SIMPULSEV)
 	vvp $(SIMOUT)_post
 
 sim: simclean nosim
