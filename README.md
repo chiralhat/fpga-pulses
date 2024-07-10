@@ -49,7 +49,7 @@ The control byte values are:
 3. Set First Pulse Width\*
 4. Set Second Pulse Width\*
 5. Set CW Output
-  * When in CW mode, the LSB of the least significant input byte toggles the output between switch 1 (0) and 2 (1).
+	* When in CW mode, the LSB of the least significant input byte toggles the output between switch 1 (0) and 2 (1).
 6. Set Pulsed Mode
 	* The LSB of the least-significant byte either sets CW mode (0) or pulsed mode (1).
 	* The two most-significant bytes set the time offset between the start of the first pulse for the first switch and the start of the first pulse for the second switch.
