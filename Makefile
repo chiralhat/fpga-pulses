@@ -26,7 +26,7 @@ all: clean ${PROJ}.bit
 	ecppack --svf $*.svf $< $@
 	mv $@ build/
 
-${PROJ}.svf : ${PROJ}.bit
+${PROJ}.svf : build/${PROJ}.bit
 
 prog: ${PROJ}.svf
 	openocd -f src/ecp5.cfg -c "transport select jtag; init; svf $<; exit" 2> build/prog.log
