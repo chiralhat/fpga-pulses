@@ -12,6 +12,7 @@ It is currently set up to control the following components of a homemade pulsed 
 ## Setup
 In order to compile and program the board, I recommend the use of the open source
 [YosysHQ](https://github.com/YosysHQ/) tools. The provided Makefile assumes their use, particularly yosys and nextpnr.
+Run `make all` to compile the configuration, `make prog` to program the board with the current binary, or `make all prog` to compile and then program in one step.
 
 ### USB Communication
 The default EEPROM configuration on some ECP5 boards is slightly wrong, and doesn't allow USB communication with the board.
@@ -56,6 +57,9 @@ The control byte values are:
 	* The two most-significant bytes set the time offset between the nutation pulse and the first pulse.
 8. Set Attenuators
   * The least-significant byte sets the overall attenuation.
+
+## Simulation
+The FPGA functionality can be simulated using iverilog and gtkwave (available in software repositories). 
 
 # Credits
 The UART code comes from Timothy Goddard and Aaron Dahlen.
