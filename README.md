@@ -1,6 +1,7 @@
 # fpga-pulses
 Verilog code to turn the [ECP5 Evaluation Board](http://www.latticesemi.com/ecp5-evaluation) into a custom pulse generator for electron spin resonance (ESR) experiments.
 As currently programmed it runs at a PLL clock of 200 MHz, for a time resolution of 5 ns.
+Also available in the following Github repository: (https://github.com/chiralhat/fpga-pulses/tree/2024_paper)
 
 It is currently set up to control the following components of a homemade pulsed ESR spectrometer:
 * Three switches
