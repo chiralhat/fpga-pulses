@@ -33,7 +33,7 @@ module pulses(
    output 	   pre_block // Wire for leakage block switch
 );
 
-   reg [31:0] 		   counter = 32'd0; // 32-bit for times up to 21 seconds
+   reg [31:0] 		   counter = 32'd100; // 32-bit for times up to 21 seconds
    reg 			   sync;
    reg 			   pulse; //overall output for channel 1 - is 1 if pulses is 1
    reg 			   pulses; //channel 1 pulse register
