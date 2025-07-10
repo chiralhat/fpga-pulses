@@ -33,7 +33,7 @@ module pulses(
    output 	   pre_block // Wire for leakage block switch
 );
 
-   reg [31:0] 		   counter = 32'd100; // 32-bit for times up to 21 seconds
+   reg [31:0] 		   counter = 0; // 32-bit for times up to 21 seconds
    reg 			   sync;
    reg 			   pulse; //overall output for channel 1 - is 1 if pulses is 1
    reg 			   pulses; //channel 1 pulse register
@@ -49,7 +49,7 @@ module pulses(
    // 32-bit allows times up to 21 seconds
    // All registers are described further down
    
-   reg [31:0] 		   period;
+   reg [31:0] 		   period=1000;
    reg [15:0] 		   p1width;
    reg [15:0] 		   delay;
    reg [15:0] 		   p2width;
@@ -63,6 +63,7 @@ module pulses(
    reg 			   phase_sub; 			   
    reg 			   rx_done;
    
+   reg [15:0] 		   p1start;
    reg [15:0] 		   p2start;
    reg [15:0] 		   sdown;
    reg [15:0] 		   sync_down;
@@ -76,7 +77,7 @@ module pulses(
    reg [31:0] 		   cpulse;
    
    // delay between sync pulse going high and the outer switch actually switching
-   reg [7:0]      sw_delay = 200;
+   reg [15:0]      sw_delay = 200;
 
    assign sync_on = sync; // The scope trigger pulse
    assign pulse1_on = pulse; // The channel 1 switch pulse
@@ -158,11 +159,11 @@ module pulses(
                end
 
                cdelay: begin
-                  pulses <= 1;
+                  pulses <= (p2width > 0) ? 1 : 0;
                end
 
                cpulse: begin
-                  pulses <= (p2width > 0) ? 1 : 0;
+                  pulses <= 0;
                end
 
             endcase
@@ -170,7 +171,7 @@ module pulses(
             case (counter)
 
                p1start2: begin
-                  pulse2s <= 1;
+                  pulse2s <= (p1width2 > 0) ? 1 : 0;
                end
 
                p1width2: begin
@@ -178,7 +179,7 @@ module pulses(
                end
 
                p2start2: begin
-                  pulse2s <= 1;
+                  pulse2s <= (p2width2 > 0) ? 1 : 0;
                end
 
                p2stop2: begin
