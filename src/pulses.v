@@ -75,6 +75,9 @@ module pulses(
    reg [31:0] 		   cdelay;
    reg [31:0] 		   cpulse;
    
+   // delay between sync pulse going high and the outer switch actually switching
+   reg [7:0]      sw_delay = 200;
+
    assign sync_on = sync; // The scope trigger pulse
    assign pulse1_on = pulse; // The channel 1 switch pulse
    assign pulse2_on = pulse2; // The channel 2 switch pulse
@@ -85,10 +88,10 @@ module pulses(
    //In order to improve timing on clk_pll, do everything possible on slower clk block
    always @(posedge clk) begin
       period  <= per; //Cycle repetition time
-      p1width <= p1wid; //Width of channel 1 pulse 1
+      //p1width <= p1wid; //Width of channel 1 pulse 1
       p2width <= p2wid; //Width of channel 1 pulse 2
       p2width2 <= p2wid2; //Width of channel 2 pulse 2
-      p1start2 <= p1st2; //Start offset of channel 2 pulse 1
+      //p1start2 <= p1st2; //Start offset of channel 2 pulse 1
       delay <= del; //Delay between channel 1 pulses
       nutation_pulse_delay <= nut_d; //Nutation pulse delay - ends this many cycles before new period starts
       nutation_pulse_width <= nut_w; //Width of nutation pulse
@@ -96,13 +99,16 @@ module pulses(
       block <= bl; //Toggle for which channel is on in CW mode
       
       //Calculate these values here, since they only change when their components are updated - better for timing
+      p1start = sw_delay + nutation_pulse_width + nutation_pulse_delay;
+      p1start2 <= p1start + p1st2;
+      p1width = p1start + p1wid;
       p2start <= p1width + delay; //Start time of channel 1 pulse 2
       p1width2 <= p1wid2 + p1start2; //End time of channel 2 pulse 1
       p2start2 <= p1width2 + del2; //Start time of channel 2 pulse 2
       p2stop2 <= p2start2 + p2width2; //End time of channel 2 pulse 2
       sdown <= p2start + p2width; //End time of sync pulse and channel 1 pulse 2
-      nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width; //Start time of nutation pulse
-      nutation_pulse_stop <= per - nutation_pulse_delay; //End time of nutation pulse
+      //nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width; //Start time of nutation pulse
+      nutation_pulse_stop <= sw_delay+nutation_pulse_width; //End time of nutation pulse
 
       cdelay <= p1width + delay; //Same as p2start above, used to improve timings
 	   cpulse <= sdown; //Same as sdown above, used to improve timings
@@ -114,6 +120,8 @@ module pulses(
    always @(posedge clk_pll) begin
       //Calculate nutation pulse and regular pulses separately, then combine them later, to improve timing
       //If nutation pulse is not needed, can just set its width to 0
+      // Sync goes up at ~2 us (sw_delay) before anything else
+      // Then nutation pulse, then other pulses
       sync <= (counter < sdown) ? 1 : 0; //Sync pulse goes up at beginning of cycle
       case (cpmg)
          0 : begin //cpmg=0 : CW (one switch always closed)
@@ -124,26 +132,80 @@ module pulses(
             
          end
          default : begin //cpmg=1 : Hahn echo mode
+            case (counter)
 
-            //Channel 1 pulses based on timings above
-            pulses <= (counter < p1width) ? 1 : //Channel 1 switch pulse goes up before p1width
-               ((counter < cdelay) ? 0 : //Then down before cdelay
-                  ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0)); //Up again before cpulse, then down for the rest of the cycle
+               0: begin
+                  pulses <= 0;
+                  pulse2s <= 0;
+                  nut_pulse <= 0;
+                  //pre_add_val <= pr_att;
+               end
+
+               sw_delay: begin
+                  nut_pulse <= 1;
+               end
+
+               nutation_pulse_stop: begin
+                  nut_pulse <= 0;
+               end
+
+               p1start: begin
+                  pulses <= 1;
+               end
+
+               p1width: begin
+                  pulses <= 0;
+               end
+
+               cdelay: begin
+                  pulses <= 1;
+               end
+
+               cpulse: begin
+                  pulses <= (p2width > 0) ? 1 : 0;
+               end
+
+            endcase
+
+            case (counter)
+
+               p1start2: begin
+                  pulse2s <= 1;
+               end
+
+               p1width2: begin
+                  pulse2s <= 0;
+               end
+
+               p2start2: begin
+                  pulse2s <= 1;
+               end
+
+               p2stop2: begin
+                  pulse2s<= 0;
+               end
+
+            endcase
+
+            // //Channel 1 pulses based on timings above
+            // pulses <= (counter < p1width) ? 1 : //Channel 1 switch pulse goes up before p1width
+            //    ((counter < cdelay) ? 0 : //Then down before cdelay
+            //       ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0)); //Up again before cpulse, then down for the rest of the cycle
             
-            //Nutation pulse based on timings above
-            nut_pulse <= (counter < nutation_pulse_start) ? 0 :
-               ((counter < nutation_pulse_stop) ? 1 : 0);
+            // //Nutation pulse based on timings above
+            // nut_pulse <= (counter < nutation_pulse_start) ? 0 :
+            //    ((counter < nutation_pulse_stop) ? 1 : 0);
 
-            //Channel 2 pulses based on timings above
-            pulse2s <= (counter < p1start2) ? 0 : //Channel 1 switch pulse doesn't go up until after p1start2
-               ((counter < p1width2) ? 1 :
-               ((counter < p2start2) ? 0 :
-               ((counter < p2stop2) ? 1 : 0)));
+            // //Channel 2 pulses based on timings above
+            // pulse2s <= (counter < p1start2) ? 0 : //Channel 1 switch pulse doesn't go up until after p1start2
+            //    ((counter < p1width2) ? 1 :
+            //    ((counter < p2start2) ? 0 :
+            //    ((counter < p2stop2) ? 1 : 0)));
 
             //Attenuator values; the smallest step is 0.5 dB
             //The first pulse is attenuated by an additional 3 dB (halving the power) to form the Hahn echo sequence
-            pre_att_val <= (counter < p1width | (counter > p1start2 && counter < p1width2)) ? pr_att+6 :
-               ((counter < (period-20)) ? pr_att : pr_att+6);
+            pre_att_val <= (counter < (p1start-20)) ? pr_att :
+               (((counter > (p1start-20) && counter < p1width) | (counter > p1start2 && counter < p1width2)) ? pr_att+6 : pr_att);
             
             //Close the appropriate switches when the registers are high. In this configuration, the nutation pulse is
             //sent on channel 2, but moving the ` | nutpulse` to the `pulse` definition would change it to channel 1.
