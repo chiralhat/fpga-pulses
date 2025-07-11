@@ -77,7 +77,7 @@ module pulses(
    reg [31:0] 		   cpulse;
    
    // delay between sync pulse going high and the outer switch actually switching
-   reg [15:0]      sw_delay = 200;
+   reg [15:0]      sw_delay = 220;
 
    assign sync_on = sync; // The scope trigger pulse
    assign pulse1_on = pulse; // The channel 1 switch pulse
@@ -93,7 +93,7 @@ module pulses(
       p2width <= p2wid; //Width of channel 1 pulse 2
       p2width2 <= p2wid2; //Width of channel 2 pulse 2
       //p1start2 <= p1st2; //Start offset of channel 2 pulse 1
-      delay <= del; //Delay between channel 1 pulses
+      delay <= del-p2wid; //Delay between channel 1 pulses
       nutation_pulse_delay <= nut_d; //Nutation pulse delay - ends this many cycles before new period starts
       nutation_pulse_width <= nut_w; //Width of nutation pulse
       cpmg <= cp; //CPMG settting: 0 for CW, 1 for Hahn echo
