@@ -24,13 +24,15 @@ module pulses(
    input [15:0] nut_d, //Nutation pulse delay - ends this many cycles before new period starts
    input [6:0]  pr_att, //Attenuation level
    input 		 cp, //CPMG settting: 0 for CW, 1 for Hahn echo
+   input [7:0]  p_bl, //start of block open after pulses
    input 	   bl, //Toggle for which channel is on in CW mode
    output 	   sync_on, // Wire for scope trigger pulse
    output 	   pulse1_on, // Wire for channel 1 switch pulse
    output 	   pulse2_on,  // Wire for channel 2 switch pulse
    output [6:0] pre_att, // Wires for main attenuator
    output [6:0] post_att, // Wires for second attenuator
-   output 	   pre_block // Wire for leakage block switch
+   output 	   pre_block, // Wire for leakage block switch
+   output 	   inhib // Wire for blocking switch pulse
 );
 
    reg [31:0] 		   counter = 0; // 32-bit for times up to 21 seconds
@@ -42,6 +44,7 @@ module pulses(
    reg 			   nut_pulse; //nutation pulse register
    reg [6:0] 		   pre_att_val;
    reg 			   pr_inh;
+   reg 			   inh;
    reg 			   rec = 0;
    
    // Running at a 200-MHz clock, our time step is 5 ns.
@@ -58,6 +61,7 @@ module pulses(
    reg [15:0] 		   p1start2;
    reg [15:0] 		   p2start2;
    reg [15:0] 		   p2stop2;
+   reg [7:0] 		   pulse_block;
    reg 		 		   cpmg;
    reg 			   block;
    reg 			   phase_sub; 			   
@@ -84,6 +88,7 @@ module pulses(
    assign pulse2_on = pulse2; // The channel 2 switch pulse
    assign pre_att = pre_att_val; // The main attenuator control
    assign pre_block = pr_inh; // The leakage blocking pulse
+   assign inhib = inh; // The blocking switch pulse
 
    
    //In order to improve timing on clk_pll, do everything possible on slower clk block
@@ -96,6 +101,7 @@ module pulses(
       delay <= del-p2wid; //Delay between channel 1 pulses
       nutation_pulse_delay <= nut_d; //Nutation pulse delay - ends this many cycles before new period starts
       nutation_pulse_width <= nut_w; //Width of nutation pulse
+      pulse_block <= p_bl; // Time before Sync goes down to trigger blocking pulse
       cpmg <= cp; //CPMG settting: 0 for CW, 1 for Hahn echo
       block <= bl; //Toggle for which channel is on in CW mode
       
@@ -124,12 +130,15 @@ module pulses(
       // Sync goes up at ~2 us (sw_delay) before anything else
       // Then nutation pulse, then other pulses
       sync <= (counter < sdown) ? 1 : 0; //Sync pulse goes up at beginning of cycle
+      inh <= (counter < (sdown-pulse_block)) ? 0 : // Block goes up before the signal, then back down
+              ((counter < sdown) ? 1 : 0);
       case (cpmg)
          0 : begin //cpmg=0 : CW (one switch always closed)
             pulse <= !block;
             pulse2 <= block;
             pr_inh <= 1; //Leakage block switch always closed
             pre_att_val <= pr_att; //Attenuate everything the same amount
+            inh <= 0; // Don't block anything
             
          end
          default : begin //cpmg=1 : Hahn echo mode

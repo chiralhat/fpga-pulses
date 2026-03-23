@@ -15,14 +15,15 @@ module pulse_control(
 	output [15:0] nut_d,
 	output [6:0]  pr_att,
 	output 		 cp,
+	output [7:0]  p_bl,
 	output 	   bl,
 	output 	   rxd,
 	output 	   recv   
 );
 
-	// Running at a 200-MHz clock, our time step is 5 ns.
-	// All the times are thus divided by 5 ns to get cycles.
-	// 32-bit allows times up to 21 seconds
+	// Running at a 100-MHz clock, our time step is 10 ns.
+	// All the times are thus divided by 10 ns to get cycles.
+	// 32-bit allows times up to 10 seconds
 
 	// Set the initial parameters (which will generally be quickly changed)
 	// See pulses.v for a description of each parameter
@@ -31,6 +32,7 @@ module pulse_control(
 	parameter stp2width = 40; // 200 ns pulse 2 width
 	parameter stp1st2 = 8; // 40 ns channel 2 pulse offset
 	parameter stdelay = 150; // 750 ns delay
+	parameter stblock = 100; // 250 ns block open
 	parameter stcpmg = 1; // Start in Hahn echo mode
 	parameter stnutdel = 1000; // 5 us nutation delay
 	parameter stnutwid = 40; // 200 ns nutation pulse width
@@ -43,6 +45,7 @@ module pulse_control(
 	reg [15:0] 			   delay2 = stdelay;
 	reg [15:0] 			   p2width2 = stp2width*0;
 	reg [15:0] 			   p1start2 = stp1st2;
+	reg [7:0] 			   pulse_block = stblock;
 	reg 		 			   cpmg = stcpmg;
 	reg 				   block = 1;
 	reg 				   rx_done = 0;
@@ -64,6 +67,7 @@ module pulse_control(
 	assign del2 = delay2;
 	assign pr_att = pre_att;
 	assign cp = cpmg;
+	assign p_bl = pulse_block;
 	assign bl = block;
 	assign rxd = rx_done;
 	assign nut_d = nut_del;
@@ -186,6 +190,7 @@ module pulse_control(
 
 			CONT_TOGGLE_PULSE1: begin
 				block <= vinput[0];
+				pulse_block <= vinput[15:8];
 			end
 
 			CONT_SET_CPMG: begin

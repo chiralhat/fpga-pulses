@@ -7,6 +7,7 @@ module pulse_gen(
 	output       Pulse2, // Output pin for the channel 2 pulse switch
 	output       Sync, // Output pin for the SYNC pulse
 	output       Pre_Block, // Output pin for the leakage block switch
+	output       Block, // Output pin for triggering the pulse blocking switch
 	output       recv,
 	output [6:0] pre_att    
 );
@@ -23,6 +24,7 @@ module pulse_gen(
 	wire [15:0] 		      nut_del;
 	wire [7:0] 		      nut_wid;
 	wire 		      block;
+	wire [7:0] 		      pulse_block;
 	wire 	 		      cpmg;
 	wire 		      rx_done;
 
@@ -57,6 +59,7 @@ module pulse_gen(
 		.nut_w(nut_wid),
 		.pr_att(pre_att_val),
 		.cp(cpmg),
+		.p_bl(pulse_block),
 		.bl(block),
 		.rxd(rx_done),
 		.recv(recv)
@@ -78,12 +81,14 @@ module pulse_gen(
 		.nut_w(nut_wid),
 		.pr_att(pre_att_val),
 		.cp(cpmg),
+		.p_bl(pulse_block),
 		.bl(block),
 		.sync_on(Sync),
 		.pulse1_on(Pulse),
 		.pulse2_on(Pulse2),
 		.pre_att(pre_att),
-		.pre_block(Pre_Block)
+		.pre_block(Pre_Block),
+		.inhib(Block)
 	);
 	// NOSIM2_START
 endmodule // pulse_gen
