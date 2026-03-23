@@ -130,8 +130,6 @@ module pulses(
       // Sync goes up at ~2 us (sw_delay) before anything else
       // Then nutation pulse, then other pulses
       sync <= (counter < sdown) ? 1 : 0; //Sync pulse goes up at beginning of cycle
-      inh <= (counter < (sdown-pulse_block)) ? 0 : // Block goes up before the signal, then back down
-              ((counter < sdown) ? 1 : 0);
       case (cpmg)
          0 : begin //cpmg=0 : CW (one switch always closed)
             pulse <= !block;
@@ -142,75 +140,78 @@ module pulses(
             
          end
          default : begin //cpmg=1 : Hahn echo mode
-            case (counter)
+            inh <= (counter < (sdown-pulse_block)) ? 0 : // Block goes up before the signal, then back down
+                  ((counter < sdown) ? 1 : 0);
+            // case (counter)
 
-               0: begin
-                  pulses <= 0;
-                  pulse2s <= 0;
-                  nut_pulse <= 0;
-                  //pre_add_val <= pr_att;
-               end
+            //    0: begin
+            //       pulses <= 0;
+            //       pulse2s <= 0;
+            //       nut_pulse <= 0;
+            //       //pre_add_val <= pr_att;
+            //    end
 
-               sw_delay: begin
-                  nut_pulse <= 1;
-               end
+            //    sw_delay: begin
+            //       nut_pulse <= 1;
+            //    end
 
-               nutation_pulse_stop: begin
-                  nut_pulse <= 0;
-               end
+            //    nutation_pulse_stop: begin
+            //       nut_pulse <= 0;
+            //    end
 
-               p1start: begin
-                  pulses <= 1;
-               end
+            //    p1start: begin
+            //       pulses <= 1;
+            //    end
 
-               p1width: begin
-                  pulses <= 0;
-               end
+            //    p1width: begin
+            //       pulses <= 0;
+            //    end
 
-               cdelay: begin
-                  pulses <= (p2width > 0) ? 1 : 0;
-               end
+            //    cdelay: begin
+            //       pulses <= (p2width > 0) ? 1 : 0;
+            //    end
 
-               cpulse: begin
-                  pulses <= 0;
-               end
+            //    cpulse: begin
+            //       pulses <= 0;
+            //    end
 
-            endcase
+            // endcase
 
-            case (counter)
+            // case (counter)
 
-               p1start2: begin
-                  pulse2s <= (p1width2 > 0) ? 1 : 0;
-               end
+            //    p1start2: begin
+            //       pulse2s <= (p1width2 > 0) ? 1 : 0;
+            //    end
 
-               p1width2: begin
-                  pulse2s <= 0;
-               end
+            //    p1width2: begin
+            //       pulse2s <= 0;
+            //    end
 
-               p2start2: begin
-                  pulse2s <= (p2width2 > 0) ? 1 : 0;
-               end
+            //    p2start2: begin
+            //       pulse2s <= (p2width2 > 0) ? 1 : 0;
+            //    end
 
-               p2stop2: begin
-                  pulse2s<= 0;
-               end
+            //    p2stop2: begin
+            //       pulse2s<= 0;
+            //    end
 
-            endcase
+            // endcase
 
-            // //Channel 1 pulses based on timings above
-            // pulses <= (counter < p1width) ? 1 : //Channel 1 switch pulse goes up before p1width
-            //    ((counter < cdelay) ? 0 : //Then down before cdelay
-            //       ((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0)); //Up again before cpulse, then down for the rest of the cycle
+            //Channel 1 pulses based on timings above
+            pulses <= (counter < p1start) ? 0 :
+		      ((counter < p1width) ? 1 : //Channel 1 switch pulse goes up before p1width
+		       ((counter < cdelay) ? 0 : //Then down before cdelay
+			((counter < cpulse) ? ((p2width > 0) ? 1 : 0) : 0))); //Up again before cpulse, then down for the rest of the cycle
             
-            // //Nutation pulse based on timings above
-            // nut_pulse <= (counter < nutation_pulse_start) ? 0 :
-            //    ((counter < nutation_pulse_stop) ? 1 : 0);
+            //Nutation pulse based on timings above
+            nut_pulse <= (counter < sw_delay) ? 0 :
+               ((counter < nutation_pulse_stop) ? 1 : 0);
 
-            // //Channel 2 pulses based on timings above
-            // pulse2s <= (counter < p1start2) ? 0 : //Channel 1 switch pulse doesn't go up until after p1start2
-            //    ((counter < p1width2) ? 1 :
-            //    ((counter < p2start2) ? 0 :
-            //    ((counter < p2stop2) ? 1 : 0)));
+            //Channel 2 pulses based on timings above
+            pulse2s <= (counter < p1start2) ? 0 : //Channel 1 switch pulse doesn't go up until after p1start2
+               ((counter < p1width2) ? 1 :
+               ((counter < p2start2) ? 0 :
+               ((counter < p2stop2) ? 1 : 0)));
 
             //Attenuator values; the smallest step is 0.5 dB
             //The first pulse is attenuated by an additional 3 dB (halving the power) to form the Hahn echo sequence
