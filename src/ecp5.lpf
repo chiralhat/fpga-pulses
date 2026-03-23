@@ -30,6 +30,7 @@ IOBUF PORT "pre_att[0]" IO_TYPE=LVCMOS33;
 
 LOCATE COMP "recv" SITE "U16"; //raspberry pi header (JP8) pin 5
 LOCATE COMP "Pre_Block" SITE "R18"; //raspberry pi header (JP8) pin 26
+LOCATE COMP "Block" SITE "R16"; //raspberry pi header (JP8) pin 40
 LOCATE COMP "Sync" SITE "P17"; //raspberry pi header (JP8) pin 8
 LOCATE COMP "Pulse" SITE "R20"; //raspberry pi header (JP8) pin 23
 LOCATE COMP "Pulse2" SITE "T20"; //raspberry pi header (JP8) pin 32
@@ -38,4 +39,5 @@ IOBUF PORT "Sync" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pulse" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pulse2" IO_TYPE=LVCMOS33;
 IOBUF PORT "Pre_Block" IO_TYPE=LVCMOS33;
+IOBUF PORT "Block" IO_TYPE=LVCMOS33;
 IOBUF PORT "recv" IO_TYPE=LVCMOS33;
