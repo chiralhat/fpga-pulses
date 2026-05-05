@@ -111,7 +111,7 @@ module pulses(
       p1width = p1start + p1wid;
       p2start <= p1width + delay; //Start time of channel 1 pulse 2
       p1width2 <= p1wid2 + p1start2; //End time of channel 2 pulse 1
-      p2start2 <= p1width2 + del2; //Start time of channel 2 pulse 2
+      p2start2 <= p1width2 + del2-p2width2; //Start time of channel 2 pulse 2
       p2stop2 <= p2start2 + p2width2; //End time of channel 2 pulse 2
       sdown <= p2start + p2width; //End time of sync pulse and channel 1 pulse 2
       //nutation_pulse_start <= per - nutation_pulse_delay - nutation_pulse_width; //Start time of nutation pulse
